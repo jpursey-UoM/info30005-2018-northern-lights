@@ -20,29 +20,118 @@
 <p>This table shows our questions for the initial interview stage. Together, these questions will provide us with
 a deeper understanding of how people cook in their homes, the factors leading to food wastage, how people order
 food, and they role technology plays in their kitchens.</p>
-<table>
+<button onclick="switchPage('two')">&#8249;</button>
+<button onclick="switchPage('one')">&#8250;</button>
+<table id="one">
+    <caption>Setting the right foundation</caption>
     <tr>
+        <td>
+            <ul>
+                <li>What is the context you're focusing on?</li>
+                <li>Who is involved and why?</li>
+                <li>Why do you need to conduct an interview?</li>
+            </ul>
+        </td>
+        <td>
+            The food wastage caused by individuals.<br>
+            Every individual who cook and lives a busy life. Increasing life pace leaves little time for them to
+            cook, making food wastage more likely to occur.<br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <li>What is the desired outcome of this interview?</li>
+                <li>What would you like to learn or validate?</li>
+            </ul>
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <li>Where would be a good place for you to have your conversation?</li>
+                <li>Where would your participant feel most comfortable?</li>
+            </ul>
+        </td>
+        <td>
+            Project room has been chosen to be the place for the interview.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <li>How would you like your interviewee to feel during and after the interview?</li>
+                <li>Would you like them to feel calm and safe?</li>
+                <li>Would you like them to feel excited? Inspired?</li>
+            </ul>
+        </td>
+        <td>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ul>
+                <li>What tools, artifacts or visuals might help prompt the interviewee's thinking?</li>
+                <li>Do you need your interviewee to engage with something tangible?</li>
+            </ul>
+        </td>
+        <td>
+
+        </td>
+    </tr>
+</table>
+<table id="two" style="display:none">
+    <caption>Interview Guide</caption>
+    <tr>
+        <th colspan="2">
+            Your checklist
+        </th>
         <th>
-            Question(s)
+            List your questions
         </th>
         <th>
             Rationale
         </th>
     </tr>
     <tr>
+        <td width="5%">
+
+        </td>
         <td>
+            Explain who you are and what your research is about.
+        </td>
+        <td rowspan="2">
             <ul>
                 <li>How often do you cook at home?</li>
                 <li>What factors affect your decision whether or not to cook?</li>
                 <li>Do you typically cook for yourself, or for others?</li>
             </ul>
         </td>
-        <td>
+        <td rowspan="2">
             How and why people cook
         </td>
     </tr>
     <tr>
+        <td width="5%">
+
+        </td>
         <td>
+            Remind your participant how long the interview will take.
+        </td>
+
+    </tr>
+    <tr>
+        <td width="5%">
+
+        </td>
+        <td>
+            Tell your participant their answers are anonymous.
+        </td>
+        <td rowspan="2">
             <ul>
                 <li>How and how often do usually you buy food? (go grocery, home delivery meal kit?)</li>
                 <li><s>Is food wastage a problem for you? If so, how does it happen?</s></li>
@@ -53,13 +142,27 @@ food, and they role technology plays in their kitchens.</p>
                 <li>Do you make a plan before going to supermarket?</li>
 
             </ul>
+        <td rowspan="2">
+            Factors causing food wastage
+        </td>
+
+    </tr>
+    <tr>
+        <td width="5%">
+
         </td>
         <td>
-            Factors causing food wastage
+            Explain who you are and what your research is about
         </td>
     </tr>
     <tr>
+        <td width="5%">
+
+        </td>
         <td>
+            Explain the role of the note taker.
+        </td>
+        <td rowspan="2">
             <ul>
                 <li>Do you ever share food with your friends and family? (eg bringing leftovers when you/they visit)</li>
                 <li>Do you ever order meals online? How often? Which services?</li>
@@ -72,12 +175,29 @@ food, and they role technology plays in their kitchens.</p>
                 <li>What factor would help you to decide the place you order meal from? </li>
             </ul>
         </td>
-        <td>
+        <td rowspan="2">
             How people order food
         </td>
     </tr>
     <tr>
+        <td width="5%">
+
+        </td>
         <td>
+            Ask your participant to be honest and open with you -that's exactly what you need and
+            there are no wrong or right answers,and they won't offend you in any way.
+        </td>
+
+    </tr>
+    <tr>
+        <td width="5%">
+
+        </td>
+        <td>
+            Explain that you might be asking 'obvious' questions and that you'll be asking 'why' a lot-
+            you don't want to be led by your own assumptions.
+        </td>
+        <td rowspan="2">
             <ul>
                 <li>Can you remember a specific time you ordered a meal online? Perhaps the most recent or memorable
                     time?</li>
@@ -93,16 +213,38 @@ food, and they role technology plays in their kitchens.</p>
                 <li>Is there anything you would change about the experience?</li>
             </ul>
         </td>
-        <td>
+        <td rowspan="2">
             Specific instance to understand more deeply how and why the participant orders meals online
+        </td>
+    </tr>
+    <tr>
+        <td width="5%">
+
+        </td>
+        <td>
+            Ask if they've got any questions before you begin the interview.
         </td>
     </tr>
 
 </table>
 <p>This table is based on the <a href="InterviewGuideTemplate.pdf">"Interview Guide Template"</a> by Kasia Mierzejewska of MAKE Studios.</p>
 <p><a href="index.html">Back</a></p>
+<p id="test">aaa</p>
+<script>
+    function switchPage(page){
+        document.getElementById('test').innerHTML=page;
+        if(page === 'one'){
+            document.getElementById('one').style.display = "none";
+            document.getElementById('two').style.display = "table";
 
+        }
+        if(page === 'two') {
+            document.getElementById('two').style.display = "none";
+            document.getElementById('one').style.display = "table";
+        }
+    }
+</script>
 </body>
 
-</body>
+
 </html>
