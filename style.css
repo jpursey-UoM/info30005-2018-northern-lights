@@ -14,7 +14,7 @@ li{
 }
 
 #checklist{
-    list-style-type: square; /*change this to an empty box later*/
+    list-style-image: url("checkbox_unchecked.png"); /*change this to an empty box later*/
 }
 
 #checklist li{
