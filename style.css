@@ -8,3 +8,19 @@ th, td{
     padding: 15px;
     border: 1px solid black;
 }
+
+li{
+    margin-top: 1pc;
+}
+
+#checklist{
+    list-style-type: square; /*change this to an empty box later*/
+}
+
+#checklist li{
+    margin-top: 3pc;
+}
+
+
+
+
