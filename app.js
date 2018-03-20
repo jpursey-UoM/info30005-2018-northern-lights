@@ -5,10 +5,11 @@ app.set('view engine', 'ejs');
 const data = require("./models/db");
 const router = require("./routes/routes");
 
+const PORT = process.env.PORT || 300;
 app.use('/', router);
 
 
 
-app.listen(3000, function(){
+app.listen(PORT, function(){
     console.log("Server started");
 });
