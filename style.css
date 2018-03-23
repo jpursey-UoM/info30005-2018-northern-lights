@@ -1,0 +1,26 @@
+table{
+    border: 1px solid black;
+    border-collapse: collapse;
+
+}
+
+th, td{
+    padding: 15px;
+    border: 1px solid black;
+}
+
+li{
+    margin-top: 1pc;
+}
+
+#checklist{
+    list-style-image: url("checkbox_unchecked.png"); /*change this to an empty box later*/
+}
+
+#checklist li{
+    margin-top: 3pc;
+}
+
+
+
+
