@@ -5,8 +5,8 @@ const controller = require('../controllers/controller')
 
 router.get('/', controller.loadHome);
 
-router.get('/users', controller.loadUserList);
+router.get('/items', controller.loadItemList);
 
-router.get('/user/:id', controller.loadProfile);
+router.get('/item/:id', controller.loadItem);
 
 module.exports = router;

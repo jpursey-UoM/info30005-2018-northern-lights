@@ -4,12 +4,12 @@ module.exports.loadHome = function(req, res){
     res.render('home');
 };
 
-module.exports.loadUserList = function(req, res){
-    res.render('users', {data: data});
+module.exports.loadItemList = function(req, res){
+    res.render('items', {data: data});
 };
 
 
-module.exports.loadProfile = function(req, res){
-    const userID = req.params.id;
-    res.render("user", {user: data[userID]});
+module.exports.loadItem = function(req, res){
+    const itemID = req.params.id;
+    res.render("item", {item: data[itemID]});
 };

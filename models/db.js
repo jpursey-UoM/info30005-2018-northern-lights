@@ -2,13 +2,14 @@ const faker = require('faker');
 
 const data = [];
 
-for(var i = 0; i<20; i++){
-    var user = {
-        first: faker.name.firstName(),
-        last: faker.name.lastName(),
-        email: faker.internet.email()
+for(var i = 0; i<15; i++){
+    var item = {
+        food: faker.commerce.productName(),
+        price: faker.commerce.price(),
+        //cookBy: faker.date.soon(),
+        image: faker.image.food()
     };
-    data.push(user);
+    data.push(item);
 }
 
 module.exports = data;
