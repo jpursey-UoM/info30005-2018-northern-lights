@@ -1,6 +1,8 @@
 html{
     height: 100pc;
     text-align:center;
+    overflow: auto;
+
 }
 
 body{
@@ -25,7 +27,7 @@ body{
 }
 .icon-bar {
     width: 100%;
-    overflow: auto;
+    overflow: auto; /* Overflow due to float */
 }
 
 h1{
