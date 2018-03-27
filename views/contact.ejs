@@ -6,10 +6,16 @@
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
 </head>
 <body>
-
-<% for(var i = 0; i < member.length; i++) { %>
-<h2><%= member[i].name %> </h2>
-<h2><%= member[i].Email %> </h2>
-<% } %>
+    <div class="icon-bar">
+        <a href="../">Home</a>
+        <a class="active" href="contact">Contact</a>
+    </div>
+    <div class="contact">
+        <p>Contact <img src="logo.png" alt="Northern Lights" align="middle"></p>
+            <% for(var i = 0; i < member.length; i++) { %>
+                <h2><%= member[i].name %> </h2>
+                <h2><%= member[i].Email %> </h2>
+        <% } %>
+    </div>
 </body>
 </html>

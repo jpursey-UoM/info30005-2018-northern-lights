@@ -1,6 +1,8 @@
 html{
     height: 100pc;
     text-align:center;
+    overflow: auto;
+
 }
 
 body{
@@ -15,4 +17,31 @@ body{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+@import url('https://fonts.googleapis.com/css?family=Caveat');
+
+.contact{
+    font-family: 'Signika Negative', sans-serif;
+}
+.icon-bar {
+    width: 100%;
+    overflow: auto; /* Overflow due to float */
+}
+
+.icon-bar a {
+    float: left;
+    text-align: center;
+    width: 10%;
+    padding: 5px;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.icon-bar a:hover {
+    background-color: #7ec2bd; /* Add a hover color */
+}
+
+.active {
+    background-color: #41c29b; /* Add an active/current color */
 }
