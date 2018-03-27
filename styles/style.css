@@ -1,3 +1,4 @@
+
 html{
     height: 100pc;
     text-align:center;
@@ -7,12 +8,31 @@ body{
     background-image: url("https://source.unsplash.com/4R1YpmGO52I");
     background-position: center;
     background-size: cover;
-    color: white;
     text-align-all: center;
 }
 .middle {
+    margin-top: 15px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-family: 'Noto Sans', sans-serif;
+    color: #fff7e6d6;
+}
+
+h1{
+    font-size: 100px;
+    font-weight: bold;
+}
+.middle h2{
+    font-size: 50px;
+    font-weight: lighter;
+    font-family: 'Permanent Marker', cursive;
+}
+
+p{
+    font-weight: lighter;
+}
+a{
+    color: #fff7e6d6;
 }
