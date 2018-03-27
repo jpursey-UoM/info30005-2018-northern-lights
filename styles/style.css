@@ -10,24 +10,16 @@ body{
     background-position: center;
     background-size: cover;
     text-align-all: center;
+    color: #fff7e6d6;
 }
 .middle {
     margin-top: 15px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-family: 'Noto Sans', sans-serif;
-    color: #fff7e6d6;
 }
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 
 .contact{
     font-family: 'Signika Negative', sans-serif;
-}
-.icon-bar {
-    width: 100%;
-    overflow: auto; /* Overflow due to float */
 }
 
 h1{
