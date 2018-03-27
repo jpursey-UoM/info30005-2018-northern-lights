@@ -1,8 +1,6 @@
 html{
     height: 100pc;
     text-align:center;
-    overflow: auto;
-
 }
 
 body{
@@ -25,7 +23,7 @@ body{
 }
 .icon-bar {
     width: 100%;
-    overflow: auto; /* Overflow due to float */
+    overflow: auto;
 }
 
 .icon-bar a {
@@ -39,9 +37,9 @@ body{
 }
 
 .icon-bar a:hover {
-    background-color: #7ec2bd; /* Add a hover color */
+    background-color: #7ec2bd;
 }
 
 .active {
-    background-color: #41c29b; /* Add an active/current color */
+    background-color: #41c29b;
 }
