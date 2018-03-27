@@ -3,7 +3,6 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use("/styles", express.static(__dirname + '/styles'));
 
-const data = require("./models/db");
 const router = require("./routes/routes");
 
 const PORT = process.env.PORT || 3000;
