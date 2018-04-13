@@ -1,6 +1,5 @@
 html{
     height: 100pc;
-    text-align:center;
     overflow: hidden;
 
 }
@@ -9,27 +8,32 @@ body{
     background-image: url("https://source.unsplash.com/4R1YpmGO52I");
     background-position: center;
     background-size: cover;
-    text-align-all: center;
     color: #fff7e6d6;
-}
-.middle {
-    margin-top: 15px;
-    font-family: 'Noto Sans', sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 5fr 3fr; /*1fr repeat(5, 1fr) 3fr;*/
+    grid-template-rows: 1fr 2fr 2fr;
 }
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 
 .contact{
     font-family: 'Signika Negative', sans-serif;
 }
+nav{
+
+    background-color: rgba(42,215,131,0.7);
+    grid-column: 1;
+    grid-row: 1/4;
+}
+nav ul{
+
+}
+nav li{
+    list-style-type: none;
+}
 
 h1{
     font-size: 100px;
     font-weight: bold;
-}
-.middle h2{
-    font-size: 50px;
-    font-weight: lighter;
-    font-family: 'Permanent Marker', cursive;
 }
 
 p{
@@ -37,4 +41,24 @@ p{
 }
 a{
     color: #fff7e6d6;
+}
+
+#meals{
+    grid-column: 2;
+    grid-row: 2
+}
+
+#ingredients{
+     grid-column: 2;
+     grid-row: 3
+ }
+
+#shoppingList{
+    grid-column: 3;
+    grid-row: 2/4;
+    background-color: rgba(215,121,91,0.3);
+}
+
+.ingredient{
+    display: inline-block;
 }

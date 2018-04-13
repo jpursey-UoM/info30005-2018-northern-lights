@@ -8,27 +8,45 @@
 
 </head>
 <body>
+<nav>
+    <ul>
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/plan">Plan</a></li>
+        <li><a href="/basket">Basket</a></li>
+        <li><a href="/profile">Profile</a></li>
+    </ul>
 
-<div class="bgimg">
-    <section>
-
-        <div class="middle">
-
-            <h1>COMING SOON</h1>
-            <h2 >MealMaster</h2>
-            <p>Simplify your shopping</p>
-            <p>Manage your meals</p>
-            <p>Reduce your rubbish</p>
-
-            <br>
-            <br>
-            <a href="contact">Contact Us</a>
-
-        </div>
-
-        <div class="lower"></div>
-    </section>
+</nav>
+<div id="meals">
+    <h2>Meals</h2>
+    <% for(var i=0; i<4; i++){%>
+    <span class="ingredient">
+        <a href="/add?mealId=<%=meals[i].id%>">
+        <img src="<%=meals[i].image%>" width="128" alt="<%=meals[i].name%>"
+             title="Add to my list">
+        <h3><%=meals[i].name%></h3>
+        </a>
+    </span>
+    <%}%>
 </div>
+<div id="ingredients">
+    <h2>Ingredients</h2>
+    <% for(var i=0; i<4; i++){%>
+    <span class="ingredient">
+        <a href="/add?ingredientId=<%=ingredients[i].id%>">
+        <img src="<%=ingredients[i].image%>" width="128" alt="<%=ingredients[i].name%>"
+             title="Add to my list">
+        <h3><%=ingredients[i].name%></h3>
+        </a>
+    </span>
+    <%}%>
+
+
+</div>
+<aside id="shoppingList">
+    <h2>Shopping list</h2>
+</aside>
+
 
 
 </body>
