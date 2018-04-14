@@ -1,0 +1,20 @@
+PAGES:
+
+Login - j
+Sign up - j
+
+Home - j
+All meals - b 
+All ingredients - b
+
+Basket - w
+Plan - j
+Profile - w
+Sharing (google maps) - w
+
+DATA:
+Ingredients
+Meals
+Baskets
+Profiles
+

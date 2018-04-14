@@ -10,41 +10,53 @@
 <body>
 <nav>
     <ul>
-        <li><a href="/" class="active">Home</a></li>
-        <li><a href="/plan">Plan</a></li>
-        <li><a href="/basket">Basket</a></li>
-        <li><a href="/profile">Profile</a></li>
+        <a href="/"><li class="active">Home</li></a>
+        <a href="/plan"><li>Plan</li></a>
+        <a href="/basket"><li>Basket</li></a>
+        <a href="/profile"><li>Profile</li></a>
     </ul>
 
 </nav>
-<div id="meals">
+
+
+<div id="meals" class="item_section">
     <h2>Meals</h2>
+    <a href="/meals">View all</a>
     <% for(var i=0; i<4; i++){%>
-    <span class="ingredient">
-        <a href="/add?mealId=<%=meals[i].id%>">
-        <img src="<%=meals[i].image%>" width="128" alt="<%=meals[i].name%>"
-             title="Add to my list">
-        <h3><%=meals[i].name%></h3>
+    <div class="img_wrap">
+        <a href="/addMeal/<%=meals[i].id%>">
+            <img src="<%=meals[i].image%>" width="128" alt="<%=meals[i].name%>"
+                 title="Add to my list">
+
+            <span class="item_description"><%=meals[i].name%></span>
         </a>
-    </span>
+    </div>
     <%}%>
 </div>
-<div id="ingredients">
+
+
+<div id="ingredients" class="item_section">
     <h2>Ingredients</h2>
+    <a href="/ingredients">View all</a>
     <% for(var i=0; i<4; i++){%>
-    <span class="ingredient">
-        <a href="/add?ingredientId=<%=ingredients[i].id%>">
-        <img src="<%=ingredients[i].image%>" width="128" alt="<%=ingredients[i].name%>"
-             title="Add to my list">
-        <h3><%=ingredients[i].name%></h3>
-        </a>
-    </span>
+        <div class="img_wrap">
+            <a href="/addIngredient/<%=ingredients[i].id%>">
+                <img src="<%=ingredients[i].image%>" width="128" alt="<%=ingredients[i].name%>"
+                 title="Add to my list">
+                <span class="item_description"><%=ingredients[i].name%></span>
+            </a>
+        </div>
     <%}%>
-
-
 </div>
+
 <aside id="shoppingList">
     <h2>Shopping list</h2>
+    <a href="/clearlist">Clear</a>
+    <ul>
+        <% for (var item of basket){%>
+        <li><%=item.name%></li>
+        <%};%>
+    </ul>
 </aside>
 
 
