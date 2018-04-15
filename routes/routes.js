@@ -4,6 +4,7 @@ const controller = require('../controllers/controller')
 
 
 router.get('/', controller.loadHome);
+router.get('/plan', controller.loadPlan);
 
 router.get('/contact', controller.loadContact);
 

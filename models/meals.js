@@ -10,7 +10,7 @@ for(var i = 0; i < 100; i++){
         components.push(ingredients[index]);
     }
     var name = (components[0]).name + ", " + components[1].name + " and " + components[2].name;
-    var image = "https://source.unsplash.com/collection/1345750/100x100";
+    var image = "https://source.unsplash.com/collection/1345750/200x200";
     var id = i;
     meals.push({id, name, components, image});
 }

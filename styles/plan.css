@@ -1,0 +1,86 @@
+
+body{
+    display: grid;
+    grid-template-areas:
+            " header      header      header"
+            " plan       plan       meals"
+            " plan       plan       meals"
+            " footer     footer  footer";
+}
+
+
+@media screen and (min-width: 550px){
+    body{
+        grid-template-areas:
+                "nav header     header    header"
+                "nav plan       plan      meals"
+                "nav plan       plan      meals"
+                "nav footer     footer  footer";
+    }
+}
+
+#plan{
+    grid-area: plan;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-template-rows: 4em 15em;
+    padding: 0;
+}
+
+
+#plan h2{
+    grid-row: 1;
+    grid-column: 1 / span 4;
+    margin: 0;
+}
+
+#meals{
+    grid-area: meals;
+    background-color: rgba(215,121,91,0.3);
+    min-width: 20em;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 4em;
+    line-height: 4em;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 25px;
+}
+
+#meals h2{
+    margin: 0;
+}
+
+#meals ul{
+    padding-left: 0;
+    margin-top: 0;
+    display: grid;
+    list-style-type: none;
+    grid-template-columns: 200px 200px;
+}
+
+
+.img_wrap{
+    width: 200px;
+    height: auto;
+    margin: 0;
+    padding: 0px;
+}
+
+.img_wrap img{
+    width: 200px;
+    margin: 0px;
+    border-radius: 5%;
+}
+
+.img_wrap img:hover {
+    opacity: 0.4;
+    transition:opacity 0.5s;
+}
+
+/* how to get rid of space between img and p???? */
+.img_wrap p{
+    margin: 0;
+    line-height: 2em;
+}

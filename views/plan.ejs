@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plan</title>
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/plan.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
+
+</head>
+<body>
+
+<header>
+
+</header>
+<nav>
+    <%- include('./navbar.ejs', {active: "Plan"}); %>
+
+</nav>
+
+<div id="plan">
+    <h2>Plan</h2>
+    <div class="plan_day">
+        <h3>Monday</h3>
+    </div>
+    <div class="plan_day">
+        <h3>Tuesday</h3>
+    </div>
+    <div class="plan_day">
+        <h3>Wednesday</h3>
+    </div>
+    <div class="plan_day">
+        <h3>Thursday</h3>
+    </div>
+    <div class="plan_day">
+        <h3>Friday</h3>
+    </div>
+    <div class="plan_day">
+        <h3>Saturday</h3>
+    </div>
+    <div class="plan_day">
+        <h3>Sunday</h3>
+    </div>
+</div>
+
+
+<aside id="meals">
+    <h2>Meals</h2>
+    <ul>
+        <% for (var item of basket){
+            if(typeof item !== 'undefined'){%>
+            <li class="img_wrap" >
+                    <a href="/add2plan/<%=item.id%>">
+                        <img src="<%=item.image%>" width="200" alt="<%=item.name%>"
+                             title="Add to plan">
+                        <p><%=item.name%></p>
+                    </a>
+            </li>
+        <%  }
+        };%>
+
+    </ul>
+</aside>
+<footer>
+</footer>
+
+</body>
+</html>

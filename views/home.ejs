@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/home.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
 
 </head>
@@ -11,15 +12,9 @@
 
 <header>
 
-    <img src="logo.png" alt="mealmaster logo">
 </header>
 <nav>
-    <ul>
-        <a href="/"><li class="active">Home</li></a>
-        <a href="/plan"><li>Plan</li></a>
-        <a href="/basket"><li>Basket</li></a>
-        <a href="/profile"><li>Profile</li></a>
-    </ul>
+    <%- include('./navbar.ejs', {active: "Home"}); %>
 
 </nav>
 
@@ -30,7 +25,7 @@
     <% for(var i=0; i<4; i++){%>
     <div class="img_wrap">
        <a href="/addMeal/<%=meals[i].id%>">
-            <img src="<%=meals[i].image%>" width="128" alt="<%=meals[i].name%>"
+            <img src="<%=meals[i].image%>" width="200" alt="<%=meals[i].name%>"
                  title="Add to my list">
 
        </a>
@@ -45,9 +40,9 @@
     <a href="/ingredients">View all</a>
 
     <% for(var i=0; i<4; i++){%>
-        <div class="img_wrap">
+        <div class="img_wrap" >
             <a href="/addIngredient/<%=ingredients[i].id%>">
-                <img src="<%=ingredients[i].image%>" width="128" alt="<%=ingredients[i].name%>"
+                <img src="<%=ingredients[i].image%>" width="200" alt="<%=ingredients[i].name%>"
                  title="Add to my list">
                 <p><%=ingredients[i].name%></p>
             </a>
@@ -63,9 +58,9 @@
         <% for (var item of basket){
             if(typeof item !== 'undefined'){%>
             <li>
-                <img class="remove" src="images/icons24/clear-button.png" width="24" height="24">
+                <img class="remove" src="public/images/icons24/clear-button.png" width="24" height="24">
                 <div class="shopping_list_item"><%=item.name%></div>
-                <img class="expand" src="images/icons24/expand-button.png" width="24" height="24">
+                <img class="expand" src="public/images/icons24/expand-button.png" width="24" height="24">
             </li>
          <%}
         };%>
