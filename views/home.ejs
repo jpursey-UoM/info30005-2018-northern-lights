@@ -8,6 +8,11 @@
 
 </head>
 <body>
+
+<header>
+
+    <img src="logo.png" alt="mealmaster logo">
+</header>
 <nav>
     <ul>
         <a href="/"><li class="active">Home</li></a>
@@ -24,12 +29,12 @@
     <a href="/meals">View all</a>
     <% for(var i=0; i<4; i++){%>
     <div class="img_wrap">
-        <a href="/addMeal/<%=meals[i].id%>">
+       <a href="/addMeal/<%=meals[i].id%>">
             <img src="<%=meals[i].image%>" width="128" alt="<%=meals[i].name%>"
                  title="Add to my list">
 
-            <span class="item_description"><%=meals[i].name%></span>
-        </a>
+       </a>
+        <p><%=meals[i].name%></p>
     </div>
     <%}%>
 </div>
@@ -38,28 +43,36 @@
 <div id="ingredients" class="item_section">
     <h2>Ingredients</h2>
     <a href="/ingredients">View all</a>
+
     <% for(var i=0; i<4; i++){%>
         <div class="img_wrap">
             <a href="/addIngredient/<%=ingredients[i].id%>">
                 <img src="<%=ingredients[i].image%>" width="128" alt="<%=ingredients[i].name%>"
                  title="Add to my list">
-                <span class="item_description"><%=ingredients[i].name%></span>
+                <p><%=ingredients[i].name%></p>
             </a>
         </div>
     <%}%>
+
 </div>
 
 <aside id="shoppingList">
     <h2>Shopping list</h2>
     <a href="/clearlist">Clear</a>
     <ul>
-        <% for (var item of basket){%>
-        <li><%=item.name%></li>
-        <%};%>
+        <% for (var item of basket){
+            if(typeof item !== 'undefined'){%>
+            <li>
+                <img class="remove" src="images/icons24/clear-button.png" width="24" height="24">
+                <div class="shopping_list_item"><%=item.name%></div>
+                <img class="expand" src="images/icons24/expand-button.png" width="24" height="24">
+            </li>
+         <%}
+        };%>
     </ul>
 </aside>
-
-
+<footer>
+</footer>
 
 </body>
 </html>

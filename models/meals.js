@@ -1,6 +1,6 @@
 const ingredients = require("./ingredients");
 
-const numIngredients = 100;
+const numIngredients = ingredients.length;
 const meals = [];
 for(var i = 0; i < 100; i++){
     var components = [];

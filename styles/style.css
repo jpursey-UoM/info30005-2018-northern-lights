@@ -1,46 +1,48 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 
 html{
-    height: 100pc;
-
+    height: 100%;
 }
 
-* {
-    box-sizing: border-box;
-}
+
 
 body{
     margin: 0;
     background-image: url("https://source.unsplash.com/4R1YpmGO52I");
     background-position: center;
     background-size: cover;
-    height: 100pc;
     color: #fff7e6d6;
+    height: 100%;
     display: grid;
     grid-template-areas:
-            "header header      header      header"
+            "nav header      header      header"
             "nav meals       meals       list"
             "nav ingredients ingredients list"
-            "nav ........... ........... ...."; /*this empty row doesn't show up, any ideas? */
+            "nav footer     footer  footer"; /*this empty row doesn't show up, any ideas? */
 }
+
 
 @media screen and (min-width: 550px){
     body{
         grid-template-areas:
-                "header header      header      header"
+                "nav header      header      header"
                 "nav meals       meals       list"
                 "nav ingredients ingredients list"
-                "nav ........... ........... ....";
+                "nav footer     footer  footer";
     }
 }
 
 .contact{
     font-family: 'Signika Negative', sans-serif;
 }
+
+header{
+    grid-area: header;
+    height: 10em;
+}
 nav{
     grid-area: nav;
     background-color: rgba(198, 160, 127, 0.7); /* fix this colour*/
-    height: auto;
     width: 10em;
 }
 
@@ -94,9 +96,45 @@ a{
     background-color: rgba(215,121,91,0.3);
     min-width: 20em;
     display: grid;
-    grid-template-columns: 16em 4em;
-    grid-template-rows: auto;
+    grid-template-columns: auto 4em;
+    grid-template-rows: 4em;
+    line-height: 4em;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 25px;
 }
+
+#shoppingList h2{
+    margin: 0;
+}
+
+#shoppingList ul{
+    list-style-type: none;
+    padding: 0;
+    grid-column: span 2;
+}
+
+#shoppingList li{
+    height: 2em;
+    line-height: 2em;
+}
+
+.shopping_list_item{
+    display: inline;
+    margin-left: 5px;
+    size: 2em;
+    height: 2em;
+}
+
+#shoppingList li .expand{
+    float: right;
+    top: 50%;
+}
+
+#shoppingList li .remove{
+     float: left;
+     top: 50%;
+ }
 
 .item_section{
     display: grid;
@@ -121,8 +159,8 @@ a{
 
 @media screen and (min-width: 1200px){
     .item_section {
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 4em 240px;
+        grid-template-columns: repeat(4, auto);
+        grid-template-rows: 4em 15em;
     }
     .item_section h2{
         grid-column: 1/span 3;
@@ -134,31 +172,28 @@ a{
 
 }
 
-.item_section img{
+.img_wrap{
     width: 200px;
-    height: 200px;
+    height: auto;
+    margin: 0;
+    padding: 0px;
 }
 
-.item_section img:hover {
+.img_wrap img{
+    width: 200px;
+    margin: 0px;
+    border-radius: 5%;
+}
+
+.img_wrap img:hover {
     opacity: 0.4;
     transition:opacity 0.5s;
 }
 
-/*
-.img_wrap p {
-    z-index: -1;
-    width: 200px;
-    line-height: 20px;
-    display: inline-block;
-    padding: 0px 0px;
-    vertical-align: middle;
-    height: 200px;
+/* how to get rid of space between img and p???? */
+.img_wrap p{
+    margin: 0;
+    line-height: 2em;
 }
-*/
 
-.item_description{
-    text-align: center;
-    display: inline-block;
-    height: 40px;
-}
 
