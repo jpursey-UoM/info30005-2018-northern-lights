@@ -26,6 +26,14 @@ module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
 };
 
+module.exports.loadMeals = function(req,res){
+    res.render('meals',{meals: meals});
+};
+
+module.exports.loadIngredients = function(req,res){
+    res.render('ingredients',{ingredients: ingredients});
+};
+
 module.exports.addMeal = function(req, res){
     const i = req.params.id;
     addItem(meals[i]);
