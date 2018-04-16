@@ -13,4 +13,6 @@ router.get('/addIngredient/:id', controller.addIngredient);
 
 router.get('/clearlist', controller.clearlist);
 
+router.get('/basket', controller.loadBasket);
+
 module.exports = router;

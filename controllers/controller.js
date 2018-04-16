@@ -25,6 +25,13 @@ module.exports.addIngredient = function(req, res){
     module.exports.loadHome(req, res);
 };
 
+
+////////////// Wendy's ////////////////////////////////////////////
+module.exports.loadIngredients = function(req, res) {
+    // res.send("hi");
+    res.render('basket', {ingredients: ingredients});
+};
+//////////////////////////////////////////////////////////////////
 function addItem(item){
     basket.push(item);
 };

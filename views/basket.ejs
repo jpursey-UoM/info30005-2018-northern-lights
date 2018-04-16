@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+    <link rel="stylesheet" href="../styles/style_basket.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Load icon library for search bar -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scripts/basket.js"></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <a href="/"><li>Home</li></a>
+            <a href="/plan"><li>Plan</li></a>
+            <a href="/basket.html"><li class = "active">Basket</li></a>
+            <a href="/profile"><li>Profile</li></a>
+        </ul>
+    </nav>
+    <div id="calendar_area">
+        <table id="calendar">
+            <tr>
+                <td>14/4/18 Sun</td>
+                <td>15/4/18 Sun</td>
+                <td>16/4/18 Sun</td>
+                <td>17/4/18 Sun</td>
+                <td>18/4/18 Sun</td>
+                <td>19/4/18 Sun</td>
+                <td>20/4/18 Sun</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+
+
+    <table id="ingredients">
+        <tr>
+            <td class="ingredient_name">Broccoli</td>
+            <td class="life_bar_track">
+                <br><input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;"><br>
+            </td>
+            <td class="len_handler">
+                <button class="button_left">&laquo;</button>
+                <button class="button_right">&raquo;</button>
+
+            </td>
+        </tr>
+        <tr>
+            <td class="ingredient_name">Carrot</td>
+            <td class="life_bar_track">
+                <br><input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;"><br>
+
+            </td>
+            <td class="len_handler">
+                <button class="button_left">&laquo;</button>
+                <button class="button_right">&raquo;</button>
+
+            </td>
+        </tr>
+        <tr>
+            <td class="ingredient_name">Salad leaves</td>
+            <td class="life_bar_track">
+                <br><input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;"><br>
+            </td>
+            <td class="len_handler">
+                <button class="button_left">&laquo;</button>
+                <button class="button_right">&raquo;</button>
+
+            </td>
+        </tr>
+    </table>
+
+    <div class="search">
+        <form class="example" action="">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+
+
+
+</body>
+
+</html>
