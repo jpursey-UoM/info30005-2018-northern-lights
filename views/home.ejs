@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Home | MealMaster</title>
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
     <link rel="stylesheet" href="/styles/home.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
@@ -25,11 +25,13 @@
     <% for(var i=0; i<4; i++){%>
     <div class="img_wrap">
        <a href="/addMeal/<%=meals[i].id%>">
+           <p>
             <img src="<%=meals[i].image%>" width="200" alt="<%=meals[i].name%>"
                  title="Add to my list">
 
+           <%=meals[i].name%>
+           </p>
        </a>
-        <p><%=meals[i].name%></p>
     </div>
     <%}%>
 </div>
@@ -42,9 +44,11 @@
     <% for(var i=0; i<4; i++){%>
         <div class="img_wrap" >
             <a href="/addIngredient/<%=ingredients[i].id%>">
+                <p>
                 <img src="<%=ingredients[i].image%>" width="200" alt="<%=ingredients[i].name%>"
                  title="Add to my list">
-                <p><%=ingredients[i].name%></p>
+                <%=ingredients[i].name%>
+                </p>
             </a>
         </div>
     <%}%>

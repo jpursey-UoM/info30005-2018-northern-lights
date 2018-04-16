@@ -3,7 +3,9 @@ const router = express.Router();
 const controller = require('../controllers/controller')
 
 
-router.get('/', controller.loadHome);
+router.get('/', controller.loadSignup);
+router.get('/login', controller.loadLogin);
+router.get('/home', controller.loadHome);
 router.get('/plan', controller.loadPlan);
 
 router.get('/contact', controller.loadContact);

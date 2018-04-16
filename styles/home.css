@@ -76,7 +76,7 @@ body{
 .item_section{
     display: grid;
     grid-template-columns: repeat(2,1fr);
-    grid-template-rows: 4em 240px 240px;
+    grid-template-rows: 4em 18em 18em;
     line-height: 4em;
     padding: 0;
 }
@@ -96,7 +96,7 @@ body{
 @media screen and (min-width: 1200px){
     .item_section {
         grid-template-columns: repeat(4, auto);
-        grid-template-rows: 4em 15em;
+        grid-template-rows: 4em 18em;
     }
     .item_section h2{
         grid-column: 1/span 3;

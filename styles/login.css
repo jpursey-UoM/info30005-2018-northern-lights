@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat');
+
+html{
+    height: 100%;
+}
+
+
+
+body {
+    margin: 0;
+    background-image: url("https://source.unsplash.com/4R1YpmGO52I");
+    background-position: center;
+    background-size: cover;
+    color: #fff7e6d6;
+    height: 100%;
+}
+
+
+form{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+form *{
+    display: block;
+}
+
