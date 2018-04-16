@@ -32,10 +32,11 @@ body{
     grid-area: list;
     background-color: rgba(215,121,91,0.3);
     min-width: 20em;
+    max-height: 60%;
     display: grid;
     grid-template-columns: auto 4em;
-    grid-template-rows: 4em;
-    line-height: 4em;
+    grid-template-rows: 2em 2em auto 2em;
+    line-height: 2em;
     margin: 1em;
     padding: 1em;
     border-radius: 25px;
@@ -71,6 +72,22 @@ body{
 #shoppingList li .remove{
     float: left;
     top: 50%;
+}
+
+#shoppingList #go-shopping{
+    grid-column: 1/span 2;
+    border-radius: 5px;
+    display: inline-block;
+    color: white;
+    background-color: #ff9e9e;
+    text-decoration: none;
+    border: none;
+    text-align: center;
+
+}
+
+#shoppingList #go-shopping:hover{
+    background-color: rgba(178, 110, 110, 0.44);
 }
 
 .item_section{
@@ -113,6 +130,8 @@ body{
     height: auto;
     margin: 0;
     padding: 0px;
+    border: 2px;
+    border-color: rgba(32,31,29,0.7);
 }
 
 .img_wrap img{

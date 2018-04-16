@@ -7,6 +7,7 @@ router.get('/', controller.loadSignup);
 router.get('/login', controller.loadLogin);
 router.get('/home', controller.loadHome);
 router.get('/plan', controller.loadPlan);
+router.get('/list', controller.loadList);
 
 router.get('/contact', controller.loadContact);
 

@@ -11,7 +11,7 @@
 <body>
 
 <header>
-
+    <h1>MealMaster</h1>
 </header>
 <nav>
     <%- include('./navbar.ejs', {active: "Home"}); %>
@@ -58,6 +58,10 @@
 <aside id="shoppingList">
     <h2>Shopping list</h2>
     <a href="/clearlist">Clear</a>
+    <div id="group-meals">
+        <label>Group by meal: </label>
+        <input type="checkbox" id="groupMeals"/>
+    </div>
     <ul>
         <% for (var item of basket){
             if(typeof item !== 'undefined'){%>
@@ -69,8 +73,11 @@
          <%}
         };%>
     </ul>
+    <a href="/list" id="go-shopping">Go shopping! </a>
+
 </aside>
 <footer>
+    <%- include('./footer.ejs'); %>
 </footer>
 
 </body>

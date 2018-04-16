@@ -18,6 +18,10 @@ module.exports.loadHome = function(req, res){
                         basket: basket});
 };
 
+module.exports.loadList = function(req, res){
+    res.render('shoppinglist', {basket: basket});
+}
+
 module.exports.loadPlan = function(req, res){
     res.render('plan', {basket: basket});
 };
@@ -51,7 +55,6 @@ function addItem(item){
 };
 
 module.exports.clearlist = function(req, res){
-    console.log("Emptying basket...");
     basket = [];
     module.exports.loadHome(req, res);
 };
