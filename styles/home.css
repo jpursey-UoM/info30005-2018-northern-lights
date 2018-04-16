@@ -1,0 +1,133 @@
+
+body{
+    display: grid;
+    grid-template-areas:
+    "nav header      header      header"
+    "nav meals       meals       list"
+    "nav ingredients ingredients list"
+    "nav footer     footer  footer";
+}
+
+
+@media screen and (min-width: 550px){
+    body{
+        grid-template-areas:
+                "nav header      header      header"
+                "nav meals       meals       list"
+                "nav ingredients ingredients list"
+                "nav footer     footer  footer";
+    }
+}
+
+
+#meals {
+    grid-area: meals;
+}
+
+#ingredients {
+    grid-area: ingredients;
+}
+
+#shoppingList{
+    grid-area: list;
+    background-color: rgba(215,121,91,0.3);
+    min-width: 20em;
+    display: grid;
+    grid-template-columns: auto 4em;
+    grid-template-rows: 4em;
+    line-height: 4em;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 25px;
+}
+
+#shoppingList h2{
+    margin: 0;
+}
+
+#shoppingList ul{
+    list-style-type: none;
+    padding: 0;
+    grid-column: span 2;
+}
+
+#shoppingList li{
+    height: 2em;
+    line-height: 2em;
+}
+
+.shopping_list_item{
+    display: inline;
+    margin-left: 5px;
+    size: 2em;
+    height: 2em;
+}
+
+#shoppingList li .expand{
+    float: right;
+    top: 50%;
+}
+
+#shoppingList li .remove{
+    float: left;
+    top: 50%;
+}
+
+.item_section{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: 4em 240px 240px;
+    line-height: 4em;
+    padding: 0;
+}
+
+
+.item_section h2{
+    grid-row: 1;
+    grid-column: 1;
+    margin: 0;
+}
+
+.item_section a{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+@media screen and (min-width: 1200px){
+    .item_section {
+        grid-template-columns: repeat(4, auto);
+        grid-template-rows: 4em 15em;
+    }
+    .item_section h2{
+        grid-column: 1/span 3;
+    }
+
+    .item_section a{
+        grid-column: 4;
+    }
+
+}
+
+.img_wrap{
+    width: 200px;
+    height: auto;
+    margin: 0;
+    padding: 0px;
+}
+
+.img_wrap img{
+    width: 200px;
+    margin: 0px;
+    border-radius: 5%;
+}
+
+.img_wrap img:hover {
+    opacity: 0.4;
+    transition:opacity 0.5s;
+}
+
+/* how to get rid of space between img and p???? */
+.img_wrap p{
+    margin: 0;
+    line-height: 2em;
+}

@@ -9,6 +9,10 @@ module.exports.loadHome = function(req, res){
                         basket: basket});
 };
 
+module.exports.loadPlan = function(req, res){
+    res.render('plan', {basket: basket});
+};
+
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
 };

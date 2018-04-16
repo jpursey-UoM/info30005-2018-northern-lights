@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/home.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
 
 </head>
 <body>
+
+<header>
+
+</header>
 <nav>
-    <ul>
-        <a href="/"><li class="active">Home</li></a>
-        <a href="/plan"><li>Plan</li></a>
-        <a href="/basket"><li>Basket</li></a>
-        <a href="/profile"><li>Profile</li></a>
-    </ul>
+    <%- include('./navbar.ejs', {active: "Home"}); %>
 
 </nav>
 
@@ -24,12 +24,12 @@
     <a href="/meals">View all</a>
     <% for(var i=0; i<4; i++){%>
     <div class="img_wrap">
-        <a href="/addMeal/<%=meals[i].id%>">
-            <img src="<%=meals[i].image%>" width="128" alt="<%=meals[i].name%>"
+       <a href="/addMeal/<%=meals[i].id%>">
+            <img src="<%=meals[i].image%>" width="200" alt="<%=meals[i].name%>"
                  title="Add to my list">
 
-            <span class="item_description"><%=meals[i].name%></span>
-        </a>
+       </a>
+        <p><%=meals[i].name%></p>
     </div>
     <%}%>
 </div>
@@ -38,28 +38,36 @@
 <div id="ingredients" class="item_section">
     <h2>Ingredients</h2>
     <a href="/ingredients">View all</a>
+
     <% for(var i=0; i<4; i++){%>
-        <div class="img_wrap">
+        <div class="img_wrap" >
             <a href="/addIngredient/<%=ingredients[i].id%>">
-                <img src="<%=ingredients[i].image%>" width="128" alt="<%=ingredients[i].name%>"
+                <img src="<%=ingredients[i].image%>" width="200" alt="<%=ingredients[i].name%>"
                  title="Add to my list">
-                <span class="item_description"><%=ingredients[i].name%></span>
+                <p><%=ingredients[i].name%></p>
             </a>
         </div>
     <%}%>
+
 </div>
 
 <aside id="shoppingList">
     <h2>Shopping list</h2>
     <a href="/clearlist">Clear</a>
     <ul>
-        <% for (var item of basket){%>
-        <li><%=item.name%></li>
-        <%};%>
+        <% for (var item of basket){
+            if(typeof item !== 'undefined'){%>
+            <li>
+                <img class="remove" src="public/images/icons24/clear-button.png" width="24" height="24">
+                <div class="shopping_list_item"><%=item.name%></div>
+                <img class="expand" src="public/images/icons24/expand-button.png" width="24" height="24">
+            </li>
+         <%}
+        };%>
     </ul>
 </aside>
-
-
+<footer>
+</footer>
 
 </body>
 </html>
