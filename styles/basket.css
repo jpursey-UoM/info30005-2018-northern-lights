@@ -1,16 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+@import url('https://fonts.googleapis.com/css?family=Arimo:400,700|Homemade+Apple');
+
 html{
     height: 100pc;
     font-family:'Josefin Sans', sans-serif;
 
+
 }
 
 body{
+
     background-color: rgb(253, 255, 246);
     margin: 0;
     display: grid;
-    grid-template-columns: 20% 50% 30%;
-    grid-template-rows: 150px 70px auto;
+    grid-template-columns: auto 60% 25%;
+    grid-template-rows: 240px 70px auto;
     grid-template-areas:
                     "nav header header"
                     "nav calendar search"
@@ -71,7 +75,7 @@ nav .active{
 #calendar_area {
     grid-area: calendar;
     display: grid;
-    grid-template-columns: 20% 70% 10%;
+    grid-template-columns: 20% auto 10%;
     grid-template-areas: "left mid right";
     background: rgb(227,233,221);
 
@@ -130,7 +134,7 @@ nav .active{
 .search_bar{
     margin-left: 4em;
     grid-area: search_bar;
-    width: 50%;
+    width: 80%;
 }
 
  /*Style the search field */
@@ -185,6 +189,10 @@ input[type=button]:hover {
 }
 
 
-header {
+header h1{
     grid-area: header;
+    height: 15em;
+    font-family: 'Homemade Apple', cursive;
+    min-height: 15em;
+    margin: 67px;
 }
