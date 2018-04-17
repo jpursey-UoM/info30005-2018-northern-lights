@@ -22,8 +22,11 @@ body {
 header{
     grid-area: header;
     height: 15em;
-    font-family: 'Homemade Apple', cursive;
     min-height: 15em;
+}
+
+header h1{
+    font-family: 'Homemade Apple', cursive;
 }
 nav{
     grid-area: nav;
