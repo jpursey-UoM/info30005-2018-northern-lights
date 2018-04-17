@@ -2,7 +2,6 @@ $(document).ready(function(){
 
     // reduce the length of the life bar
     $("#ingredients").on("click", "tr > .len_handler > .button_left", function(event){
-        // button > td > td > life_bar
         var life_bar = $(event.target.parentElement.previousElementSibling).find(".life_bar");
 
         var width = 100 * parseFloat($(life_bar).css('width')) / parseFloat($(life_bar).parent().css('width'));
@@ -33,15 +32,10 @@ $(document).ready(function(){
 
     });
 
-    // remove ingredients
+    // remove ingredients from basket table
     $('#ingredients').on('click', 'tr > .ingredient_name > .delete_button', function () {
         $(this).closest("tr").remove();
     } );
-
-    //
-    // $("#ingredients").on("mouseover", "td input", function(){
-    //     // alert($(this).val());
-    // });
 
 
 });

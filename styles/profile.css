@@ -2,7 +2,7 @@ body {
     background-color: rgb(253, 255, 246);
     display:grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 240px 1fr 1fr;
+    grid-template-columns: 160px 1fr 1fr;
     grid-template-areas:
                         "nav profile_picture about_me"
                         "nav contact_detail share_with_me";
