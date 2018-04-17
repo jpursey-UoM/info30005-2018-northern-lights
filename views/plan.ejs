@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="/styles/plan.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="public/scripts/plan.js"> </script>
 </head>
 <body>
 
 <header>
-
+    <h1>MealMaster</h1>
 </header>
 <nav>
     <%- include('./navbar.ejs', {active: "Plan"}); %>
@@ -20,46 +23,53 @@
 
 <div id="plan">
     <h2>Plan</h2>
-    <div class="plan_day">
+    <button onclick="removeAll()">Clear</button>
+    <div class="plan-day">
         <h3>Monday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
-    <div class="plan_day">
+    <div class="plan-day">
         <h3>Tuesday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
-    <div class="plan_day">
+    <div class="plan-day">
         <h3>Wednesday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
-    <div class="plan_day">
+    <div class="plan-day">
         <h3>Thursday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
-    <div class="plan_day">
+    <div class="plan-day">
         <h3>Friday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
-    <div class="plan_day">
+    <div class="plan-day">
         <h3>Saturday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
-    <div class="plan_day">
+    <div class="plan-day">
         <h3>Sunday</h3>
+        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
     </div>
 </div>
 
 
 <aside id="meals">
     <h2>Meals</h2>
-    <ul>
+    <ul id = "meals-list">
         <% for (var item of basket){
             if(typeof item !== 'undefined'){%>
-            <li class="img_wrap" >
-                    <a href="/add2plan/<%=item.id%>">
+            <li class="img_wrap" onclick="add2plan(this)">
                         <img src="<%=item.image%>" width="200" alt="<%=item.name%>"
                              title="Add to plan">
                         <p><%=item.name%></p>
-                    </a>
             </li>
         <%  }
         };%>
 
     </ul>
+    <button id="autofill-plan" onclick="addAll()"><< Autofill</button>
 </aside>
 <footer>
 </footer>

@@ -1,30 +1,47 @@
 body {
+    background-color: rgb(253, 255, 246);
     display:grid;
-    grid-auto-rows: 3fr 1fr 3fr 3fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 160px 1fr 1fr;
     grid-template-areas:
-                        "profile_picture"
-                        "contact_details"
-                        "about_me"
-                        "share_with_me";
+                        "nav profile_picture about_me"
+                        "nav contact_detail share_with_me";
+
 }
+
 
 
 .profile_picture{
     grid-area: profile_picture;
-    font-family: "Roboto"
-
+    margin-right: 30px;
 }
 
-.contact_details{
-    grid-area: contact_details;
+.profile_picture img {
+    display: block;
+}
+
+
+.contact_detail {
+    display: block;
+    margin-right: 30px;
 }
 
 .about_me{
     grid-area: about_me;
+    margin-right: 30px;
 }
 
 .share_with_me{
     grid-area: share_with_me;
+    margin-right: 30px;
 }
 
 
+nav {
+    grid-area: nav
+}
+
+div {
+    grid-column-gap: 3em;
+    grid-row-gap:3em;
+}
