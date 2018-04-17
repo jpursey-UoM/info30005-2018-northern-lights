@@ -30,7 +30,7 @@ body{
 
 #shoppingList{
     grid-area: list;
-    background-color: rgba(215,121,91,0.3);
+    background-color: rgb(209,218,203);
     min-width: 20em;
     max-height: 60%;
     display: grid;
@@ -78,8 +78,8 @@ body{
     grid-column: 1/span 2;
     border-radius: 5px;
     display: inline-block;
-    color: white;
-    background-color: #ff9e9e;
+    color: rgb(118,144,76);
+    background-color: rgb(243,243,245);
     text-decoration: none;
     border: none;
     text-align: center;
@@ -87,7 +87,7 @@ body{
 }
 
 #shoppingList #go-shopping:hover{
-    background-color: rgba(178, 110, 110, 0.44);
+    background-color: rgb(183,206,164);
 }
 
 .item_section{

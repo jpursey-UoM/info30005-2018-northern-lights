@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 @import url('https://fonts.googleapis.com/css?family=Arimo:400,700|Homemade+Apple');
-html{
+
+
+html body{
     height: 100%;
+    font-weight: lighter;
 }
 
 
 
 body {
     margin: 0;
-    background-color: rgba(255, 218, 201, 0.2);
+    background-color: rgb(243,243,245);
     background-position: center;
     background-size: cover;
     color: rgba(32, 31, 29, 0.84);
@@ -27,9 +30,9 @@ header{
 }
 nav{
     grid-area: nav;
-    background-color: rgba(123, 198, 120, 0.7); /* fix this colour*/
+    background-color: rgba(226, 147, 91, 0.81); /* fix this colour*/
     width: 10em;
-    font-family: 'Arimo', sans-serif;
+    font-family:'GlacialIndifferenceRegular', sans-serif;
     font-weight: 700;
 }
 
@@ -48,8 +51,8 @@ nav li{
 }
 
 nav li:hover{
-    background-color: rgba(215, 142, 41, 0.44); /* fix this colour*/
-    color: #fff7e6d6;
+    background-color: rgba(255, 255, 255, 0.63);/* fix this colour*/
+    /*color: #fff7e6d6;*/
 
 }
 
