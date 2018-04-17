@@ -23,7 +23,9 @@ body{
     grid-area: plan;
     display: grid;
     grid-template-columns: repeat(4, auto);
+    grid-column-gap: 1em;
     grid-template-rows: 4em 15em;
+    grid-row-gap: 1em;
     padding: 0;
 }
 
@@ -58,6 +60,16 @@ body{
     display: grid;
     list-style-type: none;
     grid-template-columns: 200px 200px;
+}
+
+.plan_day{
+    text-align: center;
+    height: 260px;
+    width: 200px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5%;
+    border-color: black;
 }
 
 

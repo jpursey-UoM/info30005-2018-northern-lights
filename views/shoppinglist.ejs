@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping List | MealMaster</title>
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/shoppinglist.css" type="text/css">
+</head>
+<body>
+<h2>
+    Shopping List
+</h2>
+<a href="home">Back</a>
+<ul>
+    <% for (var element of basket){%>
+        <li>
+            <input type="checkbox" class="shopping-list-check"\>
+            <%=element.name%>
+        </li>
+    <%}%>
+</ul>
+<a href="plan">Finished</a>
+
+</body>
+</html>

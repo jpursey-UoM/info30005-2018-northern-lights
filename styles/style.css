@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat');
-
+@import url('https://fonts.googleapis.com/css?family=Arimo:400,700|Homemade+Apple');
 html{
     height: 100%;
 }
@@ -8,10 +8,10 @@ html{
 
 body {
     margin: 0;
-    background-image: url("https://source.unsplash.com/4R1YpmGO52I");
+    background-color: rgba(255, 218, 201, 0.2);
     background-position: center;
     background-size: cover;
-    color: #fff7e6d6;
+    color: rgba(32, 31, 29, 0.84);
     height: 100%;
 }
 
@@ -21,16 +21,21 @@ body {
 
 header{
     grid-area: header;
-    height: 10em;
+    height: 15em;
+    font-family: 'Homemade Apple', cursive;
+    min-height: 15em;
 }
 nav{
     grid-area: nav;
-    background-color: rgba(198, 160, 127, 0.7); /* fix this colour*/
+    background-color: rgba(123, 198, 120, 0.7); /* fix this colour*/
     width: 10em;
+    font-family: 'Arimo', sans-serif;
+    font-weight: 700;
 }
 
 nav a{
     text-decoration: none;
+    color: white;
 }
 
 nav ul{
@@ -40,7 +45,6 @@ nav ul{
 nav li{
     padding: 1em;
     list-style-type: none;
-    background-color: rgba(215,142,41,0.8); /* fix this colour*/
 }
 
 nav li:hover{
@@ -51,7 +55,6 @@ nav li:hover{
 
 nav .active{
     background-color: rgba(255, 255, 255, 0.63);
-    color: coral;
 }
 
 h1{
@@ -63,9 +66,13 @@ p{
     font-weight: lighter;
 }
 a{
-    color: #fff7e6d6;
+    color: rgba(32, 31, 29, 0.84);
 }
 
-
-
-
+footer{
+    height: 200px;
+    line-height: 200px;
+}
+footer *{
+    display: inline-block;
+}

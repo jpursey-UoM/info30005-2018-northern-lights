@@ -3,11 +3,24 @@ const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
 var basket = require("../models/basket");
 
+
+module.exports.loadSignup = function(req, res){
+    res.render('signup');
+};
+
+module.exports.loadLogin = function(req, res){
+    res.render('login');
+};
+
 module.exports.loadHome = function(req, res){
     res.render('home', {meals: meals,
                         ingredients: ingredients,
                         basket: basket});
 };
+
+module.exports.loadList = function(req, res){
+    res.render('shoppinglist', {basket: basket});
+}
 
 module.exports.loadPlan = function(req, res){
     res.render('plan', {basket: basket});
@@ -19,6 +32,14 @@ module.exports.loadBasket = function(req, res) {
 
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
+};
+
+module.exports.loadMeals = function(req,res){
+    res.render('meals',{meals: meals});
+};
+
+module.exports.loadIngredients = function(req,res){
+    res.render('ingredients',{ingredients: ingredients});
 };
 
 module.exports.addMeal = function(req, res){
@@ -40,7 +61,6 @@ function addItem(item){
 };
 
 module.exports.clearlist = function(req, res){
-    console.log("Emptying basket...");
     basket = [];
     module.exports.loadHome(req, res);
 };
