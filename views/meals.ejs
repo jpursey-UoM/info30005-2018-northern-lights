@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/styles/meals.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="public/scripts/searchMeal.js"></script>
+    <script type="text/javascript" src="public/scripts/filterMeal.js"></script>
+
 </head>
 <body>
 <header>
@@ -15,9 +17,12 @@
 
 <div class="wrapper">
     <div class="nav">
-
-        <%- include('./navbar.ejs', {active: "Home"}); %>
-
+        <a href="/">Home</a>
+        <a href="/plan">Plan</a>
+        <a href="/ingredients">Ingredients</a>
+        <a href="/meals" class="active">Meals</a>
+        <a href="/basket">Basket</a>
+        <a href="/profile">Profile</a>
     </div>
     <div class="filter">
         <form action="" method="GET" id="form1">
@@ -26,15 +31,15 @@
         </form>
         <br>
 
-        <form action="/filtermeal" name="filter" method="GET" id="form2">
+        <form action="" name="filter" method="GET" id="form2">
         <input type="checkbox" name="category" value="All" checked>All<br>
-        <input type="checkbox" class="category" name="category" value="American">American<br>
-        <input type="checkbox" name="category" value="Chinese">Chinese<br>
-        <input type="checkbox" name="category" value="French">French<br>
-        <input type="checkbox" name="category" value="German">German<br>
-        <input type="checkbox" name="category" value="Korean">Korean<br>
-        <input type="checkbox" name="category" value="Japanese">Japanese<br>
-        <input type="checkbox" name="category" value="Thai">Thai<br>
+        <input type="checkbox" class="category" name="category" value="American" onchange="document.filter.submit();">American<br>
+        <input type="checkbox" name="category" value="Chinese" onchange="document.filter.submit();">Chinese<br>
+        <input type="checkbox" name="category" value="French" onchange="document.filter.submit();">French<br>
+        <input type="checkbox" name="category" value="German" onchange="document.filter.submit();">German<br>
+        <input type="checkbox" name="category" value="Korean" onchange="document.filter.submit();">Korean<br>
+        <input type="checkbox" name="category" value="Japanese" onchange="document.filter.submit();">Japanese<br>
+        <input type="checkbox" name="category" value="Thai" onchange="document.filter.submit();">Thai<br>
         </form>
 
     </div>

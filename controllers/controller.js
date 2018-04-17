@@ -52,8 +52,6 @@ module.exports.SearchMeal = function(req,res){
 };
 
 module.exports.FilterMeal = function(req,res){
-    console.log(req.query);
-    console.log('esrsfdsdds');
     const foundmeals = [];
     var type
     for(var propName in req.query) {

@@ -1,11 +1,7 @@
 $(function() {
     $('input[type="checkbox"]').on('change', function () {
-        var html="<p>asffd</p>"
-        $('.meals').html(html);
-        var query = $("#form2").serialize();
-
         var vals = []
-        $('input[name="contagory"]').each(function() {
+        $('input[name="category"]').each(function() {
             if (this.checked) {
                 vals.push(this.value);
             }

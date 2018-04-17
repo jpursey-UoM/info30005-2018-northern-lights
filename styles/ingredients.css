@@ -20,7 +20,8 @@ body{
 }
 .nav {
     grid-area: nav;
-    background-color: #41c29b;
+    background-color: rgba(226, 147, 91, 0.81);
+    font-family:'GlacialIndifferenceRegular', sans-serif;
     align-self: center;
     width: 100vw;
 }
@@ -36,11 +37,11 @@ body{
 }
 
 .nav a:hover {
-    background-color: #b1f5c1;
+    background-color: rgba(255, 255, 255, 0.63);
 }
 
 .active {
-    background-color: #4CAF50;
+    background-color: rgba(255, 255, 255, 0.63);
 }
 
 .ingredients {

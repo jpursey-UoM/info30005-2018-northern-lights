@@ -20,41 +20,28 @@ body{
 }
 .nav {
     grid-area: nav;
-    background-color: #41c29b;
+    background-color: rgba(226, 147, 91, 0.81);
     align-self: center;
+    font-family:'GlacialIndifferenceRegular', sans-serif;
     width: 100vw;
 }
-
 .nav a {
-    list-style-type: none;
-    padding: 5px;
     float: left;
     display: block;
     text-decoration: none;
     text-align: center;
+    padding: 10px 12px;
     transition: all 0.3s ease;
     color: white;
     font-size: 20px;
 }
 
-.nav ul{
-    padding: 0;
-    margin: 0;
-}
-.nav li{
-    padding: 1em;
-    list-style-type: none;
+.nav a:hover {
+    background-color: rgba(255, 255, 255, 0.63);
 }
 
-.nav li:hover{
-    background-color: #b1f5c1;
-    color: #fff7e6d6;
-
-}
-
-.nav .active{
-    background-color: #4CAF50;
-    color: coral;
+.active {
+    background-color: rgba(255, 255, 255, 0.63);
 }
 
 .meals {
