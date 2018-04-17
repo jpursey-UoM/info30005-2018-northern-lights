@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 @import url('https://fonts.googleapis.com/css?family=Arimo:400,700|Homemade+Apple');
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
 
 html{
     height: 100pc;
@@ -20,12 +20,13 @@ body{
                     "nav ingredients search";
 }
 
-nav{
+nav {
     grid-area: nav;
     background-color: rgba(226, 147, 91, 0.81); /* fix this colour*/
     width: 10em;
     font-family:'GlacialIndifferenceRegular', sans-serif;
     font-weight: 700;
+    display: block;
 }
 
 nav a{
