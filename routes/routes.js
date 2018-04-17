@@ -10,6 +10,7 @@ router.get('/plan', controller.loadPlan);
 router.get('/list', controller.loadList);
 
 router.get('/basket', controller.loadBasket);
+router.get('/profile', controller.loadProfile);
 
 router.get('/contact', controller.loadContact);
 

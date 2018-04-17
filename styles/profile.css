@@ -1,0 +1,30 @@
+body {
+    display:grid;
+    grid-auto-rows: 3fr 1fr 3fr 3fr;
+    grid-template-areas:
+                        "profile_picture"
+                        "contact_details"
+                        "about_me"
+                        "share_with_me";
+}
+
+
+.profile_picture{
+    grid-area: profile_picture;
+    font-family: "Roboto"
+
+}
+
+.contact_details{
+    grid-area: contact_details;
+}
+
+.about_me{
+    grid-area: about_me;
+}
+
+.share_with_me{
+    grid-area: share_with_me;
+}
+
+

@@ -2,6 +2,7 @@ const member = require("../models/contact");
 const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
 var basket = require("../models/basket");
+const users = require("../models/users");
 
 
 module.exports.loadSignup = function(req, res){
@@ -42,6 +43,11 @@ module.exports.loadIngredients = function(req,res){
     res.render('ingredients',{ingredients: ingredients});
 };
 
+module.exports.loadProfile = function(req, res){
+    res.render('profile', {users: users});
+
+}
+
 module.exports.addMeal = function(req, res){
     const i = req.params.id;
     addItem(meals[i]);
@@ -53,7 +59,6 @@ module.exports.addIngredient = function(req, res){
     addItem(ingredients[i]);
     module.exports.loadHome(req, res);
 };
-
 
 
 function addItem(item){
