@@ -4,35 +4,39 @@
     <meta charset="UTF-8">
     <title>Meals</title>
     <link rel="stylesheet" href="/styles/meals.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="public/scripts/searchMeal.js"></script>
 </head>
 <body>
 <header>
+
 </header>
 
 
 <div class="wrapper">
     <div class="nav">
-        <a href="/">Home</a>
-        <a href="/plan">Plan</a>
-        <a href="/ingredients">Ingredients</a>
-        <a href="/meals" class="active">Meals</a>
-        <a href="#">Basket</a>
-        <a href="#">Profile</a>
+
+        <%- include('./navbar.ejs', {active: "Home"}); %>
+
     </div>
     <div class="filter">
-        <form>
-            <input type="text" class="search" placeholder="Search meal">
+        <form action="" method="GET" id="form1">
+            <input type="text" class="search" name="search" placeholder="Search meal">
             <button type="submit">Search</button>
         </form>
         <br>
-        <input type="checkbox" name="All" value="All" checked>All<br>
-        <input type="checkbox" name="American" value="American">American<br>
-        <input type="checkbox" name="Chinese" value="Chinese">Chinese<br>
-        <input type="checkbox" name="French" value="French">French<br>
-        <input type="checkbox" name="German" value="German">German<br>
-        <input type="checkbox" name="Korean" value="Korean">Korean<br>
-        <input type="checkbox" name="Japanese" value="Japanese">Japanese<br>
-        <input type="checkbox" name="Thai" value="Thai">Thai<br>
+
+        <form action="/filtermeal" name="filter" method="GET" id="form2">
+        <input type="checkbox" name="category" value="All" checked>All<br>
+        <input type="checkbox" class="category" name="category" value="American">American<br>
+        <input type="checkbox" name="category" value="Chinese">Chinese<br>
+        <input type="checkbox" name="category" value="French">French<br>
+        <input type="checkbox" name="category" value="German">German<br>
+        <input type="checkbox" name="category" value="Korean">Korean<br>
+        <input type="checkbox" name="category" value="Japanese">Japanese<br>
+        <input type="checkbox" name="category" value="Thai">Thai<br>
+        </form>
+
     </div>
     <div class="meals">
         <% for(var i=0; i<meals.length; i++){%>

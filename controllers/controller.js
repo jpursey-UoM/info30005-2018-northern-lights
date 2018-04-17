@@ -39,6 +39,34 @@ module.exports.loadMeals = function(req,res){
     res.render('meals',{meals: meals});
 };
 
+module.exports.SearchMeal = function(req,res){
+    const foundmeals = [];
+    var name
+    for(var i=0; i<meals.length; i++){
+        name = meals[i].name;
+        if(name.search(req.query.search) != -1){
+            foundmeals.push(meals[i]);
+        }
+    }
+    res.json(foundmeals);
+};
+
+module.exports.FilterMeal = function(req,res){
+    console.log(req.query);
+    console.log('esrsfdsdds');
+    const foundmeals = [];
+    var type
+    for(var propName in req.query) {
+        for (var i = 0; i < meals.length; i++) {
+            type = meals[i].type;
+            if (type == propName) {
+                foundmeals.push(meals[i]);
+            }
+        }
+    }
+    res.render('meals',{meals: foundmeals});
+};
+
 module.exports.loadIngredients = function(req,res){
     res.render('ingredients',{ingredients: ingredients});
 };
@@ -47,6 +75,32 @@ module.exports.loadProfile = function(req, res){
     res.render('profile', {users: users});
 
 }
+module.exports.SearchIngredient = function(req,res){
+    const foundingredients = [];
+    var name
+    for(var i=0; i<ingredients.length; i++){
+        name = ingredients[i].name;
+        if(name.search(req.query.search) != -1){
+            foundingredients.push(ingredients[i]);
+        }
+    }
+    res.json(foundingredients);
+};
+
+
+module.exports.FilterIngredient = function(req,res){
+    const foundingredients = [];
+    var type
+    for(var propName in req.query) {
+        for (var i = 0; i < ingredients.length; i++) {
+            type = ingredients[i].type;
+            if (type == propName) {
+                foundingredients.push(ingredients[i]);
+            }
+        }
+    }
+    res.render('ingredients',{ingredients: foundingredients});
+};
 
 module.exports.addMeal = function(req, res){
     const i = req.params.id;

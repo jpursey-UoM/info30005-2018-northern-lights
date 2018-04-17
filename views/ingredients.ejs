@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Meals</title>
     <link rel="stylesheet" href="/styles/ingredients.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="public/scripts/searchIngredient.js"></script>
 </head>
 <body>
 <header>
@@ -20,16 +22,18 @@
         <a href="#">Profile</a>
     </div>
     <div class="filter">
-        <form>
-            <input type="text" class="search" placeholder="Search ingredients">
+        <form action="" method="GET">
+            <input type="text" class="search" name="search" placeholder="Search ingredients">
             <button type="submit">Search</button>
         </form>
         <br>
+        <form action="/filteringredient" name="filter" method="GET">
         <input type="checkbox" name="All" value="All" checked>All<br>
-        <input type="checkbox" name="Vegetable" value="Vegetable">Vegetable<br>
-        <input type="checkbox" name="Meat" value="Meat">Meat<br>
-        <input type="checkbox" name="Seafood" value="Seafood">Seafood<br>
-        <input type="checkbox" name="Cereal" value="Cereal">Cereal<br>
+        <input type="checkbox" name="Vegetable" value="Vegetable" onchange="document.filter.submit();">Vegetable<br>
+        <input type="checkbox" name="Meat" value="Meat" onchange="document.filter.submit();">Meat<br>
+        <input type="checkbox" name="Seafood" value="Seafood" onchange="document.filter.submit();">Seafood<br>
+        <input type="checkbox" name="Cereal" value="Cereal" onchange="document.filter.submit();">Cereal<br>
+        </form>
     </div>
     <div class="ingredients">
         <% for(var i=0; i<ingredients.length; i++){%>

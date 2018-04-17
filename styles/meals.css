@@ -3,7 +3,7 @@ body{
 }
 .wrapper {
     display: grid;
-    grid-template-columns:auto;
+    grid-template-columns:250px;
     grid-template-rows:auto;
     grid-column-gap: 10px;
     grid-row-gap: 10px;
@@ -24,23 +24,37 @@ body{
     align-self: center;
     width: 100vw;
 }
+
 .nav a {
+    list-style-type: none;
+    padding: 5px;
     float: left;
     display: block;
     text-decoration: none;
     text-align: center;
-    padding: 10px 12px;
     transition: all 0.3s ease;
     color: white;
     font-size: 20px;
 }
 
-.nav a:hover {
-    background-color: #b1f5c1;
+.nav ul{
+    padding: 0;
+    margin: 0;
+}
+.nav li{
+    padding: 1em;
+    list-style-type: none;
 }
 
-.active {
+.nav li:hover{
+    background-color: #b1f5c1;
+    color: #fff7e6d6;
+
+}
+
+.nav .active{
     background-color: #4CAF50;
+    color: coral;
 }
 
 .meals {
