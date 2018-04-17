@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Arimo:400,700|Homemade+Apple');
 
 
-html body{
+html, body{
     height: 100%;
     font-weight: lighter;
 }
