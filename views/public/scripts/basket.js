@@ -9,11 +9,11 @@ $(document).ready(function(){
 
         var new_width = width - 1/7*100;
 
-        if (new_width < -10) {
-            return;
-        } else {
-            $(life_bar).css("width", new_width + "%");
+        if (new_width < 0) {
+            new_width = 0
         }
+        $(life_bar).css("width", new_width + "%");
+
     });
 
     // extend the length of the life bar
@@ -26,11 +26,11 @@ $(document).ready(function(){
 
         var new_width = width + 1/7*100;
 
-        if (new_width >= 100) {
-            return;
-        } else {
-            $(life_bar).css("width", new_width + "%");
+        if (new_width >= 98) {
+            new_width = 98;
         }
+        $(life_bar).css("width", new_width + "%");
+
     });
 
     // remove ingredients
