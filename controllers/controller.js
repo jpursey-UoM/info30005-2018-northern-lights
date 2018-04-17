@@ -13,6 +13,10 @@ module.exports.loadPlan = function(req, res){
     res.render('plan', {basket: basket});
 };
 
+module.exports.loadBasket = function(req, res) {
+    res.render('basket', {ingredients: ingredients});
+};
+
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
 };
@@ -30,12 +34,7 @@ module.exports.addIngredient = function(req, res){
 };
 
 
-////////////// Wendy's ////////////////////////////////////////////
-module.exports.loadIngredients = function(req, res) {
-    // res.send("hi");
-    res.render('basket', {ingredients: ingredients});
-};
-//////////////////////////////////////////////////////////////////
+
 function addItem(item){
     basket.push(item);
 };

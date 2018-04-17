@@ -4,6 +4,7 @@ app.set('view engine', 'ejs');
 app.use("/styles", express.static(__dirname + '/styles'));
 app.use("/public", express.static(__dirname + '/views/public'));
 
+
 const router = require("./routes/routes");
 
 const PORT = process.env.PORT || 3000;

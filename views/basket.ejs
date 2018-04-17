@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Basket</title>
-    <link rel="stylesheet" href="../styles/style_basket.css" type="text/css">
+    <!--<link rel="stylesheet" href="/styles/style.css" type="text/css">-->
+    <link rel="stylesheet" href="../styles/basket.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Permanent+Marker" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <!-- Load icon library for search bar -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="scripts/basket.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script src="public/scripts/basket.js"></script>
+    <script>
+        var ingredients = <%- JSON.stringify(ingredients) %>
+    </script>
 </head>
 <body>
     <nav>
@@ -41,47 +49,93 @@
 
     <table id="ingredients">
         <tr>
-            <td class="ingredient_name">Broccoli</td>
+            <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>    Broccoli</td>
             <td class="life_bar_track">
-                <br><input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;"><br>
+                <br><input type="range" class="w3-green w3-round-large life_bar" style="width:14%;"><br>
             </td>
             <td class="len_handler">
-                <button class="button_left">&laquo;</button>
-                <button class="button_right">&raquo;</button>
+                <button class="fa fa-arrow-left button_left"></button>
+
+                <button class="fa fa-arrow-right button_right"></button>
 
             </td>
         </tr>
         <tr>
-            <td class="ingredient_name">Carrot</td>
+            <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>  Carrot</td>
             <td class="life_bar_track">
-                <br><input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;"><br>
+                <br><input type="range" class="w3-green w3-round-large life_bar" style="width:14%;"><br>
 
             </td>
             <td class="len_handler">
-                <button class="button_left">&laquo;</button>
-                <button class="button_right">&raquo;</button>
+                <button class="fa fa-arrow-left button_left"></button>
+                <button class="fa fa-arrow-right button_right"></button>
 
             </td>
         </tr>
         <tr>
-            <td class="ingredient_name">Salad leaves</td>
+            <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>  Salad leaves</td>
             <td class="life_bar_track">
                 <br><input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;"><br>
             </td>
             <td class="len_handler">
-                <button class="button_left">&laquo;</button>
-                <button class="button_right">&raquo;</button>
-
+                <button class="fa fa-arrow-left button_left"></button>
+                <button class="fa fa-arrow-right button_right"></button>
             </td>
         </tr>
+
+
     </table>
 
-    <div class="search">
-        <form class="example" action="">
-            <input type="text" placeholder="Search.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+    <div class="search" ng-app="search_ingredients">
+
+        <div class="search_bar">
+            <form class="example" action="">
+                <input type="text" class = "search" placeholder="Search.." name="search" ng-model="searchBox">
+                <button class="search_button" type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        <div class="search_result" >
+            <ul>
+                <li ng-repeat="ingredient in ingredients | filter: searchBox" ng-if="$index < 10">
+                    <input type='button' value="+" id="button_{{ingredient.id}}" class="plus_button" />
+                    {{ingredient.name}}
+                    <img src="{{ingredient.img}}" alt="{{ingredient.name}}">
+
+                </li>
+            </ul>
+        </div>
     </div>
+
+    <script>
+        angular.module("search_ingredients", [])
+            .run(function($rootScope){
+            $rootScope.ingredients = ingredients;
+        });
+
+        // if the add button is clicked, add the ingredients to the ingredients table, and initialise the button size to be 5/7
+        $("ul").on("click", "li .plus_button", function(event){
+
+            // get the button index
+            var button_id = $(this).attr("id");
+            var button_index = parseInt(button_id.slice(7));
+
+            // contruct html to be added
+            var name = ingredients[button_index].name;
+            var html =
+                "<tr><td class=\"ingredient_name\"><input type='button' class=\"delete_button\" value='-'  />   " + name +
+                "</td><td class=\"life_bar_track\">" +
+                "<br><input type=\"range\" class=\" w3-green w3-round-large life_bar\" style=\"width:14%;\"><br></td>" +
+                "<td class=\"len_handler\"><button class=\"fa fa-arrow-left button_left\"></button> <button class=\"fa fa-arrow-right button_right\"></button>" +
+                "</td></tr>";
+
+            $("#ingredients tr:last").after(html);
+
+
+        });
+
+
+    </script>
 
 
 
