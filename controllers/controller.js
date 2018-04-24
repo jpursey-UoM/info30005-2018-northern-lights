@@ -28,7 +28,8 @@ module.exports.loadPlan = function(req, res){
 };
 
 module.exports.loadBasket = function(req, res) {
-    res.render('basket', {ingredients: ingredients});
+    res.render('basket', {ingredients: ingredients,
+                          basket: basket});
 };
 
 module.exports.loadContact = function(req, res){

@@ -17,9 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
     <script src="public/scripts/basket.js"></script>
-    <script>
-        var ingredients = <%- JSON.stringify(ingredients) %>
-    </script>
+
 </head>
 <body>
     <header>
@@ -30,12 +28,9 @@
     </nav>
 
 
-
     <div id="calendar_area">
-
         <div class="week">Week
         </div>
-
         <table id="calendar">
             <tr>
                 <td>Sun<br>14/4 </td>
@@ -46,58 +41,31 @@
                 <td>Fri<br>19/4</td>
                 <td>Sat<br>20/4</td>
             </tr>
-
         </table>
-
     </div>
-
 
 
     <table id="ingredients">
         <tr></tr>
-        <tr>
-            <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>    Broccoli</td>
-            <td class="life_bar_track">
-                <input type="range" class="w3-green w3-round-large life_bar" style="width:14%;">
-            </td>
-            <td class="len_handler">
-                <input type="button" class="button_left" value="<">
-                <input type="button" class="button_right" value=">">
-
-
-            </td>
-        </tr>
-        <tr>
-            <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>  Carrot</td>
-            <td class="life_bar_track">
-                <input type="range" class="w3-green w3-round-large life_bar" style="width:14%;">
-            </td>
-            <td class="len_handler">
-                <input type="button" class="button_left" value="<">
-                <input type="button" class="button_right" value=">">
-
-            </td>
-        </tr>
-        <tr>
-            <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>  Salad leaves</td>
-            <td class="life_bar_track">
-                <input type="range" class=" w3-green w3-round-large life_bar" style="width:14%;">
-            </td>
-            <td class="len_handler">
-                <input type="button" class="button_left" value="<">
-                <input type="button" class="button_right" value=">">
-            </td>
-        </tr>
-
-
+        <% for (var i=0; i<basket.length; i++) { %>
+            <tr>
+                <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>    <%= basket[i].name %></td>
+                <td class="life_bar_track">
+                    <input type="range" class="w3-green w3-round-large life_bar" style="width:14%;">
+                </td>
+                <td class="len_handler">
+                    <input type="button" class="button_left" value="<">
+                    <input type="button" class="button_right" value=">">
+                </td>
+            </tr>
+        <% } %>
     </table>
 
-    <div class="search" ng-app="search_ingredients">
 
+    <div class="search" ng-app="search_ingredients">
         <div class="search_bar">
                 <label>Add ingredients to your basket:</label>
                 <input type="text" class = "search" placeholder="Type in the ingredient.." name="search" ng-model="searchBox">
-
         </div>
 
         <div class="search_result">
@@ -112,6 +80,8 @@
     </div>
 
     <script>
+        var ingredients = <%- JSON.stringify(ingredients) %>;
+
         angular.module("search_ingredients", [])
             .run(function($rootScope){
             $rootScope.ingredients = ingredients;
@@ -136,10 +106,7 @@
             $("#ingredients tr:last").after(html);
         });
 
-
     </script>
-
-
 
 </body>
 
