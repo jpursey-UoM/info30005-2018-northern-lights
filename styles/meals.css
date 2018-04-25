@@ -3,7 +3,7 @@ body{
 }
 .wrapper {
     display: grid;
-    grid-template-columns:auto;
+    grid-template-columns:250px;
     grid-template-rows:auto;
     grid-column-gap: 10px;
     grid-row-gap: 10px;
@@ -20,8 +20,9 @@ body{
 }
 .nav {
     grid-area: nav;
-    background-color: #41c29b;
+    background-color: rgba(226, 147, 91, 0.81);
     align-self: center;
+    font-family:'GlacialIndifferenceRegular', sans-serif;
     width: 100vw;
 }
 .nav a {
@@ -36,11 +37,11 @@ body{
 }
 
 .nav a:hover {
-    background-color: #b1f5c1;
+    background-color: rgba(255, 255, 255, 0.63);
 }
 
 .active {
-    background-color: #4CAF50;
+    background-color: rgba(255, 255, 255, 0.63);
 }
 
 .meals {
