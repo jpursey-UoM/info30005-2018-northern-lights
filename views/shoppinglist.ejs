@@ -7,19 +7,23 @@
     <link rel="stylesheet" href="/styles/shoppinglist.css" type="text/css">
 </head>
 <body>
-<h2>
-    Shopping List
-</h2>
-<a href="home">Back</a>
-<ul>
-    <% for (var element of basket){%>
+<section>
+    <h2>
+        Shopping List
+    </h2>
+    <ul>
+        <% for (var element of basket){%>
         <li>
-            <input type="checkbox" class="shopping-list-check"\>
-            <%=element.name%>
+            <label class="container">
+                <input type="checkbox"\>
+                <span class = "checkmark"></span>
+                <p><%=element.name%></p>
+            </label>
         </li>
-    <%}%>
-</ul>
-<a href="plan">Finished</a>
-
+        <%}%>
+    </ul>
+    <a href="home">< Back</a>
+    <a href="plan">Finished</a>
+</section>
 </body>
 </html>
