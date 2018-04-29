@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Meals</title>
-    <link rel="stylesheet" href="/styles/meals.css" type="text/css">
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/items.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="public/scripts/searchMeal.js"></script>
     <script type="text/javascript" src="public/scripts/filterMeal.js"></script>
 
 </head>
 <body>
-<header>
-
-</header>
-
 
 <div class="wrapper">
     <div class="nav">
@@ -43,9 +40,9 @@
         </form>
 
     </div>
-    <div class="meals">
+    <div class="items">
         <% for(var i=0; i<meals.length; i++){%>
-        <div class="meal">
+        <div class="item">
             <a href="/addMeal/<%=meals[i].id%>">
             <p>
             <img src="<%= meals[i].image%>" width="250" alt="<%= meals[i].name%>"><br>
