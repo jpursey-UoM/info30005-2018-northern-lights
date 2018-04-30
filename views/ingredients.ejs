@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/styles/items.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="public/scripts/searchIngredient.js"></script>
+    <script type="text/javascript" src="public/scripts/filterIngredient.js"></script>
+    <script type="text/javascript" src="public/scripts/items.js"></script>
+
 </head>
 <body>
 
@@ -25,23 +28,23 @@
             <button type="submit">Search</button>
         </form>
         <br>
-        <form action="/filteringredient" name="filter" method="GET">
-        <input type="checkbox" name="All" value="All" checked>All<br>
-        <input type="checkbox" name="Vegetable" value="Vegetable" onchange="document.filter.submit();">Vegetable<br>
-        <input type="checkbox" name="Meat" value="Meat" onchange="document.filter.submit();">Meat<br>
-        <input type="checkbox" name="Seafood" value="Seafood" onchange="document.filter.submit();">Seafood<br>
-        <input type="checkbox" name="Cereal" value="Cereal" onchange="document.filter.submit();">Cereal<br>
-        </form>
+        <div class="checkbox">
+            <input type="checkbox" name="All" value="All" checked>All<br>
+            <input type="checkbox" class="category" name="Vegetable" value="Vegetable"">Vegetable<br>
+            <input type="checkbox" class="category" name="Meat" value="Meat"">Meat<br>
+            <input type="checkbox" class="category" name="Seafood" value="Seafood">Seafood<br>
+            <input type="checkbox" class="category" name="Cereal" value="Cereal">Cereal<br>
+        </div>
     </div>
     <div class="items">
         <% for(var i=0; i<ingredients.length; i++){%>
         <div class="item">
-            <a href="/addIngredient/<%=ingredients[i].id%>">
                 <p>
                     <img src="<%= ingredients[i].image%>" width="250" alt="<%= ingredients[i].name%>"><br>
                     <%= ingredients[i].name%>
                 </p>
-            </a>
+                <button type="button" id="<%=ingredients[i].id%>" onclick="addIngredientfromlist(<%=ingredients[i].id%>)">Add to basket</button>
+
         </div>
         <%}%>
     </div>

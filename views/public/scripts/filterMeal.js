@@ -1,27 +1,29 @@
-$(function() {
-    $('input[type="checkbox"]').on('change', function () {
-        var vals = []
-        $('input[name="category"]').each(function() {
-            if (this.checked) {
-                vals.push(this.value);
-            }
+$(function(){
+        $(".category").click(function() {
+            var category = [];
+            $('.checkbox :checked').each(function () {
+                category.push($(this).val());
+            });
             $.ajax({
                 type: "GET",
                 url: "/filtermeal",
-                data: vals,
-                success: function (result) {
+                data: {category:category},
+                success: function(result){
                     console.log(result);
-                    var html = "";
-                    for (var i = 0; i < result.length; i++) {
-                        html += "<div class=\"meal\"><a href=\"/addMeal/" + result[i].id + "\">" +
-                            "<p><img width='250' src='" + result[i].image + "'><br>" + result[i].name +
-                            "</p></a></div>";
+                    var html="";
+                    for (var i = 0; i< result.length; i++) {
+                        html += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
+                            "<br>" + result[i].name +
+                            "</p><button type=\"button\" id=\"" + result[i].id +
+                            "\" onclick=\"addMealfromlist("+result[i].id+")\">Add to basket</button>"+
+                            "</a></div>";
                     }
-                    $('.meals').html(html);
-
+                    $('.items').html(html);
                 }
+
             });
-        });
-        });
     });
+});
+
+
 

@@ -37,15 +37,17 @@ module.exports.loadContact = function(req, res){
 };
 
 module.exports.loadMeals = function(req,res){
-    res.render('meals',{meals: meals});
+    res.render('meals',{meals: meals,
+                        ingredients: ingredients,
+                        basket: basket});
 };
 
 module.exports.SearchMeal = function(req,res){
     const foundmeals = [];
     var name
     for(var i=0; i<meals.length; i++){
-        name = meals[i].name;
-        if(name.search(req.query.search) != -1){
+        name = meals[i].name.toUpperCase();
+        if(name.search(req.query.search.toUpperCase()) != -1){
             foundmeals.push(meals[i]);
         }
     }
@@ -54,20 +56,23 @@ module.exports.SearchMeal = function(req,res){
 
 module.exports.FilterMeal = function(req,res){
     const foundmeals = [];
-    var type
-    for(var propName in req.query) {
-        for (var i = 0; i < meals.length; i++) {
-            type = meals[i].type;
-            if (type == propName) {
-                foundmeals.push(meals[i]);
+    var type;
+    for(var i=0; i<req.query.category.length; i++) {
+        console.log(req.query.category.length)
+        for (var j = 0; j< meals.length; j++) {
+            type = meals[j].type;
+            if (type == req.query.category[i]) {
+                foundmeals.push(meals[j]);
             }
         }
     }
-    res.render('meals',{meals: foundmeals});
+    res.json(foundmeals);
 };
 
 module.exports.loadIngredients = function(req,res){
-    res.render('ingredients',{ingredients: ingredients});
+    res.render('ingredients',{meals: meals,
+                              ingredients: ingredients,
+                              basket: basket});
 };
 
 module.exports.loadProfile = function(req, res){
@@ -78,8 +83,8 @@ module.exports.SearchIngredient = function(req,res){
     const foundingredients = [];
     var name
     for(var i=0; i<ingredients.length; i++){
-        name = ingredients[i].name;
-        if(name.search(req.query.search) != -1){
+        name = ingredients[i].name.toUpperCase();
+        if(name.search(req.query.search.toUpperCase()) != -1){
             foundingredients.push(ingredients[i]);
         }
     }
@@ -89,16 +94,16 @@ module.exports.SearchIngredient = function(req,res){
 
 module.exports.FilterIngredient = function(req,res){
     const foundingredients = [];
-    var type
-    for(var propName in req.query) {
-        for (var i = 0; i < ingredients.length; i++) {
-            type = ingredients[i].type;
-            if (type == propName) {
-                foundingredients.push(ingredients[i]);
+    var type;
+    for(var i=0; i<req.query.category.length; i++) {
+        for (var j = 0; j< ingredients.length; j++) {
+            type = ingredients[j].type;
+            if (type == req.query.category[i]) {
+                foundingredients.push(ingredients[j]);
             }
         }
     }
-    res.render('ingredients',{ingredients: foundingredients});
+    res.json(foundingredients);
 };
 
 module.exports.addMeal = function(req, res){
@@ -112,7 +117,10 @@ module.exports.addIngredient = function(req, res){
     addItem(ingredients[i]);
     module.exports.loadHome(req, res);
 };
-
+module.exports.addIngredientfromlist = function(req, res){
+    const i = req.params.id;
+    addItem(ingredients[i]);
+};
 
 function addItem(item){
     basket.push(item);

@@ -8,13 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="public/scripts/searchMeal.js"></script>
     <script type="text/javascript" src="public/scripts/filterMeal.js"></script>
+    <script type="text/javascript" src="public/scripts/items.js"></script>
 
 </head>
+
 <body>
 
 <div class="wrapper">
     <div class="nav">
-        <a href="/">Home</a>
+        <a href="/home">Home</a>
         <a href="/plan">Plan</a>
         <a href="/ingredients">Ingredients</a>
         <a href="/meals" class="active">Meals</a>
@@ -22,33 +24,34 @@
         <a href="/profile">Profile</a>
     </div>
     <div class="filter">
-        <form action="" method="GET" id="form1">
+        <form action="" method="GET">
             <input type="text" class="search" name="search" placeholder="Search meal">
             <button type="submit">Search</button>
         </form>
         <br>
 
-        <form action="" name="filter" method="GET" id="form2">
-        <input type="checkbox" name="category" value="All" checked>All<br>
-        <input type="checkbox" class="category" name="category" value="American" onchange="document.filter.submit();">American<br>
-        <input type="checkbox" name="category" value="Chinese" onchange="document.filter.submit();">Chinese<br>
-        <input type="checkbox" name="category" value="French" onchange="document.filter.submit();">French<br>
-        <input type="checkbox" name="category" value="German" onchange="document.filter.submit();">German<br>
-        <input type="checkbox" name="category" value="Korean" onchange="document.filter.submit();">Korean<br>
-        <input type="checkbox" name="category" value="Japanese" onchange="document.filter.submit();">Japanese<br>
-        <input type="checkbox" name="category" value="Thai" onchange="document.filter.submit();">Thai<br>
-        </form>
+        <div class="checkbox">
+            <input type="checkbox" name="category" value="All" checked>All<br>
+            <input type="checkbox" class="category" name="category" value="American">American<br>
+            <input type="checkbox" class="category" name="category" value="Chinese">Chinese<br>
+            <input type="checkbox" class="category" name="category" value="French">French<br>
+            <input type="checkbox" class="category" name="category" value="German">German<br>
+            <input type="checkbox" class="category" name="category" value="Korean">Korean<br>
+            <input type="checkbox" class="category" name="category" value="Japanese">Japanese<br>
+            <input type="checkbox" class="category" name="category" value="Thai">Thai<br>
+        </div>
 
     </div>
     <div class="items">
+        <p id="demo">aaa</p>
         <% for(var i=0; i<meals.length; i++){%>
         <div class="item">
-            <a href="/addMeal/<%=meals[i].id%>">
             <p>
             <img src="<%= meals[i].image%>" width="250" alt="<%= meals[i].name%>"><br>
-            <%= meals[i].name%>
+                 <%= meals[i].name%>
             </p>
-            </a>
+            <button type="button" id="<%=meals[i].id%>" onclick="addMealfromlist(<%= JSON.stringify(basket)%>,
+            <%= JSON.stringify(meals[i])%>,this.id)">Add to basket</button>
         </div>
         <%}%>
     </div>
