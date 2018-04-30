@@ -1,15 +1,16 @@
-function addToBasket(basket,item){
-    basket.push(item);
+function addToBasket(item){
+    $.post("/addItemFromList",
+        {
+            item: item
+        },
+        function(){
+        });
 }
 
-function addMealfromlist(basket,item,id){
-    document.getElementById(id).innerHTML="Added";
-    document.getElementById(id).disabled = true;
-    addToBasket(basket,item);
+function addItemfromlist(item){
+    document.getElementById(item.id).innerHTML="Added";
+    document.getElementById(item.id).disabled = true;
+    addToBasket(item);
 }
 
-function addIngredientfromlist(basket,item,id){
-    document.getElementById(id).innerHTML="Added";
-    document.getElementById(id).disabled = true;
-    addToBasket(basket,item);
-}
+

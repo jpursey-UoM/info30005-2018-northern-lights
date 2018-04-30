@@ -1,6 +1,7 @@
 $(function(){
         $(".category").click(function() {
             var category = [];
+            $('.all').prop('checked', false);
             $('.checkbox :checked').each(function () {
                 category.push($(this).val());
             });

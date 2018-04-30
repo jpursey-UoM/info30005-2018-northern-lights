@@ -33,6 +33,6 @@ router.get('/addIngredient/:id', controller.addIngredient);
 
 router.get('/clearlist', controller.clearlist);
 
-
+router.post('/addItemFromList', controller.addItemFromList);
 
 module.exports = router;

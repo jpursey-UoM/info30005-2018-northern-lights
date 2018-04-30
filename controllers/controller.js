@@ -4,7 +4,6 @@ const meals = require("../models/meals");
 var basket = require("../models/basket");
 const users = require("../models/users");
 
-
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
@@ -37,9 +36,7 @@ module.exports.loadContact = function(req, res){
 };
 
 module.exports.loadMeals = function(req,res){
-    res.render('meals',{meals: meals,
-                        ingredients: ingredients,
-                        basket: basket});
+    res.render('meals',{meals: meals});
 };
 
 module.exports.SearchMeal = function(req,res){
@@ -70,9 +67,7 @@ module.exports.FilterMeal = function(req,res){
 };
 
 module.exports.loadIngredients = function(req,res){
-    res.render('ingredients',{meals: meals,
-                              ingredients: ingredients,
-                              basket: basket});
+    res.render('ingredients',{ingredients: ingredients});
 };
 
 module.exports.loadProfile = function(req, res){
@@ -117,17 +112,19 @@ module.exports.addIngredient = function(req, res){
     addItem(ingredients[i]);
     module.exports.loadHome(req, res);
 };
-module.exports.addIngredientfromlist = function(req, res){
-    const i = req.params.id;
-    addItem(ingredients[i]);
-};
+
 
 function addItem(item){
     basket.push(item);
+};
+
+module.exports.addItemFromList = function(req,res){
+    basket.push(req.body.item)
 };
 
 module.exports.clearlist = function(req, res){
     basket = [];
     module.exports.loadHome(req, res);
 };
+
 

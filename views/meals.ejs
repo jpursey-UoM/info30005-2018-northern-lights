@@ -31,7 +31,7 @@
         <br>
 
         <div class="checkbox">
-            <input type="checkbox" name="category" value="All" checked>All<br>
+            <input type="checkbox" class="all" name="category" value="All" checked>All<br>
             <input type="checkbox" class="category" name="category" value="American">American<br>
             <input type="checkbox" class="category" name="category" value="Chinese">Chinese<br>
             <input type="checkbox" class="category" name="category" value="French">French<br>
@@ -43,15 +43,15 @@
 
     </div>
     <div class="items">
-        <p id="demo">aaa</p>
         <% for(var i=0; i<meals.length; i++){%>
         <div class="item">
             <p>
             <img src="<%= meals[i].image%>" width="250" alt="<%= meals[i].name%>"><br>
                  <%= meals[i].name%>
             </p>
-            <button type="button" id="<%=meals[i].id%>" onclick="addMealfromlist(<%= JSON.stringify(basket)%>,
-            <%= JSON.stringify(meals[i])%>,this.id)">Add to basket</button>
+            <button type="button" id="<%=meals[i].id%>" onclick="addItemfromlist(<%= JSON.stringify(meals[i])%>)">
+                Add to basket
+            </button>
         </div>
         <%}%>
     </div>

@@ -15,7 +15,7 @@
 
 <div class="wrapper">
     <div class="nav">
-        <a href="/">Home</a>
+        <a href="/home">Home</a>
         <a href="/plan">Plan</a>
         <a href="/ingredients" class="active">Ingredients</a>
         <a href="/meals">Meals</a>
@@ -29,7 +29,7 @@
         </form>
         <br>
         <div class="checkbox">
-            <input type="checkbox" name="All" value="All" checked>All<br>
+            <input type="checkbox" class="all" name="All" value="All" checked>All<br>
             <input type="checkbox" class="category" name="Vegetable" value="Vegetable"">Vegetable<br>
             <input type="checkbox" class="category" name="Meat" value="Meat"">Meat<br>
             <input type="checkbox" class="category" name="Seafood" value="Seafood">Seafood<br>
@@ -43,7 +43,9 @@
                     <img src="<%= ingredients[i].image%>" width="250" alt="<%= ingredients[i].name%>"><br>
                     <%= ingredients[i].name%>
                 </p>
-                <button type="button" id="<%=ingredients[i].id%>" onclick="addIngredientfromlist(<%=ingredients[i].id%>)">Add to basket</button>
+                <button type="button" id="<%=ingredients[i].id%>" onclick="addItemfromlist(<%= JSON.stringify(ingredients[i])%>)">
+                    Add to basket
+                </button>
 
         </div>
         <%}%>
