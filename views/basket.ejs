@@ -47,18 +47,7 @@
 
     <table id="ingredients">
         <tr></tr>
-        <% for (var i=0; i<basket.length; i++) { %>
-            <tr>
-                <td class="ingredient_name"><input type='button' class="delete_button" value='-'/>    <%= basket[i].name %></td>
-                <td class="life_bar_track">
-                    <input type="range" class="w3-green w3-round-large life_bar" style="width:14%;">
-                </td>
-                <td class="len_handler">
-                    <input type="button" class="button_left" value="<">
-                    <input type="button" class="button_right" value=">">
-                </td>
-            </tr>
-        <% } %>
+
     </table>
 
 
@@ -88,23 +77,37 @@
         });
 
         // if the add button is clicked, add the ingredients to the ingredients table, and initialise the button size to be 5/7
-        $(".search_result").on("click", ".plus_button", function(event){
+        $(".search_result").on("click", ".plus_button", function(event) {
 
             // get the button index
             var button_id = $(this).attr("id");
             var button_index = parseInt(button_id.slice(7));
+            var ingredient = ingredients[button_index];
 
-            // contruct html to be added
-            var name = ingredients[button_index].name;
-            var html =
-                "<tr><td class=\"ingredient_name\"><input type='button' class=\"delete_button\" value='-'  />" + " "+name +
-                "</td><td class=\"life_bar_track\">" +
-                "<input type=\"range\" class=\" w3-green w3-round-large life_bar\" style=\"width:1/7 * 100%\"></td>" +
-                "<td class=\"len_handler\"><input type=\"button\" class=\"button_left\" value=\"<\">\n" +
-                "<input type=\"button\" class=\"button_right\" value=\">\"></td></tr>";
+            $.ajax({
+                type: 'POST',
+                url: '/addToBasket',
+                data: {ingredient: ingredient},
+                success: function (addedItem) {
+                    var name = addedItem.name;
+                    var id = addedItem.id;
+                    var html =
+                        "<tr data-id=" + id + "><td class=\"ingredient_name\"><input type='button' class=\"delete_button\" value='-'  />" + " " + name +
+                        "</td><td class=\"life_bar_track\">" +
+                        "<input type=\"range\" class=\" w3-green w3-round-large life_bar\" style=\"width:1/7 * 100%\"></td>" +
+                        "<td class=\"len_handler\"><input type=\"button\" class=\"button_left\" value=\"<\">\n" +
+                        "<input type=\"button\" class=\"button_right\" value=\">\"></td></tr>";
 
-            $("#ingredients tr:last").after(html);
+                    $("#ingredients tr:last").after(html);
+                },
+                error: function () {
+                    alert("error adding ingredient to basket.");
+                }
+            });
         });
+
+
+
 
     </script>
 

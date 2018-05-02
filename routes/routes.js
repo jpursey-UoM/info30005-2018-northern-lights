@@ -11,6 +11,10 @@ router.get('/plan', controller.loadPlan);
 router.get('/list', controller.loadList);
 
 router.get('/basket', controller.loadBasket);
+router.get('/getBasket', controller.getBasket);
+router.post('/addToBasket', controller.addToBasket);
+router.delete('/deleteFromBasket/:id', controller.deleteFromBasket);
+
 router.get('/profile', controller.loadProfile);
 
 router.get('/contact', controller.loadContact);
@@ -33,6 +37,9 @@ router.get('/addIngredient/:id', controller.addIngredient);
 
 router.get('/clearlist', controller.clearlist);
 
+router.get('/test', function(req, res){
+    res.redirect('/home');
+});
 
 
 module.exports = router;

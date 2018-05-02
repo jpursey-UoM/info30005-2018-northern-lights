@@ -1,5 +1,47 @@
 $(document).ready(function(){
 
+    // load ingredients
+    var $ingredientTable = $('#ingredients');
+    $.ajax({
+        type: 'GET',
+        url: '/getBasket',
+        success: function(basket) {
+            $.each(basket, function(i, ingredient) {
+                $ingredientTable.append('<tr data-id=' + ingredient.id + '>\n' +
+                    '                <td class="ingredient_name"><input type=\'button\' class="delete_button" value=\'-\'/>' + ingredient.name + '</td>\n' +
+                    '                <td class="life_bar_track">\n' +
+                    '                    <input type="range" class="w3-green w3-round-large life_bar" style="width:14%;">\n' +
+                    '                </td>\n' +
+                    '                <td class="len_handler">\n' +
+                    '                    <input type="button" class="button_left" value="<">\n' +
+                    '                    <input type="button" class="button_right" value=">">\n' +
+                    '                </td>\n' +
+                    '            </tr>');
+            });
+        },
+        error: function(){
+            alert('error loading ingredients');
+        }
+    });
+
+    // remove ingredients from basket table
+    $('#ingredients').on('click', 'tr > .ingredient_name > .delete_button', function () {
+
+        var $tr = $(this).closest("tr");
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/deleteFromBasket/' + $tr.attr('data-id'),
+            success: function(){
+                // console.log("deleted"+deleteId);
+                $tr.remove();
+            },
+            error: function() {
+                alert("error adding ingredient to basket.");
+        }
+        });
+    });
+
     // reduce the length of the life bar
     $("#ingredients").on("click", "tr > .len_handler > .button_left", function(event){
         var life_bar = $(event.target.parentElement.previousElementSibling).find(".life_bar");
@@ -32,10 +74,9 @@ $(document).ready(function(){
 
     });
 
-    // remove ingredients from basket table
-    $('#ingredients').on('click', 'tr > .ingredient_name > .delete_button', function () {
-        $(this).closest("tr").remove();
-    } );
+
+
+
 
 
 });

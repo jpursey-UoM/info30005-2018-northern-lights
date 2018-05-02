@@ -1,9 +1,8 @@
 const member = require("../models/contact");
 const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
-var basket = require("../models/basket");
 const users = require("../models/users");
-
+const Basket = require("../models/basket");
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -14,22 +13,41 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    res.render('home', {meals: meals,
-                        ingredients: ingredients,
-                        basket: basket});
+    Basket.findOne({}, function(err, basket){
+        res.render('home', {meals: meals,
+            ingredients: ingredients,
+            basket: basket.basket});
+    });
 };
 
+// module.exports.loadHome = function(req, res){
+//     res.render('home', {meals: meals,
+//         ingredients: ingredients,
+//         basket: basket});
+// };
+
 module.exports.loadList = function(req, res){
-    res.render('shoppinglist', {basket: basket});
-}
+    Basket.findOne({}, function(err, basket){
+        res.render('shoppinglist', {basket: basket.basket});
+    });
+};
 
 module.exports.loadPlan = function(req, res){
-    res.render('plan', {basket: basket});
+    Basket.findOne({}, function(err, basket){
+        res.render('plan', {basket: basket.basket});
+    });
 };
 
 module.exports.loadBasket = function(req, res) {
-    res.render('basket', {ingredients: ingredients,
-                          basket: basket});
+    Basket.findOne({}, function(err, basket){
+        res.render('basket', {ingredients: ingredients});
+    });
+};
+
+module.exports.getBasket =  function(req, res) {
+    Basket.findOne({}, function(err, basket){
+        res.json(basket.basket);
+    });
 };
 
 module.exports.loadContact = function(req, res){
@@ -110,16 +128,63 @@ module.exports.addMeal = function(req, res){
 module.exports.addIngredient = function(req, res){
     const i = req.params.id;
     addItem(ingredients[i]);
-    module.exports.loadHome(req, res);
+    res.redirect('/home');
+};
+
+module.exports.addToBasket = function(req, res){
+    const toAdd = req.body.ingredient;
+    addItem(toAdd);
+    res.json(toAdd);
+};
+
+module.exports.deleteFromBasket = function(req, res) {
+    const deleteId = req.params.id;
+    Basket.findOne({}, function(err, basket) {
+        // get basket array
+        var basketArray = basket.basket;
+
+        // find the item with deleteId
+        for (var i = 0; i < basketArray.length; i++) {
+            if (basketArray[i].id == deleteId) {
+                basketArray.splice(i, 1);
+                break;
+            }
+        }
+
+        // save
+        basket.save(function (err) {
+            if (err) {
+                console.log("error deleting item from basket.");
+            }
+        });
+        res.json(deleteId);
+    });
+
 };
 
 
 function addItem(item){
-    basket.push(item);
+    Basket.findOne({}, function(err, basket){
+        basket.basket.push(item);
+        basket.save(function(err) {
+          if (err){
+              console.log("error adding item to basket");
+          }
+        });
+    });
 };
+
 
 module.exports.clearlist = function(req, res){
-    basket = [];
-    module.exports.loadHome(req, res);
-};
+    // basket = [];
+    Basket.findOne({}, function(err, basket){
+        basket.basket = [];
+        basket.save(function(err) {
+            if (err){
+                console.log("error clearing list");
 
+            }
+        });
+    });
+    res.redirect('/home');
+};
