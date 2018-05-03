@@ -3,6 +3,7 @@ const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
 var basket = require("../models/basket");
 const users = require("../models/users");
+var mongoose = require('mongoose');
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -126,5 +127,3 @@ module.exports.clearlist = function(req, res){
     basket = [];
     module.exports.loadHome(req, res);
 };
-
-

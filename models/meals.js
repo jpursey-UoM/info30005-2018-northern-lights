@@ -1,5 +1,4 @@
 const ingredients = require("./ingredients");
-
 const numIngredients = ingredients.length;
 const types=["Japanese","Korean","Chinese","French","Thai","American","German"];
 const meals = [];

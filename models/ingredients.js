@@ -1,5 +1,4 @@
 const faker = require('faker');
-
 const ingredients = [];
 
 const words=["tofu", "bacon", "sausage", "beans", "lettuce", "tomato", "kidney beans", "ham", "beef", "pasta", "potato",

@@ -12,27 +12,21 @@ router.get('/list', controller.loadList);
 
 router.get('/basket', controller.loadBasket);
 router.get('/profile', controller.loadProfile);
-
 router.get('/contact', controller.loadContact);
 
 router.get('/meals', controller.loadMeals);
-
 router.get('/meal', controller.SearchMeal);
-
 router.get('/filtermeal',controller.FilterMeal);
 
 router.get('/ingredients', controller.loadIngredients);
-
 router.get('/ingredient', controller.SearchIngredient);
-
 router.get('/filteringredient',controller.FilterIngredient);
 
 router.get('/addMeal/:id', controller.addMeal);
-
 router.get('/addIngredient/:id', controller.addIngredient);
+router.post('/addItemFromList', controller.addItemFromList);
 
 router.get('/clearlist', controller.clearlist);
 
-router.post('/addItemFromList', controller.addItemFromList);
 
 module.exports = router;

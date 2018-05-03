@@ -31,7 +31,7 @@
         <br>
 
         <div class="checkbox">
-            <input type="checkbox" class="all" name="category" value="All" checked>All<br>
+            <input type="checkbox" disabled="true" class="all" name="category" value="All" checked>All<br>
             <input type="checkbox" class="category" name="category" value="American">American<br>
             <input type="checkbox" class="category" name="category" value="Chinese">Chinese<br>
             <input type="checkbox" class="category" name="category" value="French">French<br>
@@ -39,11 +39,12 @@
             <input type="checkbox" class="category" name="category" value="Korean">Korean<br>
             <input type="checkbox" class="category" name="category" value="Japanese">Japanese<br>
             <input type="checkbox" class="category" name="category" value="Thai">Thai<br>
+            <button class="reset">Reset</button>
         </div>
 
     </div>
     <div class="items">
-        <% for(var i=0; i<meals.length; i++){%>
+        <% for(var i=0; i<12; i++){%>
         <div class="item">
             <p>
             <img src="<%= meals[i].image%>" width="250" alt="<%= meals[i].name%>"><br>
@@ -54,6 +55,10 @@
             </button>
         </div>
         <%}%>
+    </div>
+    <div class="pages">
+        <a href='#' id="pre"  class="disable_a_href 0" onclick="getNextPage(<%= JSON.stringify(meals)%>,'previous')"> Previous</a>
+        <a href='#' id="next" class="1" onclick="getNextPage(<%= JSON.stringify(meals)%>,'next')"> Next</a>
     </div>
     <div class="footer"></div>
 </div>
