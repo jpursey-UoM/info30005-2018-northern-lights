@@ -28,5 +28,6 @@ router.post('/addItemFromList', controller.addItemFromList);
 
 router.get('/clearlist', controller.clearlist);
 
+router.get('/checkuser', controller.checkUser);
 
 module.exports = router;

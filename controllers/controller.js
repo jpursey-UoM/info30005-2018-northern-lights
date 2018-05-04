@@ -1,9 +1,13 @@
-const member = require("../models/contact");
+// This controller is getting verrrrry big! Should we split it
+// into 2 maybe? One for loading pages, one for API requests? - Jason
+
 const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
 var basket = require("../models/basket");
-const users = require("../models/users");
 var mongoose = require('mongoose');
+
+
+//var User = mongoose.model('users');
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -126,4 +130,10 @@ module.exports.addItemFromList = function(req,res){
 module.exports.clearlist = function(req, res){
     basket = [];
     module.exports.loadHome(req, res);
+};
+
+module.exports.checkUser = function(req, res){
+    console.log("checkUser not implemented yet!");
+    console.log("checking: " + req.query.email);
+    res.send(false);
 };
