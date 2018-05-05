@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 
 //var User = mongoose.model('users');
 
+var sess;
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
@@ -18,14 +19,21 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    res.render('home', {meals: meals,
-                        ingredients: ingredients,
-                        basket: basket});
+    if (sess) {
+        console.log("user: " + sess.email);
+        res.render('home', {
+            meals: meals,
+            ingredients: ingredients,
+            basket: basket
+        });
+    }else{
+        res.redirect('/');
+    }
 };
 
 module.exports.loadList = function(req, res){
     res.render('shoppinglist', {basket: basket});
-}
+};
 
 module.exports.loadPlan = function(req, res){
     res.render('plan', {basket: basket});
@@ -150,8 +158,23 @@ module.exports.addUser = function(req, res){
 
 module.exports.userLogin = function(req, res){
     // verify that provided user details match an entry in the db
-    // return some form of user id, (or nothing if invalid details)
+    // add email to session if valid, otherwise return false
     // body: email, password
     console.log("userLogin not implemented yet!");
-    res.send({"id":1});
+    const valid = true; // CHANGE THIS
+
+    if (valid) {
+        sess = req.session;
+        sess.email = req.body.email;
+        console.log("Logged in: " + sess.email);
+
+        // how to redirect to home now?
+        // res.redirect('/home') not working!!
+    }else{
+        res.send(false);
+    }
+};
+
+module.exports.thing = function (req, res) {
+    res.redirect('/home');
 };

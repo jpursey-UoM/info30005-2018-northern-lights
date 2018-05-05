@@ -31,5 +31,6 @@ router.get('/clearlist', controller.clearlist);
 router.get('/checkuser', controller.checkUser);
 router.post('/adduser', controller.addUser);
 router.post('/userlogin', controller.userLogin);
+router.get('/thing', controller.thing);
 
 module.exports = router;

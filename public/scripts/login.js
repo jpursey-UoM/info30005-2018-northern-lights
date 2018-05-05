@@ -12,10 +12,7 @@ function login() {
         }
 
     }).done(function(data) {
-        if (data.id != null) {
-            setCurrentUser(data.id);
-            window.location = "/home";
-        } else {
+        if (!data) {
             alert("Incorrect login details")
         }
     });
@@ -80,15 +77,11 @@ function checkPassMatch(){
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
         if (password1 != password2){
-            alert("Passwords must match")
+            alert("Passwords must match");
             return false
         }
         return true
     }catch(e){
         return false
     }
-}
-
-function setCurrentUser(id){
-    // do this somehow...
 }
