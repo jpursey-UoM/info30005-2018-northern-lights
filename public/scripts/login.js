@@ -1,24 +1,24 @@
-// not sure which directory this should go in
-const users = [];
-users.push({email: "jpursey@student.unimelb.edu.au", password:"password"});
-
 
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    for (var user of users){
-        if(user.email === email){
-            if(user.password === password){
-                window.location = "/home";
-                return false;
-            }else{
 
-                alert("Incorrect login details");
-                return false;
-            }
+    $.ajax({
+        url: "/userlogin",
+        type: "POST",
+        data: {
+            "email":email,
+            "password":password
         }
-    }
-    alert("Incorrect login details");
+
+    }).done(function(data) {
+        if (data.id != null) {
+            setCurrentUser(data.id);
+            window.location = "/home";
+        } else {
+            alert("Incorrect login details")
+        }
+    });
 }
 
 function verifyUserInfo(){
@@ -27,37 +27,37 @@ function verifyUserInfo(){
         const email = document.getElementById("email").value;
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
-        if (password1 != password2){
-           alert("Passwords must match!");
+        if (!checkPassMatch()){
            return -1
         }
         // check if email already exists
-        checkEmail(email, addUser, rejectUser);
+        checkEmail(email, good, bad);
         // add new user to db (maybe)
 
-        function addUser(){
-            console.log("adding user " + email);
+        function good(){
+            addUser(email, password1);
+            alert("Woohoo! New user added successfully");
+            window.location = "/login";
+            // how 2 set the email value after redirecting? below not working
+            document.getElementById("email").value = email;
         }
-        function rejectUser(){
-            console.log("user " + email + " already exists");
+        function bad(){
+            alert("User already exists!")
         }
-        // login
     }catch(e){
         return -1
     }
     return 1
 }
 
-function checkPassMatch(){
-    try{
-        const password1 = document.getElementById("password1").value;
-        const password2 = document.getElementById("password2").value;
-        if (password1 != password2){
-            alert("Passwords must match")
-        }
-    }catch(e){
-
-    }
+function addUser(email, password){
+    $.ajax({
+        url: "/adduser",
+        type: "POST",
+        data: {
+            "email":email,
+            "password":password}
+    });
 }
 
 function checkEmail(email, trueCallback, falseCallback){
@@ -73,4 +73,22 @@ function checkEmail(email, trueCallback, falseCallback){
             }
         }
     });
+}
+
+function checkPassMatch(){
+    try{
+        const password1 = document.getElementById("password1").value;
+        const password2 = document.getElementById("password2").value;
+        if (password1 != password2){
+            alert("Passwords must match")
+            return false
+        }
+        return true
+    }catch(e){
+        return false
+    }
+}
+
+function setCurrentUser(id){
+    // do this somehow...
 }

@@ -133,7 +133,25 @@ module.exports.clearlist = function(req, res){
 };
 
 module.exports.checkUser = function(req, res){
+    // return false if a user exists in the database already, else true
+    // query: email
     console.log("checkUser not implemented yet!");
     console.log("checking: " + req.query.email);
-    res.send(false);
+    res.send(true);
+};
+
+module.exports.addUser = function(req, res){
+    // add a new user to the database
+    // body: email, password
+    console.log("addUser not implemented yet!");
+    console.log("adding: " + req.body.email);
+
+};
+
+module.exports.userLogin = function(req, res){
+    // verify that provided user details match an entry in the db
+    // return some form of user id, (or nothing if invalid details)
+    // body: email, password
+    console.log("userLogin not implemented yet!");
+    res.send({"id":1});
 };
