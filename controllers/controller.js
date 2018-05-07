@@ -1,8 +1,9 @@
-const member = require("../models/contact");
+// This controller is getting verrrrry big! Should we split it
+// into 2 maybe? One for loading pages, one for API requests? - Jason
+
 const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
 var basket = require("../models/basket");
-const users = require("../models/users");
 var mongoose = require('mongoose');
 var ingdb = mongoose.model('ingredients');
 var mealdb = mongoose.model('meals');
@@ -11,6 +12,10 @@ var basketdb = mongoose.model('basket');
 var shoppinglist = mongoose.model('shoppinglist');
 var ownedIngredient = mongoose.model('ownedIngredient');
 
+
+//var User = mongoose.model('users');
+
+var sess;
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
@@ -20,6 +25,7 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
+<<<<<<< HEAD
     var query = basketdb.find();
     query.exec(function(err,basket){
         if(!err){
@@ -33,11 +39,23 @@ module.exports.loadHome = function(req, res){
     // res.render('home', {meals: meals,
     //                     ingredients: ingredients,
     //                     basket: basket});
+=======
+    if (sess) {
+        console.log("user: " + sess.email);
+        res.render('home', {
+            meals: meals,
+            ingredients: ingredients,
+            basket: basket
+        });
+    }else{
+        res.redirect('/');
+    }
+>>>>>>> a2ff1f973e821bba6b70a068b2e4eeb77b0c3ab1
 };
 
 module.exports.loadList = function(req, res){
     res.render('shoppinglist', {basket: basket});
-}
+};
 
 module.exports.loadPlan = function(req, res){
     res.render('plan', {basket: basket});
@@ -296,6 +314,7 @@ module.exports.clearlist = function(req, res){
     });
     res.send(true)
     basket = [];
+<<<<<<< HEAD
    // module.exports.loadHome(req, res);
 }
 
@@ -310,3 +329,46 @@ module.exports.getOneItem = function(req, res) {
 module.exports.addItem = function(req, res) {
     console.log("test")
 }
+=======
+    module.exports.loadHome(req, res);
+};
+
+module.exports.checkUser = function(req, res){
+    // return false if a user exists in the database already, else true
+    // query: email
+    console.log("checkUser not implemented yet!");
+    console.log("checking: " + req.query.email);
+    res.send(true);
+};
+
+module.exports.addUser = function(req, res){
+    // add a new user to the database
+    // body: email, password
+    console.log("addUser not implemented yet!");
+    console.log("adding: " + req.body.email);
+
+};
+
+module.exports.userLogin = function(req, res){
+    // verify that provided user details match an entry in the db
+    // add email to session if valid, otherwise return false
+    // body: email, password
+    console.log("userLogin not implemented yet!");
+    const valid = true; // CHANGE THIS
+
+    if (valid) {
+        sess = req.session;
+        sess.email = req.body.email;
+        console.log("Logged in: " + sess.email);
+
+        // how to redirect to home now?
+        // res.redirect('/home') not working!!
+    }else{
+        res.send(false);
+    }
+};
+
+module.exports.thing = function (req, res) {
+    res.redirect('/home');
+};
+>>>>>>> a2ff1f973e821bba6b70a068b2e4eeb77b0c3ab1

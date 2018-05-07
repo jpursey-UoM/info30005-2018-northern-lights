@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome | MealMaster</title>
-    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="../public/styles/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="public/scripts/login.js"> </script>
 </head>
 <body>
 
 <form>
     <h1>MealMaster</h1>
     <label>email: </label>
-    <input type="email" name="email">
+    <input type="email" name="email" id="email" required>
     <label>password: </label>
-    <input type="password" name="password">
+    <input type="password" name="password1" id="password1" required>
     <label>confirm password: </label>
-    <input type="password" name="password">
-    <button onclick="" id="signup">Sign up!</button>
+    <input type="password" name="password2" id="password2" required>
+    <button type="button" onclick="verifyUserInfo()" id="signup">Sign up!</button>
     <a href="/login">Already a member?</a>
 </form>
 </body>

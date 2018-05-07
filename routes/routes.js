@@ -28,8 +28,15 @@ router.post('/addItemFromList', controller.addItemFromList);
 
 router.delete('/clearlist', controller.clearlist);
 
+<<<<<<< HEAD
 router.get('/api', controller.getItem);
 router.get('/api/:id', controller.getOneItem);
 router.post('/api', controller.addItem);
+=======
+router.get('/checkuser', controller.checkUser);
+router.post('/adduser', controller.addUser);
+router.post('/userlogin', controller.userLogin);
+router.get('/thing', controller.thing);
+>>>>>>> a2ff1f973e821bba6b70a068b2e4eeb77b0c3ab1
 
 module.exports = router;
