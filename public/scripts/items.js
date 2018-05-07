@@ -12,7 +12,6 @@ function clearList(){
         url: '/clearlist',
         type: 'DELETE',
         success: function(result) {
-            // Do something with the result
         }
     });
 }
