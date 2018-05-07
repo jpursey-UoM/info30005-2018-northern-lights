@@ -311,29 +311,14 @@ module.exports.addUser = function(req, res){
 
 };
 
-module.exports.userLogin = function(req, res){
-    // verify that provided user details match an entry in the db
-    // add email to session if valid, otherwise return false
-    // body: email, password
-<<<<<<< HEAD
-    console.log("userLogin not implemented yet!");
-    const valid = true; // CHANGE THIS
-
-    if (valid) {
-        sess = req.session;
-        sess.email = req.body.email;
-        console.log("Logged in: " + sess.email);
-
-        // how to redirect to home now?
-        // res.redirect('/home') not working!!
-    }else{
-        res.send(false);
-    }
-};
-
 module.exports.thing = function (req, res) {
     res.redirect('/home');
 };
+
+module.exports.userLogin = function (req, res){
+    // verify that provided user details match an entry in the db
+    // add email to session if valid, otherwise return false
+    // body: email, password
     User.findOne({"email":req.body.email},function(err,user){
         if(err){
             return(400);
