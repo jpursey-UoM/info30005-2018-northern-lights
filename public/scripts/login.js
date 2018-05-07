@@ -27,6 +27,10 @@ function verifyUserInfo(){
         // hash passwords as they're read
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
+        if(!(email && password1 && password2)){
+            alert("Please fill out all fields");
+            return -1;
+        }
         if (!checkPassMatch()){
            return -1
         }

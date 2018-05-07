@@ -32,8 +32,10 @@ router.get('/api', controller.getItem);
 router.get('/api/:id', controller.getOneItem);
 router.post('/api', controller.addItem);
 
+// user methods
 router.get('/checkuser', controller.checkUser);
 router.post('/adduser', controller.addUser);
 router.post('/userlogin', controller.userLogin);
+router.get('/logout', controller.logout);
 
 module.exports = router;

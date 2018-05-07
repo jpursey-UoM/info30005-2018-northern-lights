@@ -380,3 +380,8 @@ module.exports.userLogin = function(req, res){
         }
     });
 };
+
+module.exports.logout = function(req, res){
+    sess = null;
+    res.redirect('/login');
+};
