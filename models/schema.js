@@ -1,18 +1,62 @@
 var mongoose = require('mongoose');
 var ingredientSchema = mongoose.Schema(
     {
+        "id":String,
         "name":String,
         "image":String,
-        "type":String
+        "type":String,
+        "shelfLife":Number
 }
+);
+var ownedIngredientSchema = mongoose.Schema(
+    {
+        "ingredient": ingredientSchema,
+        "quantity": Number,
+        "expiryDate": Date,
+        "meal":String
+    }
 );
 var mealSchema = mongoose.Schema(
     {
+        "id":String,
         "name":String,
-        "components":[ingredientSchema],
+        "components":[{"component":ingredientSchema,
+                        "quantity":Number}],
         "image":String,
-        "type":String
+        "type":String,
+        "description":String
+    }
+);
+var planSchema = mongoose.Schema(
+    {
+        "date":Date,
+        "components":[ownedIngredientSchema]
+    }
+);
+var basketSchema = mongoose.Schema(
+    {
+        "item":ownedIngredientSchema
+    }
+);
+var shoppingListSchema = mongoose.Schema(
+    {
+        "components":[ownedIngredientSchema]
+    }
+);
+var userSchema = mongoose.Schema(
+    {
+        "email":String,
+        "password":String,
+        "username":String,
+        "plan":planSchema,
+        "basket":basketSchema,
+        "shoppinglist":shoppingListSchema
     }
 );
 mongoose.model('ingredients',ingredientSchema);
+mongoose.model('ownedIngredient',ownedIngredientSchema);
 mongoose.model('meals',mealSchema);
+mongoose.model('plan',planSchema);
+mongoose.model('basket',basketSchema);
+mongoose.model('shoppinglist',shoppingListSchema);
+mongoose.model('user',userSchema);

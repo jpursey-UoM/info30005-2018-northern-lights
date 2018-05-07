@@ -137,7 +137,8 @@ p{
 }
 .disable_a_href{
     pointer-events: none;
-    cursor:default
+    cursor:default;
+    color: #bbbbbb;
 }
 .footer {
     grid-area: footer;

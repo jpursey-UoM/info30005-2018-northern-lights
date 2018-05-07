@@ -6,6 +6,16 @@ function addToBasket(item){
         function(){
         });
 }
+function clearList(){
+    console.log("test")
+    $.ajax({
+        url: '/clearlist',
+        type: 'DELETE',
+        success: function(result) {
+            // Do something with the result
+        }
+    });
+}
 
 function addItemfromlist(item){
     document.getElementById(item.id).innerHTML="Added";

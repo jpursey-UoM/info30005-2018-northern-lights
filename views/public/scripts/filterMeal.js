@@ -46,7 +46,6 @@ function formatResult(result){
     if(max > 12){
         max=12
     }
-    console.log(result)
     for (var i = 0; i< max; i++) {
 
         items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +

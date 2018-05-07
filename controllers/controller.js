@@ -4,6 +4,12 @@ const meals = require("../models/meals");
 var basket = require("../models/basket");
 const users = require("../models/users");
 var mongoose = require('mongoose');
+var ingdb = mongoose.model('ingredients');
+var mealdb = mongoose.model('meals');
+var plan = mongoose.model('plan');
+var basketdb = mongoose.model('basket');
+var shoppinglist = mongoose.model('shoppinglist');
+var ownedIngredient = mongoose.model('ownedIngredient');
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -14,9 +20,19 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    res.render('home', {meals: meals,
-                        ingredients: ingredients,
-                        basket: basket});
+    var query = basketdb.find();
+    query.exec(function(err,basket){
+        if(!err){
+            res.render('home', {meals: meals,
+                ingredients: ingredients,
+                basket: basket});
+        }else{
+            res.sendStatus(404);
+        }
+    });
+    // res.render('home', {meals: meals,
+    //                     ingredients: ingredients,
+    //                     basket: basket});
 };
 
 module.exports.loadList = function(req, res){
@@ -37,7 +53,15 @@ module.exports.loadContact = function(req, res){
 };
 
 module.exports.loadMeals = function(req,res){
-    res.render('meals',{meals: meals});
+    var query = getMeal();
+    query.exec(function(err,meals){
+        if(!err){
+            res.render('meals',{meals: meals});
+        }else{
+            res.sendStatus(404);
+        }
+    });
+    //res.render('meals',{meals: meals});
 };
 
 module.exports.SearchMeal = function(req,res){
@@ -53,27 +77,46 @@ module.exports.SearchMeal = function(req,res){
 };
 
 module.exports.FilterMeal = function(req,res){
-    const foundmeals = [];
-    var type;
-    for(var i=0; i<req.query.category.length; i++) {
-        console.log(req.query.category.length)
-        for (var j = 0; j< meals.length; j++) {
-            type = meals[j].type;
-            if (type == req.query.category[i]) {
-                foundmeals.push(meals[j]);
-            }
-        }
+    var types = [];
+    for(var i=0; i<req.query.category.length; i++){
+        var type = {};
+        type['type'] = req.query.category[i];
+        types.push(type);
     }
-    res.json(foundmeals);
+    mealdb.find({ $or: types },function (err, doc){
+        if(!err){
+            res.json(doc);
+        }else{
+            res.sendStatus(404);
+        }
+    });
+    // const foundmeals = [];
+    // var type;
+    // for(var i=0; i<req.query.category.length; i++) {
+    //     console.log(req.query.category.length)
+    //     for (var j = 0; j< meals.length; j++) {
+    //         type = meals[j].type;
+    //         if (type == req.query.category[i]) {
+    //             foundmeals.push(meals[j]);
+    //         }
+    //     }
+    // }
+    // res.json(foundmeals);
 };
 
 module.exports.loadIngredients = function(req,res){
-    res.render('ingredients',{ingredients: ingredients});
+    var query = getIngredient()
+    query.exec(function(err,ingredients){
+        if(!err){
+            res.render('ingredients',{ingredients: ingredients});
+        }else{
+            res.sendStatus(404);
+        }
+    });
 };
 
 module.exports.loadProfile = function(req, res){
     res.render('profile', {users: users});
-
 }
 module.exports.SearchIngredient = function(req,res){
     const foundingredients = [];
@@ -89,17 +132,31 @@ module.exports.SearchIngredient = function(req,res){
 
 
 module.exports.FilterIngredient = function(req,res){
-    const foundingredients = [];
-    var type;
-    for(var i=0; i<req.query.category.length; i++) {
-        for (var j = 0; j< ingredients.length; j++) {
-            type = ingredients[j].type;
-            if (type == req.query.category[i]) {
-                foundingredients.push(ingredients[j]);
-            }
-        }
+    var types = [];
+    for(var i=0; i<req.query.category.length; i++){
+        var type = {};
+        type['type'] = req.query.category[i];
+        types.push(type);
     }
-    res.json(foundingredients);
+    ingdb.find({ $or: types },function (err, doc){
+        if(!err){
+            res.json(doc);
+        }else{
+            res.sendStatus(404);
+        }
+    });
+    // const foundingredients = [];
+    // var type;
+    // for(var i=0; i<req.query.category.length; i++) {
+    //     for (var j = 0; j< ingredients.length; j++) {
+    //         type = ingredients[j].type;
+    //         if (type == req.query.category[i]) {
+    //             foundingredients.push(ingredients[j]);
+    //         }
+    //     }
+    // }
+    // console.log(foundingredients.length)
+    // res.json(foundingredients);
 };
 
 module.exports.addMeal = function(req, res){
@@ -119,11 +176,137 @@ function addItem(item){
     basket.push(item);
 };
 
+function getIngredient(){
+    var query = ingdb.find();
+    return query;
+}
+function getMeal(){
+    var query = mealdb.find();
+    return query;
+}
+
+function getExpiryDate(shelfLife){
+    var CurrentDate = new Date();
+    CurrentDate.setDate(CurrentDate.getDate() + parseInt(shelfLife));
+    return CurrentDate;
+}
+
 module.exports.addItemFromList = function(req,res){
-    basket.push(req.body.item)
+    //console.log(req.body.item.components)
+    var query=req.body.item,number=1;
+    if(req.body.item.components){
+        query =req.body.item.components;
+        for(var i=0;i<query.length;i++){
+            createIngredientItem(query[i],true)
+            //console.log(createIngredientItem(query[i]),true);
+            // var Ingredient = new ownedIngredient({
+            //     "ingredient": req.body.item,
+            //     "quantity": 1,
+            //     "expiryDate": getExpiryDate(req.body.item.shelfLife)
+            // });
+            // Ingredient.save(function(err,newItem){
+            //     if(!err){
+            //         console.log("success")
+            //         //  console.log(newItem);
+            //     }else{
+            //         console.log(err);
+            //     }
+            // });
+            // var Basket = new basketdb({
+            //     "item": Ingredient
+            // });
+            // Basket.save(function(err,newItem){
+            //     if(!err){
+            //         console.log("success")
+            //         //  console.log(newItem);
+            //     }else{
+            //         console.log(err);
+            //     }
+            // });
+        }
+
+        //console.log("test")
+    }else {
+        console.log(createIngredientItem(query),false);
+        var Ingredient = new ownedIngredient({
+            "ingredient": req.body.item,
+            "quantity": 1,
+            "expiryDate": getExpiryDate(req.body.item.shelfLife)
+        });
+        Ingredient.save(function(err,newItem){
+            if(!err){
+                console.log("success")
+                //  console.log(newItem);
+            }else{
+                console.log(err);
+            }
+        });
+        var Basket = new basketdb({
+            "item": Ingredient
+        });
+        Basket.save(function(err,newItem){
+            if(!err){
+                console.log("success")
+                //  console.log(newItem);
+            }else{
+                console.log(err);
+            }
+        });
+    }
+    // console.log(req.body.item.shelfLife)
+    // basket.push(req.body.item)
 };
+function createIngredientItem(item,includeMeal){
+    if(includeMeal){
+        console.log(item.component.name)
+        var Ingredient = new ownedIngredient({
+            "ingredient": item,
+            "quantity": 1,
+            "expiryDate": getExpiryDate(item.component.shelfLife)
+        });
+        return Ingredient;
+    }else {
+        var Ingredient = new ownedIngredient({
+            "ingredient": item,
+            "quantity": 1,
+            "expiryDate": getExpiryDate(item.shelfLife)
+        });
+        return Ingredient;
+    }
+}
 
 module.exports.clearlist = function(req, res){
+    console.log("test")
+    basketdb.remove(function (err, doc){
+        if(!err){
+            console.log("sucess")
+        }else{
+            //console.log("fail")
+            res.sendStatus(404);
+        }
+    });
+    ownedIngredient.remove(function (err, doc){
+        if(!err){
+            console.log("sucess")
+        }else{
+           // console.log("fail")
+
+            res.sendStatus(404);
+        }
+    });
+    res.send(true)
     basket = [];
-    module.exports.loadHome(req, res);
-};
+   // module.exports.loadHome(req, res);
+}
+
+module.exports.getItem = function(req, res) {
+    console.log("test")
+}
+module.exports.getOneItem = function(req, res) {
+    console.log("test")
+
+}
+
+module.exports.addItem = function(req, res) {
+    console.log("test")
+}

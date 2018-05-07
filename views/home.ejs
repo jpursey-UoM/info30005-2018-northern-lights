@@ -5,6 +5,8 @@
     <title>Home | MealMaster</title>
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
     <link rel="stylesheet" href="/styles/home.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="public/scripts/items.js"></script>
 
 </head>
 <body>
@@ -56,17 +58,17 @@
 
 <aside id="shoppingList">
     <h2>Shopping list</h2>
-    <a href="/clearlist">Clear</a>
+    <a href="#" onclick="clearList()">Clear</a>
     <div id="group-meals">
         <label>Group by meal: </label>
         <input type="checkbox" id="groupMeals"/>
     </div>
     <ul>
-        <% for (var item of basket){
+        <% for (var i=0;i<basket.length; i++){
             if(typeof item !== 'undefined'){%>
             <li>
                 <img class="remove" src="public/images/icons24/clear-button.png" width="24" height="24">
-                <div class="shopping_list_item"><%=item.name%></div>
+                <div class="shopping_list_item"><%=basket[i].item.ingredient.name%></div>
                 <img class="expand" src="public/images/icons24/expand-button.png" width="24" height="24">
             </li>
          <%}
