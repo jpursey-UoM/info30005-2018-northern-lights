@@ -24,31 +24,15 @@ var ownedIngredientSchema = mongoose.Schema(
         "ingredient": ingredientSchema,
         "quantity": Number,
         "expiryDate": Date,
-        "meal":mealSchema
+        "meal":mealSchema,
+        "planDate": Date
     }
 );
-var planSchema = mongoose.Schema(
-    {
-        "date":Date,
-        "components":[ownedIngredientSchema]
-    }
-);
-// var basketSchema = mongoose.Schema(
-//     {
-//         "item":[ownedIngredientSchema]
-//     }
-// );
-// var shoppingListSchema = mongoose.Schema(
-//     {
-//         "item":[ownedIngredientSchema]
-//     }
-// );
 var userSchema = mongoose.Schema(
     {
         "email":String,
         "password":String,
         "username":String,
-        "plan":[planSchema],
         "basket":[ownedIngredientSchema],
         "shoppinglist":[ownedIngredientSchema]
     }
@@ -56,7 +40,4 @@ var userSchema = mongoose.Schema(
 mongoose.model('ingredients',ingredientSchema);
 mongoose.model('ownedIngredient',ownedIngredientSchema);
 mongoose.model('meals',mealSchema);
-mongoose.model('plan',planSchema);
-// mongoose.model('basket',basketSchema);
-// mongoose.model('shoppinglist',shoppingListSchema);
 mongoose.model('user',userSchema);

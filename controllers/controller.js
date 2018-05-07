@@ -7,9 +7,6 @@ var basket = require("../models/basket");
 var mongoose = require('mongoose');
 var ingdb = mongoose.model('ingredients');
 var mealdb = mongoose.model('meals');
-var plan = mongoose.model('plan');
-// var basketdb = mongoose.model('basket');
-// var shoppinglist = mongoose.model('shoppinglist');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 
@@ -61,7 +58,12 @@ module.exports.loadList = function(req, res){
 };
 
 module.exports.loadPlan = function(req, res){
-    res.render('plan', {basket: basket});
+    if(sess) {
+        var user = User.findOne({"email": sess.email});
+        res.render('plan', {user: user});
+    }else{
+        res.redirect('/login');
+    }
 };
 
 module.exports.loadBasket = function(req, res) {
@@ -126,7 +128,7 @@ module.exports.loadIngredients = function(req,res){
 
 module.exports.loadProfile = function(req, res){
     res.render('profile', {users: users});
-}
+};
 module.exports.SearchIngredient = function(req,res){
     const foundingredients = [];
     var name
