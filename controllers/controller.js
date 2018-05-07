@@ -13,6 +13,7 @@ var plan = mongoose.model('plan');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 
+
 var sess;
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -23,9 +24,10 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    var query = basketdb.find();
-    query.exec(function(err,basket){
+    var query = User.find();
+    User.findOne({email: "admin"},function(err,basket){
         if(!err){
+            console.log(basket)
             res.render('home', {meals: meals,
                 ingredients: ingredients,
                 basket: basket});
@@ -103,18 +105,6 @@ module.exports.FilterMeal = function(req,res){
             res.sendStatus(404);
         }
     });
-    // const foundmeals = [];
-    // var type;
-    // for(var i=0; i<req.query.category.length; i++) {
-    //     console.log(req.query.category.length)
-    //     for (var j = 0; j< meals.length; j++) {
-    //         type = meals[j].type;
-    //         if (type == req.query.category[i]) {
-    //             foundmeals.push(meals[j]);
-    //         }
-    //     }
-    // }
-    // res.json(foundmeals);
 };
 
 module.exports.loadIngredients = function(req,res){
@@ -158,18 +148,6 @@ module.exports.FilterIngredient = function(req,res){
             res.sendStatus(404);
         }
     });
-    // const foundingredients = [];
-    // var type;
-    // for(var i=0; i<req.query.category.length; i++) {
-    //     for (var j = 0; j< ingredients.length; j++) {
-    //         type = ingredients[j].type;
-    //         if (type == req.query.category[i]) {
-    //             foundingredients.push(ingredients[j]);
-    //         }
-    //     }
-    // }
-    // console.log(foundingredients.length)
-    // res.json(foundingredients);
 };
 
 module.exports.addMeal = function(req, res){
@@ -205,75 +183,66 @@ function getExpiryDate(shelfLife){
 }
 
 module.exports.addItemFromList = function(req,res){
-    //console.log(req.body.item.components)
-    var query=req.body.item,number=1;
+    var query=req.body.item;
+    //check if add from meal list or ingredient list
     if(req.body.item.components){
-        //query =req.body.item.components;
         console.log(createIngredientItem(query,true));
-        for(var i=0;i<query.length;i++){
-            createIngredientItem(query[i],true)
-          //  console.log(createIngredientItem(query),true);
-            // var Ingredient = new ownedIngredient({
-            //     "ingredient": req.body.item,
-            //     "quantity": 1,
-            //     "expiryDate": getExpiryDate(req.body.item.shelfLife)
-            // });
+    }else {
+        console.log(createIngredientItem(query,false));
+    }
+};
+
+function createIngredientItem(item,includeMeal){
+    if(includeMeal){
+        for(var i=0;i<item.components.length;i++) {
+            var Ingredient = new ownedIngredient({
+                "ingredient": item.components[i].component,
+                "quantity": item.components[i].quantity,
+                "expiryDate": getExpiryDate(item.components[i].component.shelfLife),
+                "meal":item
+            });
+            User.findOneAndUpdate(
+                { email: "admin" },
+                { $push: { shoppinglist: Ingredient} },
+                function (err, newItem) {
+                    if(!err){
+                        console.log("success")
+                    }else{
+                        console.log(err);
+                    }
+                });
+            //
             // Ingredient.save(function(err,newItem){
             //     if(!err){
             //         console.log("success")
-            //         //  console.log(newItem);
             //     }else{
             //         console.log(err);
             //     }
             // });
         }
-
-        //console.log("test")
-    }else {
-        // console.log(createIngredientItem(query),false);
-        var Ingredient = new ownedIngredient({
-            "ingredient": req.body.item,
-            "quantity": 1,
-            "expiryDate": getExpiryDate(req.body.item.shelfLife)
-        });
-        Ingredient.save(function(err,newItem){
-            if(!err){
-                console.log("success")
-                //  console.log(newItem);
-            }else{
-                console.log(err);
-            }
-        });
-        // User.findOneAndUpdate(
-        //     { email: "admin" },
-        //     { $push: { basket: Ingredient } },
-        //     function (error, success) {
-        //         if (error) {
-        //             console.log(error);
-        //         } else {
-        //             console.log(success);
-        //         }
-        //     });
-
-    }
-    // console.log(req.body.item.shelfLife)
-    // basket.push(req.body.item)
-};
-function createIngredientItem(item,includeMeal){
-    if(includeMeal){
-        // var Ingredient = new ownedIngredient({
-        //     "ingredient": item,
-        //     "quantity": 1,
-        //     "expiryDate": getExpiryDate(item.component.shelfLife)
-        // });
-        // return Ingredient;
     }else {
         var Ingredient = new ownedIngredient({
             "ingredient": item,
             "quantity": 1,
             "expiryDate": getExpiryDate(item.shelfLife)
         });
-        return Ingredient;
+        User.findOneAndUpdate(
+            { email: "admin" },
+            { $push: { shoppinglist: Ingredient} },
+            function (err, newItem) {
+                if(!err){
+                    console.log("success")
+                }else{
+                    console.log(err);
+                }
+            });
+        // Ingredient.save(function(err,newItem){
+        //     if(!err){
+        //         console.log("success")
+        //     }else{
+        //         console.log(err);
+        //     }
+        // });
     }
 }
 
@@ -300,19 +269,6 @@ module.exports.clearlist = function(req, res){
    // module.exports.loadHome(req, res);
 }
 
-module.exports.getItem = function(req, res) {
-    console.log("test")
-}
-module.exports.getOneItem = function(req, res) {
-    console.log("test")
-
-}
-
-module.exports.addItem = function(req, res) {
-    console.log("test")
-
-    module.exports.loadHome(req, res);
-};
 
 module.exports.checkUser = function(req, res){
     // return false if a user exists in the database already, else true

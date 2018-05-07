@@ -8,14 +8,6 @@ var ingredientSchema = mongoose.Schema(
         "shelfLife":Number
 }
 );
-var ownedIngredientSchema = mongoose.Schema(
-    {
-        "ingredient": ingredientSchema,
-        "quantity": Number,
-        "expiryDate": Date,
-        "meal":String
-    }
-);
 var mealSchema = mongoose.Schema(
     {
         "id":String,
@@ -25,6 +17,14 @@ var mealSchema = mongoose.Schema(
         "image":String,
         "type":String,
         "description":String
+    }
+);
+var ownedIngredientSchema = mongoose.Schema(
+    {
+        "ingredient": ingredientSchema,
+        "quantity": Number,
+        "expiryDate": Date,
+        "meal":mealSchema
     }
 );
 var planSchema = mongoose.Schema(
