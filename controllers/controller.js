@@ -298,6 +298,11 @@ module.exports.userLogin = function(req, res){
 };
 
 module.exports.userLogin = function(req, res){
+module.exports.thing = function (req, res) {
+    res.redirect('/home');
+};
+
+module.exports.userLogin = function (req, res){
     // verify that provided user details match an entry in the db
     // add email to session if valid, otherwise return false
     // body: email, password
@@ -321,4 +326,9 @@ module.exports.userLogin = function(req, res){
             }
         }
     });
+};
+
+module.exports.logout = function(req, res){
+    sess = null;
+    res.redirect('/login');
 };
