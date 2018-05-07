@@ -8,13 +8,12 @@ var mongoose = require('mongoose');
 var ingdb = mongoose.model('ingredients');
 var mealdb = mongoose.model('meals');
 var plan = mongoose.model('plan');
-// var basketdb = mongoose.model('basket');
-// var shoppinglist = mongoose.model('shoppinglist');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 
 
 var sess;
+
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
@@ -30,26 +29,18 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    // var query = User.find();
-    // User.findOne({email: "admin"},function(err,basket){
-    //     if(!err){
-    //         console.log(basket)
-    //         res.render('home', {meals: meals,
-    //             ingredients: ingredients,
-    //             basket: basket});
-    //     }else{
-    //         res.sendStatus(404);
-    //     }
-    // });
-    // res.render('home', {meals: meals,
-    //                     ingredients: ingredients,
-    //                     basket: basket});
+    //meal&ingredient not link to db yet
     if (sess) {
         console.log("user: " + sess.email);
-        res.render('home', {
-            meals: meals,
-            ingredients: ingredients,
-            basket: basket
+        User.findOne({email: sess.email},function(err,result){
+            if(!err){
+                console.log(result.shoppinglist)
+                res.render('home', {meals: meals,
+                    ingredients: ingredients,
+                    basket: result.shoppinglist});
+            }else{
+                res.sendStatus(404);
+            }
         });
     }else{
         res.redirect('/');
@@ -82,7 +73,6 @@ module.exports.loadMeals = function(req,res){
             res.sendStatus(404);
         }
     });
-    //res.render('meals',{meals: meals});
 };
 
 module.exports.SearchMeal = function(req,res){
@@ -189,6 +179,7 @@ function getExpiryDate(shelfLife){
 }
 
 module.exports.addItemFromList = function(req,res){
+    console.log("add: " + sess.email);
     var query=req.body.item;
     //check if add from meal list or ingredient list
     if(req.body.item.components){
@@ -208,7 +199,7 @@ function createIngredientItem(item,includeMeal){
                 "meal":item
             });
             User.findOneAndUpdate(
-                { email: "admin" },
+                { email: sess.email },
                 { $push: { shoppinglist: Ingredient} },
                 function (err, newItem) {
                     if(!err){
@@ -217,14 +208,6 @@ function createIngredientItem(item,includeMeal){
                         console.log(err);
                     }
                 });
-            //
-            // Ingredient.save(function(err,newItem){
-            //     if(!err){
-            //         console.log("success")
-            //     }else{
-            //         console.log(err);
-            //     }
-            // });
         }
     }else {
         var Ingredient = new ownedIngredient({
@@ -233,7 +216,7 @@ function createIngredientItem(item,includeMeal){
             "expiryDate": getExpiryDate(item.shelfLife)
         });
         User.findOneAndUpdate(
-            { email: "admin" },
+            { email: sess.email },
             { $push: { shoppinglist: Ingredient} },
             function (err, newItem) {
                 if(!err){
@@ -242,37 +225,21 @@ function createIngredientItem(item,includeMeal){
                     console.log(err);
                 }
             });
-        // Ingredient.save(function(err,newItem){
-        //     if(!err){
-        //         console.log("success")
-        //     }else{
-        //         console.log(err);
-        //     }
-        // });
     }
 }
 
 module.exports.clearlist = function(req, res){
-    basketdb.remove(function (err, doc){
-        if(!err){
-            console.log("sucess")
-        }else{
-            //console.log("fail")
-            res.sendStatus(404);
-        }
-    });
-    ownedIngredient.remove(function (err, doc){
-        if(!err){
-            console.log("sucess")
-        }else{
-           // console.log("fail")
-
-            res.sendStatus(404);
-        }
-    });
+    User.findOneAndUpdate(
+        { email: sess.email },
+        { $set: { shoppinglist: []} },
+        function (err, newItem) {
+            if(!err){
+                console.log("success")
+            }else{
+                console.log(err);
+            }
+        });
     res.send(true)
-    //basket = [];
-   // module.exports.loadHome(req, res);
 }
 
 
@@ -315,7 +282,6 @@ module.exports.userLogin = function(req, res){
     // verify that provided user details match an entry in the db
     // add email to session if valid, otherwise return false
     // body: email, password
-<<<<<<< HEAD
     console.log("userLogin not implemented yet!");
     const valid = true; // CHANGE THIS
 
@@ -331,9 +297,10 @@ module.exports.userLogin = function(req, res){
     }
 };
 
-module.exports.thing = function (req, res) {
-    res.redirect('/home');
-};
+module.exports.userLogin = function(req, res){
+    // verify that provided user details match an entry in the db
+    // add email to session if valid, otherwise return false
+    // body: email, password
     User.findOne({"email":req.body.email},function(err,user){
         if(err){
             return(400);
