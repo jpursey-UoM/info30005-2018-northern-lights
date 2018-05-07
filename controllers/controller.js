@@ -8,12 +8,10 @@ var mongoose = require('mongoose');
 var ingdb = mongoose.model('ingredients');
 var mealdb = mongoose.model('meals');
 var plan = mongoose.model('plan');
-var basketdb = mongoose.model('basket');
-var shoppinglist = mongoose.model('shoppinglist');
+// var basketdb = mongoose.model('basket');
+// var shoppinglist = mongoose.model('shoppinglist');
 var ownedIngredient = mongoose.model('ownedIngredient');
-
-
-//var User = mongoose.model('users');
+var User = mongoose.model('user');
 
 var sess;
 module.exports.loadSignup = function(req, res){
@@ -25,7 +23,6 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-<<<<<<< HEAD
     var query = basketdb.find();
     query.exec(function(err,basket){
         if(!err){
@@ -39,7 +36,6 @@ module.exports.loadHome = function(req, res){
     // res.render('home', {meals: meals,
     //                     ingredients: ingredients,
     //                     basket: basket});
-=======
     if (sess) {
         console.log("user: " + sess.email);
         res.render('home', {
@@ -50,7 +46,6 @@ module.exports.loadHome = function(req, res){
     }else{
         res.redirect('/');
     }
->>>>>>> a2ff1f973e821bba6b70a068b2e4eeb77b0c3ab1
 };
 
 module.exports.loadList = function(req, res){
@@ -213,10 +208,11 @@ module.exports.addItemFromList = function(req,res){
     //console.log(req.body.item.components)
     var query=req.body.item,number=1;
     if(req.body.item.components){
-        query =req.body.item.components;
+        //query =req.body.item.components;
+        console.log(createIngredientItem(query,true));
         for(var i=0;i<query.length;i++){
             createIngredientItem(query[i],true)
-            //console.log(createIngredientItem(query[i]),true);
+          //  console.log(createIngredientItem(query),true);
             // var Ingredient = new ownedIngredient({
             //     "ingredient": req.body.item,
             //     "quantity": 1,
@@ -230,22 +226,11 @@ module.exports.addItemFromList = function(req,res){
             //         console.log(err);
             //     }
             // });
-            // var Basket = new basketdb({
-            //     "item": Ingredient
-            // });
-            // Basket.save(function(err,newItem){
-            //     if(!err){
-            //         console.log("success")
-            //         //  console.log(newItem);
-            //     }else{
-            //         console.log(err);
-            //     }
-            // });
         }
 
         //console.log("test")
     }else {
-        console.log(createIngredientItem(query),false);
+        // console.log(createIngredientItem(query),false);
         var Ingredient = new ownedIngredient({
             "ingredient": req.body.item,
             "quantity": 1,
@@ -259,30 +244,29 @@ module.exports.addItemFromList = function(req,res){
                 console.log(err);
             }
         });
-        var Basket = new basketdb({
-            "item": Ingredient
-        });
-        Basket.save(function(err,newItem){
-            if(!err){
-                console.log("success")
-                //  console.log(newItem);
-            }else{
-                console.log(err);
-            }
-        });
+        // User.findOneAndUpdate(
+        //     { email: "admin" },
+        //     { $push: { basket: Ingredient } },
+        //     function (error, success) {
+        //         if (error) {
+        //             console.log(error);
+        //         } else {
+        //             console.log(success);
+        //         }
+        //     });
+
     }
     // console.log(req.body.item.shelfLife)
     // basket.push(req.body.item)
 };
 function createIngredientItem(item,includeMeal){
     if(includeMeal){
-        console.log(item.component.name)
-        var Ingredient = new ownedIngredient({
-            "ingredient": item,
-            "quantity": 1,
-            "expiryDate": getExpiryDate(item.component.shelfLife)
-        });
-        return Ingredient;
+        // var Ingredient = new ownedIngredient({
+        //     "ingredient": item,
+        //     "quantity": 1,
+        //     "expiryDate": getExpiryDate(item.component.shelfLife)
+        // });
+        // return Ingredient;
     }else {
         var Ingredient = new ownedIngredient({
             "ingredient": item,
@@ -294,7 +278,6 @@ function createIngredientItem(item,includeMeal){
 }
 
 module.exports.clearlist = function(req, res){
-    console.log("test")
     basketdb.remove(function (err, doc){
         if(!err){
             console.log("sucess")
@@ -313,8 +296,7 @@ module.exports.clearlist = function(req, res){
         }
     });
     res.send(true)
-    basket = [];
-<<<<<<< HEAD
+    //basket = [];
    // module.exports.loadHome(req, res);
 }
 
@@ -328,8 +310,7 @@ module.exports.getOneItem = function(req, res) {
 
 module.exports.addItem = function(req, res) {
     console.log("test")
-}
-=======
+
     module.exports.loadHome(req, res);
 };
 
@@ -371,4 +352,3 @@ module.exports.userLogin = function(req, res){
 module.exports.thing = function (req, res) {
     res.redirect('/home');
 };
->>>>>>> a2ff1f973e821bba6b70a068b2e4eeb77b0c3ab1

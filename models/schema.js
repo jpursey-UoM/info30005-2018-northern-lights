@@ -33,30 +33,30 @@ var planSchema = mongoose.Schema(
         "components":[ownedIngredientSchema]
     }
 );
-var basketSchema = mongoose.Schema(
-    {
-        "item":ownedIngredientSchema
-    }
-);
-var shoppingListSchema = mongoose.Schema(
-    {
-        "components":[ownedIngredientSchema]
-    }
-);
+// var basketSchema = mongoose.Schema(
+//     {
+//         "item":[ownedIngredientSchema]
+//     }
+// );
+// var shoppingListSchema = mongoose.Schema(
+//     {
+//         "item":[ownedIngredientSchema]
+//     }
+// );
 var userSchema = mongoose.Schema(
     {
         "email":String,
         "password":String,
         "username":String,
-        "plan":planSchema,
-        "basket":basketSchema,
-        "shoppinglist":shoppingListSchema
+        "plan":[planSchema],
+        "basket":[ownedIngredientSchema],
+        "shoppinglist":[ownedIngredientSchema]
     }
 );
 mongoose.model('ingredients',ingredientSchema);
 mongoose.model('ownedIngredient',ownedIngredientSchema);
 mongoose.model('meals',mealSchema);
 mongoose.model('plan',planSchema);
-mongoose.model('basket',basketSchema);
-mongoose.model('shoppinglist',shoppingListSchema);
+// mongoose.model('basket',basketSchema);
+// mongoose.model('shoppinglist',shoppingListSchema);
 mongoose.model('user',userSchema);
