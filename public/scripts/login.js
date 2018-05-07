@@ -2,7 +2,7 @@
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-
+    // hash password here?
     $.ajax({
         url: "/userlogin",
         type: "POST",
@@ -14,6 +14,8 @@ function login() {
     }).done(function(data) {
         if (!data) {
             alert("Incorrect login details")
+        }else{
+            window.location = "/home";
         }
     });
 }
@@ -22,6 +24,7 @@ function verifyUserInfo(){
     try {
         // insecure af?
         const email = document.getElementById("email").value;
+        // hash passwords as they're read
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
         if (!checkPassMatch()){
@@ -63,7 +66,7 @@ function checkEmail(email, trueCallback, falseCallback){
         type: "GET",
         data: {"email":email},
         success: function(data){
-            if (data){
+            if (!data){
                 trueCallback();
             }else{
                 falseCallback();

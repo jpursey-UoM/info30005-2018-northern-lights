@@ -20,21 +20,27 @@ module.exports.loadSignup = function(req, res){
 };
 
 module.exports.loadLogin = function(req, res){
-    res.render('login');
+    if(!sess) {
+        // only show login page if not already logged in
+        res.render('login');
+    }else{
+        // otherwise, redirect to home
+        res.redirect('/home');
+    }
 };
 
 module.exports.loadHome = function(req, res){
-    var query = User.find();
-    User.findOne({email: "admin"},function(err,basket){
-        if(!err){
-            console.log(basket)
-            res.render('home', {meals: meals,
-                ingredients: ingredients,
-                basket: basket});
-        }else{
-            res.sendStatus(404);
-        }
-    });
+    // var query = User.find();
+    // User.findOne({email: "admin"},function(err,basket){
+    //     if(!err){
+    //         console.log(basket)
+    //         res.render('home', {meals: meals,
+    //             ingredients: ingredients,
+    //             basket: basket});
+    //     }else{
+    //         res.sendStatus(404);
+    //     }
+    // });
     // res.render('home', {meals: meals,
     //                     ingredients: ingredients,
     //                     basket: basket});
@@ -271,18 +277,37 @@ module.exports.clearlist = function(req, res){
 
 
 module.exports.checkUser = function(req, res){
-    // return false if a user exists in the database already, else true
+    // return true if a user exists in the database already, else false
     // query: email
-    console.log("checkUser not implemented yet!");
-    console.log("checking: " + req.query.email);
-    res.send(true);
+    User.findOne({"email":req.query.email},function(err,user){
+        if(err){
+            return(400);
+        }else{
+            if (user == null){
+                res.send(false);
+            }else{
+                res.send(true);
+            }
+        }
+    });
 };
+
 
 module.exports.addUser = function(req, res){
     // add a new user to the database
     // body: email, password
-    console.log("addUser not implemented yet!");
-    console.log("adding: " + req.body.email);
+    var user = new User({
+        "email":req.body.email,
+        "password":req.body.password
+    });
+    user.save(function(err, user){
+        if(!err){
+            res.send(user)
+        }else{
+            res.sendStatus(400);
+        }
+    })
+
 
 };
 
@@ -290,6 +315,7 @@ module.exports.userLogin = function(req, res){
     // verify that provided user details match an entry in the db
     // add email to session if valid, otherwise return false
     // body: email, password
+<<<<<<< HEAD
     console.log("userLogin not implemented yet!");
     const valid = true; // CHANGE THIS
 
@@ -307,4 +333,25 @@ module.exports.userLogin = function(req, res){
 
 module.exports.thing = function (req, res) {
     res.redirect('/home');
+};
+    User.findOne({"email":req.body.email},function(err,user){
+        if(err){
+            return(400);
+        }else{
+            if (user != null){
+                if (user.password === req.body.password){
+                    // not sure if this works for multiple users...
+                    // need to test when online
+                    sess = req.session;
+                    sess.email = req.body.email;
+                    console.log("Logged in: " + sess.email);
+                    res.send(true);
+                }else{
+                    res.send(false);
+                }
+            }else{
+                res.send(false);
+            }
+        }
+    });
 };
