@@ -33,7 +33,9 @@ module.exports.loadHome = function(req, res){
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
-                console.log(result.shoppinglist)
+                console.log("basket:");
+                console.log(result.basket);
+                // console.log(result.shoppinglist)
                 res.render('home', {meals: meals,
                     ingredients: ingredients,
                     basket: result.shoppinglist});
@@ -47,7 +49,17 @@ module.exports.loadHome = function(req, res){
 };
 
 module.exports.loadList = function(req, res){
-    res.render('shoppinglist', {basket: basket});
+    if (sess) {
+        User.findOne({email: sess.email},function(err,result){
+            if(!err){
+                res.render('shoppinglist', {list:result.shoppinglist});
+            }else{
+                res.sendStatus(404);
+            }
+        });
+    }else{
+        res.redirect('/');
+    }
 };
 
 module.exports.loadPlan = function(req, res){
@@ -60,8 +72,29 @@ module.exports.loadPlan = function(req, res){
 };
 
 module.exports.loadBasket = function(req, res) {
-    res.render('basket', {ingredients: ingredients,
-                          basket: basket});
+
+    // get user
+    // if (sess) {
+    //     console.log("user: " + sess.email);
+    //     User.findOne({email: sess.email}, function (err, result) {
+    //         if (!err) {
+    //             console.log(result.shoppinglist)
+    //             res.render('home', {
+    //                 meals: meals,
+    //                 ingredients: ingredients,
+    //                 basket: result.shoppinglist
+    //             });
+    //         } else {
+    //             res.sendStatus(404);
+    //         }
+    //     });
+    //     // var basket =
+    //     res.render('basket', {
+    //         ingredients: ingredients,
+    //         basket: basket
+    //     });
+    // }
+
 };
 
 module.exports.loadContact = function(req, res){

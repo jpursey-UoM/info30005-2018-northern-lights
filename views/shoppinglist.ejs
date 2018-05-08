@@ -12,12 +12,12 @@
         Shopping List
     </h2>
     <ul>
-        <% for (var element of basket){%>
+        <% for (var element of list){%>
         <li>
             <label class="container">
                 <input type="checkbox"\>
                 <span class = "checkmark"></span>
-                <p><%=element.name%></p>
+                    <p><%=element.ingredient.name%></p>
             </label>
         </li>
         <%}%>
