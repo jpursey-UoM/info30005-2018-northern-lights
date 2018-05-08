@@ -13,6 +13,7 @@ var User = mongoose.model('user');
 
 var sess;
 
+
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
@@ -60,7 +61,7 @@ module.exports.loadList = function(req, res){
     }
 };
 
-
+// page: shopping list page, action: when "finish" is clicked
 module.exports.finishShopping = function(req, res) {
     if (sess) {
         User.findOne({email: sess.email}, function (err, result) {
@@ -102,7 +103,7 @@ module.exports.finishShopping = function(req, res) {
 };
 
 
-
+// page: plan
 module.exports.loadPlan = function(req, res){
     if(sess) {
         User.findOne({"email": sess.email}, function (err, result) {
@@ -117,31 +118,113 @@ module.exports.loadPlan = function(req, res){
     }
 };
 
+// page: basket
 module.exports.loadBasket = function(req, res) {
-
     // get user
-    // if (sess) {
-    //     console.log("user: " + sess.email);
-    //     User.findOne({email: sess.email}, function (err, result) {
-    //         if (!err) {
-    //             console.log(result.shoppinglist)
-    //             res.render('home', {
-    //                 meals: meals,
-    //                 ingredients: ingredients,
-    //                 basket: result.shoppinglist
-    //             });
-    //         } else {
-    //             res.sendStatus(404);
-    //         }
-    //     });
-    //     // var basket =
-    //     res.render('basket', {
-    //         ingredients: ingredients,
-    //         basket: basket
-    //     });
-    // }
+    if (sess) {
+        User.findOne({email: sess.email}, function(err, result) {
+        // User.findOne({email: "wendy"}, function (err, result) {
+            if (!err) {
+                res.render('basket', {
+                    ingredients: ingredients,
+                    basket: result.basket
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
 
 };
+
+
+// page: basket, action: respond to ajax's GET request for the basket
+// without refreshing
+module.exports.getBasket =  function(req, res) {
+    if (sess) {
+        User.findOne({email: sess.email}, function(err, user) {
+            if (!err){
+                res.json(user.basket);
+            } else {
+                console.log("cannot find user.");
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
+};
+
+
+// page: basket, action: when the "-" button beside an ingredient in the basket is clicked
+module.exports.deleteFromBasket = function(req, res) {
+    if (sess){
+        const deleteId = req.params.id;
+        User.findOne({email: sess.email}, function(err, user) {
+            if (!err) {
+                // delete the ingredient with deletId
+                for (var i = 0; i < user.basket.length; i++) {
+                    if (user.basket[i].ingredient.id == deleteId) {
+                        user.basket.splice(i, 1);
+                        break;
+                    }
+                }
+                // save
+                user.save(function (err) {
+                    if (err) {
+                        console.log("error deleting item from basket.");
+                        res.sendStatus(404);
+                    } else {
+                        res.json(deleteId);
+                    }
+                });
+            } else {
+                console.log("error finding the user.");
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
+};
+
+// page: basket, action: when + button besides an ingredient is clicked
+module.exports.addToBasket = function(req, res){
+    if (sess) {
+        User.findOne({email: sess.email}, function (err, user) {
+            if (!err) {
+                const toAdd = req.body.ingredient;
+
+                // create ownedIngredient and add to basket
+                var Ingredient = new ownedIngredient({
+                    "ingredient": toAdd,
+                    "quantity": 1,
+                    "expiryDate": getExpiryDate(item.shelfLife)
+                });
+
+                user.basket.push(Ingredient);
+
+                user.save(function (err) {
+                    if (err) {
+                        console.log("Error adding to basket.");
+                        res.sendStatus(404);
+                    } else {
+                        res.json(toAdd)
+                    }
+                });
+            } else {
+                console.log("error finding the user.");
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
+};
+
+
 
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
@@ -187,6 +270,7 @@ module.exports.FilterMeal = function(req,res){
     });
 };
 
+
 module.exports.loadIngredients = function(req,res){
     var query = getIngredient()
     query.exec(function(err,ingredients){
@@ -198,9 +282,12 @@ module.exports.loadIngredients = function(req,res){
     });
 };
 
+
 module.exports.loadProfile = function(req, res){
     res.render('profile', {users: users});
 };
+
+
 module.exports.SearchIngredient = function(req,res){
     const foundingredients = [];
     var name
@@ -230,11 +317,14 @@ module.exports.FilterIngredient = function(req,res){
     });
 };
 
+
 module.exports.addMeal = function(req, res){
     const i = req.params.id;
     addItem(meals[i]);
     module.exports.loadHome(req, res);
 };
+
+
 
 module.exports.addIngredient = function(req, res){
     const i = req.params.id;
