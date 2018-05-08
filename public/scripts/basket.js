@@ -8,11 +8,19 @@ $(document).ready(function(){
         url: '/getBasket',
         success: function(basket) {
             $.each(basket, function(i, ingredient) {
-                $ingredientTable.append('<tr data-id=' + ingredient.ingredient.id + '>\n' +
-                    '                <td class="ingredient_name"><input type=\'button\' class="delete_button" value=\'-\'/>' + ingredient.ingredient.name + '</td>\n' +
+                var name = ingredient.ingredient.name;
+                var id = ingredient.ingredient.id;
+
+                var today = new Date();
+                var expiry = new Date(Date.parse(ingredient.expiryDate));
+                // alert(expiry.getDate());
+                // var shelfLife = ingredient.expiryDate.getDate();
+                var shelfLife = Math.floor(Math.abs(parseInt(expiry.getDate()) - parseInt(today.getDate()))/7 * 100);
+
+                $ingredientTable.append('<tr data-id=' + id + '>\n' +
+                    '                <td class="ingredient_name"><input type=\'button\' class="delete_button" value=\'-\'/>' +  name + '</td>\n' +
                     '                <td class="life_bar_track">\n' +
-                    '                    <input type="range" class="w3-green w3-round-large life_bar" style="width:14%;">\n' +
-                    '                </td>\n' +
+                    '                    <input type="range" class="w3-green w3-round-large life_bar" style="width:'+ shelfLife + "%\"></td>" +
                     '                <td class="len_handler">\n' +
                     '                    <input type="button" class="button_left" value="<">\n' +
                     '                    <input type="button" class="button_right" value=">">\n' +

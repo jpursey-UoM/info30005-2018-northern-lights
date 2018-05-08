@@ -139,6 +139,12 @@ module.exports.loadBasket = function(req, res) {
                 var query = getIngredient();
                 query.exec(function(err, ingredients) {
                     if (!err) {
+                        console.log("expiry: " + user.basket[0].expiryDate.getDate());
+                        var today = new Date();
+                        console.log(typeof user.basket[0].expiryDate)
+                        // console.log("today is: "+ today.getDate());
+                        //
+                        // console.log("shelf life is: " + Math.floor(Math.abs(parseInt(user.basket[0].expiryDate.getDate()) - parseInt(today.getDate()))/7 * 100));
                         res.render('basket', {
                             ingredients: ingredients,
                             basket: user.basket
@@ -228,7 +234,7 @@ module.exports.addToBasket = function(req, res){
                         console.log("Error adding to basket.");
                         res.sendStatus(404);
                     } else {
-                        res.json(toAdd)
+                        res.json(Ingredient)
                     }
                 });
             } else {
