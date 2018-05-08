@@ -76,6 +76,7 @@ module.exports.finishShopping = function(req, res) {
         User.findOne({email: sess.email}, function (err, result) {
             if (!err) {
                 var selected = Object.keys(req.body);
+                console.log(selected)
                 var id;
                 var selectedId;
 
@@ -111,7 +112,6 @@ module.exports.finishShopping = function(req, res) {
     }
 };
 
-
 // page: plan
 module.exports.loadPlan = function(req, res){
     if(sess) {
@@ -134,10 +134,18 @@ module.exports.loadBasket = function(req, res) {
         User.findOne({email: sess.email}, function(err, result) {
         // User.findOne({email: "wendy"}, function (err, result) {
             if (!err) {
-                res.render('basket', {
-                    ingredients: ingredients,
-                    basket: result.basket
+                var query = getIngredient()
+                query.exec(function(err,ingredients){
+                    if(!err){
+                        res.render('basket', {
+                            ingredients: ingredients,
+                            basket: result.basket
+                        });
+                    }else{
+                        res.sendStatus(404);
+                    }
                 });
+
             } else {
                 res.sendStatus(404);
             }
@@ -145,9 +153,7 @@ module.exports.loadBasket = function(req, res) {
     } else {
         res.redirect('/login');
     }
-
 };
-
 
 // page: basket, action: respond to ajax's GET request for the basket
 // without refreshing
@@ -165,7 +171,6 @@ module.exports.getBasket =  function(req, res) {
         res.redirect('/login');
     }
 };
-
 
 // page: basket, action: when the "-" button beside an ingredient in the basket is clicked
 module.exports.deleteFromBasket = function(req, res) {
@@ -406,7 +411,7 @@ module.exports.deleteItem = function(req, res){
     User.findOne({email: sess.email},function(err,result){
         if(!err){
             for(var i=0;i<result.shoppinglist.length;i++){
-                if(result.shoppinglist[i].ingredient._id == req.body.item._id){
+                if(result.shoppinglist[i].ingredient._id == req.body.id){
                     result.shoppinglist.splice(i, 1);
                     break;
                 }
@@ -425,7 +430,8 @@ module.exports.deleteItem = function(req, res){
 
 //clear the shopping list
 module.exports.clearlist = function(req, res){
-    User.findOneAndUpdate(
+    if(sess){
+      User.findOneAndUpdate(
         { email: sess.email },
         { $set: { shoppinglist: []} },
         function (err, newItem) {
@@ -435,17 +441,20 @@ module.exports.clearlist = function(req, res){
                 console.log(err);
             }
         });
-    // User.findOneAndUpdate(
-    //     { email: sess.email },
-    //     { $set: { basket: []} },
-    //     function (err, newItem) {
-    //         if(!err){
-    //             console.log("success")
-    //         }else{
-    //             console.log(err);
-    //         }
-    //     });
+    User.findOneAndUpdate(
+        { email: sess.email },
+        { $set: { basket: []} },
+        function (err, newItem) {
+            if(!err){
+                console.log("success")
+            }else{
+                console.log(err);
+            }
+        });
      res.send(true)
+    }else{
+     res.redirect('/');
+    }
 }
 
 //clear the basket

@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="/public/styles/style.css" type="text/css">
     <link rel="stylesheet" href="/public/styles/items.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="public/scripts/searchIngredient.js"></script>
-    <script type="text/javascript" src="public/scripts/filterIngredient.js"></script>
     <script type="text/javascript" src="public/scripts/items.js"></script>
 
 </head>
@@ -23,18 +21,18 @@
         <a href="/profile">Profile</a>
     </div>
     <div class="filter">
-        <form action="" method="GET">
+        <form action="" method="GET" class="ingredient">
             <input type="text" class="search" name="search" placeholder="Search ingredients">
             <button type="submit">Search</button>
         </form>
         <br>
         <div class="checkbox">
             <input type="checkbox" disabled="true" class="all" name="category" value="All" checked>All<br>
-            <input type="checkbox" class="category" name="Vegetable" value="Vegetable"">Vegetable<br>
-            <input type="checkbox" class="category" name="Meat" value="Meat"">Meat<br>
-            <input type="checkbox" class="category" name="Seafood" value="Seafood">Seafood<br>
-            <input type="checkbox" class="category" name="Cereal" value="Cereal">Cereal<br>
-            <button class="reset">Reset</button>
+            <input type="checkbox" class="category_ingredient" name="Vegetable" value="Vegetable"">Vegetable<br>
+            <input type="checkbox" class="category_ingredient" name="Meat" value="Meat"">Meat<br>
+            <input type="checkbox" class="category_ingredient" name="Seafood" value="Seafood">Seafood<br>
+            <input type="checkbox" class="category_ingredient" name="Cereal" value="Cereal">Cereal<br>
+            <button class="reset_ingredient">Reset</button>
         </div>
     </div>
     <div class="items">
