@@ -83,7 +83,7 @@
                 <li class="img_wrap" onclick="add2plan(this)">
                             <img src="<%=meal.image%>" width="200" alt="<%=meal.name%>"
                                  title="Add to plan">
-                            <p><%=meal.name%> (<%=date.toLocaleDateString("en-AU")%>)</p>
+                    <p><%=meal.name%> (<span class="exp-date"><%=date.toLocaleDateString("en-AU")%></span>)</p>
                 </li>
             <%  }
 
