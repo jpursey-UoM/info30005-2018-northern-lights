@@ -10,7 +10,6 @@ var User = mongoose.model('user');
 
 var sess;
 
-
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
@@ -87,19 +86,22 @@ module.exports.finishShopping = function(req, res) {
                         selectedId = parseInt(selected[j]);
                         if (id === selectedId){
                             // delete from list
-                            var selected = result.shoppinglist[i];
+                            var selectedItem = result.shoppinglist[i];
                             result.shoppinglist.splice(i, 1);
 
                             // add to basket
-                            result.basket.push(selected);
-                            result.save(function (err) {
-                                if (err) {
-                                    res.sendStatus(404);
-                                }
-                            });
+                            result.basket.push(selectedItem);
                         }
                     }
                 }
+
+                result.save(function (err) {
+                    if (err) {
+                        res.sendStatus(404);
+                        return;
+                    }
+                });
+
                 res.redirect('/plan');
                 return;
 
@@ -136,6 +138,12 @@ module.exports.loadBasket = function(req, res) {
                 var query = getIngredient();
                 query.exec(function(err, ingredients) {
                     if (!err) {
+                        console.log("expiry: " + user.basket[0].expiryDate.getDate());
+                        var today = new Date();
+                        console.log(typeof user.basket[0].expiryDate)
+                        // console.log("today is: "+ today.getDate());
+                        //
+                        // console.log("shelf life is: " + Math.floor(Math.abs(parseInt(user.basket[0].expiryDate.getDate()) - parseInt(today.getDate()))/7 * 100));
                         res.render('basket', {
                             ingredients: ingredients,
                             basket: user.basket
@@ -225,7 +233,7 @@ module.exports.addToBasket = function(req, res){
                         console.log("Error adding to basket.");
                         res.sendStatus(404);
                     } else {
-                        res.json(toAdd)
+                        res.json(Ingredient)
                     }
                 });
             } else {
