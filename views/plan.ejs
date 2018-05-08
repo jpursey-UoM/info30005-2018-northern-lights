@@ -62,9 +62,9 @@
                 for (var ownedIngredient of user.basket){
                 if(typeof ownedIngredient !== 'undefined'){%>
                 <li class="img_wrap" onclick="add2plan(this)">
-                            <img src="<%=ownedIngredient.image%>" width="200" alt="<%=ownedIngredient.name%>"
+                            <img src="<%=ownedIngredient.ingredient.image%>" width="200" alt="<%=ownedIngredient.ingredient.name%>"
                                  title="Add to plan">
-                            <p><%=ownedIngredient.name%></p>
+                            <p><%=ownedIngredient.ingredient.name%></p>
                 </li>
             <%  }
             }

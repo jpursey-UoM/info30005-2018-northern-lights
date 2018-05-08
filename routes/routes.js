@@ -9,6 +9,7 @@ router.get('/home', controller.loadHome);
 router.get('/', controller.loadHome);
 router.get('/plan', controller.loadPlan);
 router.get('/list', controller.loadList);
+router.post('/finishShopping', controller.finishShopping)
 
 router.get('/basket', controller.loadBasket);
 router.get('/profile', controller.loadProfile);

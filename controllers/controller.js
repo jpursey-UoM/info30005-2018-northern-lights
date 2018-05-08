@@ -33,8 +33,6 @@ module.exports.loadHome = function(req, res){
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
-                console.log("basket:");
-                console.log(result.basket);
                 // console.log(result.shoppinglist)
                 res.render('home', {meals: meals,
                     ingredients: ingredients,
@@ -62,11 +60,59 @@ module.exports.loadList = function(req, res){
     }
 };
 
+
+module.exports.finishShopping = function(req, res) {
+    if (sess) {
+        User.findOne({email: sess.email}, function (err, result) {
+            if (!err) {
+                var selected = Object.keys(req.body);
+                var id;
+                var selectedId;
+
+                for (var i=result.shoppinglist.length-1; i>=0; i--){
+                    // if in selected
+                    id = parseInt(result.shoppinglist[i].ingredient.id);
+                    for (var j=selected.length; j>=0; j--){
+                        selectedId = parseInt(selected[j]);
+                        if (id === selectedId){
+                            // delete from list
+                            var selected = result.shoppinglist[i];
+                            result.shoppinglist.splice(i, 1);
+
+                            // add to basket
+                            result.basket.push(selected);
+                            result.save(function (err) {
+                                if (err) {
+                                    res.sendStatus(404);
+                                }
+                            });
+                        }
+                    }
+                }
+                res.redirect('/plan');
+                return;
+
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+};
+
+
+
 module.exports.loadPlan = function(req, res){
     if(sess) {
-        var user = User.findOne({"email": sess.email});
-        res.render('plan', {user: user});
-    }else{
+        User.findOne({"email": sess.email}, function (err, result) {
+            if (!err) {
+                res.render('plan', {user: result});
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
         res.redirect('/login');
     }
 };
@@ -115,7 +161,7 @@ module.exports.loadMeals = function(req,res){
 
 module.exports.SearchMeal = function(req,res){
     const foundmeals = [];
-    var name
+    var name;
     for(var i=0; i<meals.length; i++){
         name = meals[i].name.toUpperCase();
         if(name.search(req.query.search.toUpperCase()) != -1){
