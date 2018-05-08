@@ -86,19 +86,22 @@ module.exports.finishShopping = function(req, res) {
                         selectedId = parseInt(selected[j]);
                         if (id === selectedId){
                             // delete from list
-                            var selected = result.shoppinglist[i];
+                            var selectedItem = result.shoppinglist[i];
                             result.shoppinglist.splice(i, 1);
 
                             // add to basket
-                            result.basket.push(selected);
-                            result.save(function (err) {
-                                if (err) {
-                                    res.sendStatus(404);
-                                }
-                            });
+                            result.basket.push(selectedItem);
                         }
                     }
                 }
+
+                result.save(function (err) {
+                    if (err) {
+                        res.sendStatus(404);
+                        return;
+                    }
+                });
+
                 res.redirect('/plan');
                 return;
 
