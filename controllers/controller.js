@@ -33,11 +33,6 @@ module.exports.loadHome = function(req, res){
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
-<<<<<<< HEAD
-               // console.log(result.shoppinglist)
-=======
-                // console.log(result.shoppinglist)
->>>>>>> 6ce853f351e95906ccefd76b48030e5e488c7b3a
                 res.render('home', {meals: meals,
                     ingredients: ingredients,
                     basket: result.shoppinglist});
@@ -369,23 +364,6 @@ module.exports.addUser = function(req, res){
 
 };
 
-module.exports.userLogin = function(req, res){
-    // verify that provided user details match an entry in the db
-    // add email to session if valid, otherwise return false
-    // body: email, password
-    console.log("userLogin not implemented yet!");
-    const valid = true; // CHANGE THIS
-
-    if (valid) {
-        sess = req.session;
-        sess.email = req.body.email;
-        console.log("Logged in: " + sess.email);
-
-        // how to redirect to home now?
-        // res.redirect('/home') not working!!
-    }else{
-        res.send(false);
-    }
 module.exports.thing = function (req, res) {
     res.redirect('/home');
 };
