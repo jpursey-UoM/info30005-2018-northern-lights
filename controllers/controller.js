@@ -34,7 +34,6 @@ module.exports.loadHome = function(req, res){
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
-                // console.log(result.shoppinglist)
                 res.render('home', {meals: meals,
                     ingredients: ingredients,
                     basket: result.shoppinglist});
@@ -352,15 +351,17 @@ function getExpiryDate(shelfLife){
     return CurrentDate;
 }
 
+//add an item to the shopping list
 module.exports.addItemFromList = function(req,res){
     console.log("add: " + sess.email);
     var query=req.body.item;
-    //check if add from meal list or ingredient list
+    //check if the item is added from meal list or ingredient list
     if(req.body.item.components){
-        console.log(createIngredientItem(query,true));
+        createIngredientItem(query,true);
     }else {
-        console.log(createIngredientItem(query,false));
+        createIngredientItem(query,false);
     }
+    res.send(true)
 };
 
 function createIngredientItem(item,includeMeal){
@@ -402,6 +403,7 @@ function createIngredientItem(item,includeMeal){
     }
 }
 
+//clear the shopping list
 module.exports.clearlist = function(req, res){
     User.findOneAndUpdate(
         { email: sess.email },

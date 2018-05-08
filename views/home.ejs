@@ -27,7 +27,7 @@
     <a href="/meals">View all</a>
     <% for(var i=0; i<4; i++){%>
     <div class="img_wrap">
-       <a href="/addMeal/<%=meals[i].id%>">
+       <a href="#" onclick="addToBasket(<%= JSON.stringify(meals[i])%>)">
            <p>
             <img src="<%=meals[i].image%>" width="200" alt="<%=meals[i].name%>"
                  title="Add to my list">
@@ -46,7 +46,7 @@
 
     <% for(var i=0; i<4; i++){%>
         <div class="img_wrap" >
-            <a href="/addIngredient/<%=ingredients[i].id%>">
+            <a href="#" onclick="addToBasket(<%= JSON.stringify(ingredients[i])%>)">
                 <p>
                 <img src="<%=ingredients[i].image%>" width="200" alt="<%=ingredients[i].name%>"
                  title="Add to my list">

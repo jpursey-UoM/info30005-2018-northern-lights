@@ -25,7 +25,7 @@ var ownedIngredientSchema = mongoose.Schema(
         "quantity": Number,
         "expiryDate": Date,
         "meal":mealSchema,
-        "planDate": Date
+        "planDate":Date
     }
 );
 var userSchema = mongoose.Schema(
