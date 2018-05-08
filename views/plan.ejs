@@ -10,6 +10,33 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="public/scripts/plan.js"> </script>
+    <%
+
+    function getMeals(basket){
+        var meals = [];
+        var prevMealName;
+        var ingredientsFound;
+        var needed;
+        var candidateMeal;
+        for (var i = 0; i < basket.length; i++){
+            var ingredient = basket[i];
+            if(ingredient.meal) {
+                if (prevMealName == null || ingredient.meal.name != prevMealName){
+                    prevMealName = ingredient.meal.name;
+                    candidateMeal = ingredient.meal;
+                    needed = candidateMeal.components.length;
+                    ingredientsFound = 1;
+                }else{
+                    ingredientsFound ++;
+                    if (ingredientsFound == needed){
+                        meals.push(candidateMeal);
+                    }
+                }
+            }
+        }
+        return meals;
+    }
+    %>
 </head>
 <body>
 
@@ -59,16 +86,17 @@
     <h2>Meals</h2>
     <ul id = "meals-list">
         <%  if(user.basket != null){
-                for (var ownedIngredient of user.basket){
-                if(typeof ownedIngredient !== 'undefined'){%>
+                meals = getMeals(user.basket);
+                for (var meal of meals){
+                %>
                 <li class="img_wrap" onclick="add2plan(this)">
-                            <img src="<%=ownedIngredient.ingredient.image%>" width="200" alt="<%=ownedIngredient.ingredient.name%>"
+                            <img src="<%=meal.image%>" width="200" alt="<%=meal.name%>"
                                  title="Add to plan">
-                            <p><%=ownedIngredient.ingredient.name%></p>
+                            <p><%=meal.name%></p>
                 </li>
             <%  }
-            }
-        };%>
+
+        }%>
 
     </ul>
     <button id="autofill-plan" onclick="addAll()"><< Autofill</button>
