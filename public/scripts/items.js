@@ -38,6 +38,39 @@ function DeleteItem(item){
         });
 }
 
+function groupByMeal(checkbox,basket){
+    var mealId=0;
+    var items="";
+    if(checkbox.checked == true){
+        for(var i=0;i<basket.length; i++){
+            if(basket[i].meal){
+                if(mealId != basket[i].meal._id){
+                    mealId = basket[i].meal._id;
+                    items+="<li><div class=\"shopping_list_item\">"+basket[i].meal.name+"</div></li>";
+                    items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                    items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
+                }else{
+                    items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                    items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
+                }
+            }else{
+                if(i>0){
+                    items+="<br>";
+                }
+                items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
+            }
+        }
+    }else{
+        for(var i=0;i<basket.length; i++) {
+            items += "<li><img onclick=\'DeleteItem(" + JSON.stringify(basket[i].ingredient) + ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+            items += "<div class=\"shopping_list_item\">" + basket[i].ingredient.name + "</div></li>";
+        }
+    }
+    $('.list').html(items);
+
+}
+
 function addItemfromlist(item){
     document.getElementById(item.id).innerHTML="Added";
     document.getElementById(item.id).disabled = true;

@@ -10,7 +10,6 @@ var User = mongoose.model('user');
 
 var sess;
 
-
 module.exports.loadSignup = function(req, res){
     res.render('signup');
 };
