@@ -1,6 +1,5 @@
 // This controller is getting verrrrry big! Should we split it
 // into 2 maybe? One for loading pages, one for API requests? - Jason
-
 const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
 var mongoose = require('mongoose');
@@ -392,7 +391,8 @@ module.exports.deleteItem = function(req, res){
     User.findOne({email: sess.email},function(err,result){
         if(!err){
             for(var i=0;i<result.shoppinglist.length;i++){
-                if(parseInt(result.shoppinglist[i]._id) == parseInt(req.body.item._id)){
+                if(result.shoppinglist[i].ingredient._id == req.body.item._id){
+                    console.log("test")
                     result.shoppinglist.splice(i, 1);
                     break;
                 }
