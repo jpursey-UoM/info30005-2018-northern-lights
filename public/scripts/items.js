@@ -3,15 +3,17 @@ function addToBasket(item){
         {
             item: item
         },
-        function(){
+        function(result){
+            window.location.reload();
+
         });
 }
 function clearList(){
-    console.log("test")
     $.ajax({
         url: '/clearlist',
         type: 'DELETE',
         success: function(result) {
+            window.location.reload();
         }
     });
 }
@@ -63,14 +65,3 @@ function getNextPage(itemList,place){
         }
     }
 }
-
-function getFirstOrLastPage(meals,string){
-    if(string == 'first'){
-        getNextPage(meals,1,'first')
-
-    }else{
-        getNextPage(meals,Math.ceil(meals.length/12),'last')
-    }
-}
-
-

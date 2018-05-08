@@ -24,13 +24,8 @@ var ownedIngredientSchema = mongoose.Schema(
         "ingredient": ingredientSchema,
         "quantity": Number,
         "expiryDate": Date,
-        "meal":mealSchema
-    }
-);
-var planSchema = mongoose.Schema(
-    {
-        "date":Date,
-        "components":[ownedIngredientSchema]
+        "meal":mealSchema,
+        "planDate":Date
     }
 );
 var userSchema = mongoose.Schema(
@@ -38,7 +33,6 @@ var userSchema = mongoose.Schema(
         "email":String,
         "password":String,
         "username":String,
-        "plan":[planSchema],
         "basket":[ownedIngredientSchema],
         "shoppinglist":[ownedIngredientSchema]
     }
@@ -46,5 +40,4 @@ var userSchema = mongoose.Schema(
 mongoose.model('ingredients',ingredientSchema);
 mongoose.model('ownedIngredient',ownedIngredientSchema);
 mongoose.model('meals',mealSchema);
-mongoose.model('plan',planSchema);
 mongoose.model('user',userSchema);
