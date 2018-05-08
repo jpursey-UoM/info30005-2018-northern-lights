@@ -1,10 +1,9 @@
 // This controller is getting verrrrry big! Should we split it
 // into 2 maybe? One for loading pages, one for API requests? - Jason
-const ingredients = require("../models/ingredients");
-const meals = require("../models/meals");
+
 var mongoose = require('mongoose');
-var ingdb = mongoose.model('ingredients');
-var mealdb = mongoose.model('meals');
+var ingredient = mongoose.model('ingredients');
+var meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 
@@ -27,14 +26,27 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    //meal&ingredient not link to db yet
     if (sess) {
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
-                res.render('home', {meals: meals,
-                    ingredients: ingredients,
-                    basket: result.shoppinglist});
+                var query = getIngredient()
+                query.exec(function(err,ingredients){
+                    if(!err){
+                        var query = getMeal();
+                        query.exec(function(err,meals){
+                            if(!err){
+                                res.render('home', {meals: meals,
+                                    ingredients: ingredients,
+                                    basket: result.shoppinglist});
+                            }else{
+                                res.sendStatus(404);
+                            }
+                        });
+                    }else{
+                        res.sendStatus(404);
+                    }
+                });
             }else{
                 res.sendStatus(404);
             }
@@ -242,16 +254,20 @@ module.exports.loadMeals = function(req,res){
     }
 };
 
+//reference from stackoverflow
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
 module.exports.SearchMeal = function(req,res){
-    const foundmeals = [];
-    var name;
-    for(var i=0; i<meals.length; i++){
-        name = meals[i].name.toUpperCase();
-        if(name.search(req.query.search.toUpperCase()) != -1){
-            foundmeals.push(meals[i]);
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    meal.find({ "name": regex},function (err, doc){
+        if(!err){
+            res.json(doc);
+        }else{
+            res.sendStatus(404);
         }
-    }
-    res.json(foundmeals);
+    });
 };
 
 module.exports.FilterMeal = function(req,res){
@@ -261,7 +277,7 @@ module.exports.FilterMeal = function(req,res){
         type['type'] = req.query.category[i];
         types.push(type);
     }
-    mealdb.find({ $or: types },function (err, doc){
+    meal.find({ $or: types },function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -293,15 +309,14 @@ module.exports.loadProfile = function(req, res){
 
 
 module.exports.SearchIngredient = function(req,res){
-    const foundingredients = [];
-    var name
-    for(var i=0; i<ingredients.length; i++){
-        name = ingredients[i].name.toUpperCase();
-        if(name.search(req.query.search.toUpperCase()) != -1){
-            foundingredients.push(ingredients[i]);
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    ingredient.find({ "name": regex},function (err, doc){
+        if(!err){
+            res.json(doc);
+        }else{
+            res.sendStatus(404);
         }
-    }
-    res.json(foundingredients);
+    });
 };
 
 
@@ -312,7 +327,7 @@ module.exports.FilterIngredient = function(req,res){
         type['type'] = req.query.category[i];
         types.push(type);
     }
-    ingdb.find({ $or: types },function (err, doc){
+    ingredient.find({ $or: types },function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -322,11 +337,11 @@ module.exports.FilterIngredient = function(req,res){
 };
 
 function getIngredient(){
-    var query = ingdb.find();
+    var query = ingredient.find();
     return query;
 }
 function getMeal(){
-    var query = mealdb.find();
+    var query = meal.find();
     return query;
 }
 
@@ -392,7 +407,6 @@ module.exports.deleteItem = function(req, res){
         if(!err){
             for(var i=0;i<result.shoppinglist.length;i++){
                 if(result.shoppinglist[i].ingredient._id == req.body.item._id){
-                    console.log("test")
                     result.shoppinglist.splice(i, 1);
                     break;
                 }
@@ -431,7 +445,7 @@ module.exports.clearlist = function(req, res){
     //             console.log(err);
     //         }
     //     });
-    // res.send(true)
+     res.send(true)
 }
 
 //clear the basket
