@@ -24,7 +24,7 @@ ul{
     padding-left: 3em;
     user-select: none;
 }
-a{
+.button{
     grid-column: 1/span 2;
     border-radius: 5px;
     display: inline-block;
@@ -35,10 +35,9 @@ a{
     text-align: center;
     width: 48%;
     height: 2em;
-
 }
 
-a:hover{
+.button:hover{
     background-color: rgb(183,206,164);
 }
 li{

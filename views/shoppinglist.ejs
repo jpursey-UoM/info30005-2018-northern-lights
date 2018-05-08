@@ -11,19 +11,25 @@
     <h2>
         Shopping List
     </h2>
-    <ul>
-        <% for (var element of basket){%>
-        <li>
-            <label class="container">
-                <input type="checkbox"\>
-                <span class = "checkmark"></span>
-                <p><%=element.name%></p>
-            </label>
-        </li>
-        <%}%>
-    </ul>
-    <a href="home">< Back</a>
-    <a href="plan">Finished</a>
+    <form action="/finishShopping" method="POST">
+        <ul>
+            <% for (var element of list){%>
+            <li>
+                <label class="container">
+                    <input type="checkbox" name="<%=element.ingredient.id%>"\>
+                    <span class = "checkmark"></span>
+                    <p><%=element.ingredient.name%></p>
+                </label>
+            </li>
+            <%}%>
+        </ul>
+        <a class='button' href="home">< Back</a>
+        <!--<a href="plan">Finished</a>-->
+        <!-- need to change the style!! -->
+        <input class='button' type="submit" value="Finished">
+    </form>
+
+
 </section>
 </body>
 </html>

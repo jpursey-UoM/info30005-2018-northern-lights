@@ -58,14 +58,16 @@
 <aside id="meals">
     <h2>Meals</h2>
     <ul id = "meals-list">
-        <% for (var item of basket){
-            if(typeof item !== 'undefined'){%>
-            <li class="img_wrap" onclick="add2plan(this)">
-                        <img src="<%=item.image%>" width="200" alt="<%=item.name%>"
-                             title="Add to plan">
-                        <p><%=item.name%></p>
-            </li>
-        <%  }
+        <%  if(user.basket != null){
+                for (var ownedIngredient of user.basket){
+                if(typeof ownedIngredient !== 'undefined'){%>
+                <li class="img_wrap" onclick="add2plan(this)">
+                            <img src="<%=ownedIngredient.ingredient.image%>" width="200" alt="<%=ownedIngredient.ingredient.name%>"
+                                 title="Add to plan">
+                            <p><%=ownedIngredient.ingredient.name%></p>
+                </li>
+            <%  }
+            }
         };%>
 
     </ul>

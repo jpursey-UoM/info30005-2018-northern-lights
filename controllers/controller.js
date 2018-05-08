@@ -33,7 +33,11 @@ module.exports.loadHome = function(req, res){
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
+<<<<<<< HEAD
                // console.log(result.shoppinglist)
+=======
+                // console.log(result.shoppinglist)
+>>>>>>> 6ce853f351e95906ccefd76b48030e5e488c7b3a
                 res.render('home', {meals: meals,
                     ingredients: ingredients,
                     basket: result.shoppinglist});
@@ -47,16 +51,100 @@ module.exports.loadHome = function(req, res){
 };
 
 module.exports.loadList = function(req, res){
-    res.render('shoppinglist', {basket: basket});
+    if (sess) {
+        User.findOne({email: sess.email},function(err,result){
+            if(!err){
+                res.render('shoppinglist', {list:result.shoppinglist});
+            }else{
+                res.sendStatus(404);
+            }
+        });
+    }else{
+        res.redirect('/');
+    }
 };
 
+
+module.exports.finishShopping = function(req, res) {
+    if (sess) {
+        User.findOne({email: sess.email}, function (err, result) {
+            if (!err) {
+                var selected = Object.keys(req.body);
+                var id;
+                var selectedId;
+
+                for (var i=result.shoppinglist.length-1; i>=0; i--){
+                    // if in selected
+                    id = parseInt(result.shoppinglist[i].ingredient.id);
+                    for (var j=selected.length; j>=0; j--){
+                        selectedId = parseInt(selected[j]);
+                        if (id === selectedId){
+                            // delete from list
+                            var selected = result.shoppinglist[i];
+                            result.shoppinglist.splice(i, 1);
+
+                            // add to basket
+                            result.basket.push(selected);
+                            result.save(function (err) {
+                                if (err) {
+                                    res.sendStatus(404);
+                                }
+                            });
+                        }
+                    }
+                }
+                res.redirect('/plan');
+                return;
+
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+};
+
+
+
 module.exports.loadPlan = function(req, res){
-    res.render('plan', {basket: basket});
+    if(sess) {
+        User.findOne({"email": sess.email}, function (err, result) {
+            if (!err) {
+                res.render('plan', {user: result});
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/login');
+    }
 };
 
 module.exports.loadBasket = function(req, res) {
-    res.render('basket', {ingredients: ingredients,
-                          basket: basket});
+
+    // get user
+    // if (sess) {
+    //     console.log("user: " + sess.email);
+    //     User.findOne({email: sess.email}, function (err, result) {
+    //         if (!err) {
+    //             console.log(result.shoppinglist)
+    //             res.render('home', {
+    //                 meals: meals,
+    //                 ingredients: ingredients,
+    //                 basket: result.shoppinglist
+    //             });
+    //         } else {
+    //             res.sendStatus(404);
+    //         }
+    //     });
+    //     // var basket =
+    //     res.render('basket', {
+    //         ingredients: ingredients,
+    //         basket: basket
+    //     });
+    // }
+
 };
 
 module.exports.loadContact = function(req, res){
@@ -72,11 +160,12 @@ module.exports.loadMeals = function(req,res){
             res.sendStatus(404);
         }
     });
+    //res.render('meals',{meals: meals});
 };
 
 module.exports.SearchMeal = function(req,res){
     const foundmeals = [];
-    var name
+    var name;
     for(var i=0; i<meals.length; i++){
         name = meals[i].name.toUpperCase();
         if(name.search(req.query.search.toUpperCase()) != -1){
@@ -115,7 +204,7 @@ module.exports.loadIngredients = function(req,res){
 
 module.exports.loadProfile = function(req, res){
     res.render('profile', {users: users});
-}
+};
 module.exports.SearchIngredient = function(req,res){
     const foundingredients = [];
     var name
@@ -297,6 +386,8 @@ module.exports.userLogin = function(req, res){
     }else{
         res.send(false);
     }
+module.exports.thing = function (req, res) {
+    res.redirect('/home');
 };
 
 module.exports.userLogin = function (req, res){
