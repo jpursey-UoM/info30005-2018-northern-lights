@@ -4,10 +4,19 @@ function addToBasket(item){
             item: item
         },
         function(result){
-            window.location.reload();
-
         });
 }
+
+function addfromHome(item){
+    $.post("/addItemFromList",
+        {
+            item: item
+        },
+        function(result){
+            window.location.reload();
+        });
+}
+
 function clearList(){
     $.ajax({
         url: '/clearlist',
@@ -16,6 +25,16 @@ function clearList(){
             window.location.reload();
         }
     });
+}
+
+function DeleteItem(item){
+    $.post("/deleteItem",
+        {
+            item: item
+        },
+        function(result){
+            window.location.reload();
+        });
 }
 
 function addItemfromlist(item){

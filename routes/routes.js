@@ -23,9 +23,9 @@ router.get('/ingredients', controller.loadIngredients);
 router.get('/ingredient', controller.SearchIngredient);
 router.get('/filteringredient',controller.FilterIngredient);
 
-router.get('/addMeal/:id', controller.addMeal);
-router.get('/addIngredient/:id', controller.addIngredient);
+
 router.post('/addItemFromList', controller.addItemFromList);
+router.post('/deleteItem', controller.deleteItem);
 
 router.delete('/clearlist', controller.clearlist);
 

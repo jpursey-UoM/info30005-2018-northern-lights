@@ -3,7 +3,6 @@
 
 const ingredients = require("../models/ingredients");
 const meals = require("../models/meals");
-var basket = require("../models/basket");
 var mongoose = require('mongoose');
 var ingdb = mongoose.model('ingredients');
 var mealdb = mongoose.model('meals');
@@ -148,6 +147,7 @@ module.exports.loadContact = function(req, res){
 
 module.exports.loadMeals = function(req,res){
     var query = getMeal();
+    if (sess) {
     query.exec(function(err,meals){
         if(!err){
             res.render('meals',{meals: meals});
@@ -155,7 +155,9 @@ module.exports.loadMeals = function(req,res){
             res.sendStatus(404);
         }
     });
-    //res.render('meals',{meals: meals});
+    } else {
+      res.redirect('/');
+    }
 };
 
 module.exports.SearchMeal = function(req,res){
@@ -188,13 +190,17 @@ module.exports.FilterMeal = function(req,res){
 
 module.exports.loadIngredients = function(req,res){
     var query = getIngredient()
-    query.exec(function(err,ingredients){
-        if(!err){
+    if (sess) {
+         query.exec(function(err,ingredients){
+         if(!err){
             res.render('ingredients',{ingredients: ingredients});
         }else{
             res.sendStatus(404);
         }
     });
+    }else {
+        res.redirect('/');
+}
 };
 
 module.exports.loadProfile = function(req, res){
@@ -229,23 +235,6 @@ module.exports.FilterIngredient = function(req,res){
     });
 };
 
-module.exports.addMeal = function(req, res){
-    const i = req.params.id;
-    addItem(meals[i]);
-    module.exports.loadHome(req, res);
-};
-
-module.exports.addIngredient = function(req, res){
-    const i = req.params.id;
-    addItem(ingredients[i]);
-    module.exports.loadHome(req, res);
-};
-
-
-function addItem(item){
-    basket.push(item);
-};
-
 function getIngredient(){
     var query = ingdb.find();
     return query;
@@ -263,15 +252,15 @@ function getExpiryDate(shelfLife){
 
 //add an item to the shopping list
 module.exports.addItemFromList = function(req,res){
-    console.log("add: " + sess.email);
     var query=req.body.item;
     //check if the item is added from meal list or ingredient list
     if(req.body.item.components){
         createIngredientItem(query,true);
+        res.send(true)
     }else {
         createIngredientItem(query,false);
+        res.send(true)
     }
-    res.send(true)
 };
 
 function createIngredientItem(item,includeMeal){
@@ -312,12 +301,57 @@ function createIngredientItem(item,includeMeal){
             });
     }
 }
+module.exports.deleteItem = function(req, res){
+    User.findOne({email: sess.email},function(err,result){
+        if(!err){
+            for(var i=0;i<result.shoppinglist.length;i++){
+                if(parseInt(result.shoppinglist[i]._id) == parseInt(req.body.item._id)){
+                    result.shoppinglist.splice(i, 1);
+                    break;
+                }
+            }
+            result.save(function (err) {
+                if (err) {
+                    res.sendStatus(404);
+                }
+            });
+            res.send(true)
+        }else{
+            res.sendStatus(404);
+        }
+    });
+}
 
 //clear the shopping list
 module.exports.clearlist = function(req, res){
     User.findOneAndUpdate(
         { email: sess.email },
         { $set: { shoppinglist: []} },
+        function (err, newItem) {
+            if(!err){
+                console.log("success")
+            }else{
+                console.log(err);
+            }
+        });
+    // User.findOneAndUpdate(
+    //     { email: sess.email },
+    //     { $set: { basket: []} },
+    //     function (err, newItem) {
+    //         if(!err){
+    //             console.log("success")
+    //         }else{
+    //             console.log(err);
+    //         }
+    //     });
+    // res.send(true)
+}
+
+//clear the basket
+module.exports.clearBasket = function(req, res){
+    User.findOneAndUpdate(
+        { email: sess.email },
+        { $set: { basket: []} },
         function (err, newItem) {
             if(!err){
                 console.log("success")
@@ -360,8 +394,6 @@ module.exports.addUser = function(req, res){
             res.sendStatus(400);
         }
     })
-
-
 };
 
 module.exports.thing = function (req, res) {
