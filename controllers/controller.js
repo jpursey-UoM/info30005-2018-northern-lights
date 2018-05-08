@@ -1,6 +1,6 @@
 // This controller is getting verrrrry big! Should we split it
 // into 2 maybe? One for loading pages, one for API requests? - Jason
-
+// Maybe we can have ingredientsController, basketController etc. - Wendy
 var mongoose = require('mongoose');
 var ingredient = mongoose.model('ingredients');
 var meal = mongoose.model('meals');
@@ -30,7 +30,7 @@ module.exports.loadHome = function(req, res){
         console.log("user: " + sess.email);
         User.findOne({email: sess.email},function(err,result){
             if(!err){
-                var query = getIngredient()
+                var query = getIngredient();
                 query.exec(function(err,ingredients){
                     if(!err){
                         var query = getMeal();
@@ -131,21 +131,28 @@ module.exports.loadPlan = function(req, res){
 module.exports.loadBasket = function(req, res) {
     // get user
     if (sess) {
-        User.findOne({email: sess.email}, function(err, result) {
-        // User.findOne({email: "wendy"}, function (err, result) {
+        User.findOne({email: sess.email}, function(err, user) {
             if (!err) {
-                res.render('basket', {
-                    ingredients: ingredients,
-                    basket: result.basket
+                var query = getIngredient();
+                query.exec(function(err, ingredients) {
+                    if (!err) {
+                        res.render('basket', {
+                            ingredients: ingredients,
+                            basket: user.basket
+                        });
+                    } else {
+                        console.log("error loading ingredients");
+                        res.sendStatus(404);
+                    }
                 });
             } else {
+                console.log("error finding user..");
                 res.sendStatus(404);
             }
         });
     } else {
         res.redirect('/login');
     }
-
 };
 
 
@@ -210,7 +217,7 @@ module.exports.addToBasket = function(req, res){
                 var Ingredient = new ownedIngredient({
                     "ingredient": toAdd,
                     "quantity": 1,
-                    "expiryDate": getExpiryDate(item.shelfLife)
+                    "expiryDate": getExpiryDate(toAdd.shelfLife)
                 });
 
                 user.basket.push(Ingredient);
