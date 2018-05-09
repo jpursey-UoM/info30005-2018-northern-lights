@@ -1,20 +1,50 @@
 function addToBasket(item){
-    $.post("/addItemFromList",
-        {
-            item: item
-        },
-        function(result){
+    if (item.components) {
+        var selected = [];
+        $('.'+item._id+' :checked').each(function () {
+            selected.push($(this).val());
         });
+        $.post("/addItemFromList",
+            {
+                item: item,
+                selected:selected
+            },
+            function (result) {
+                $('.'+item._id).css({'display' : 'none'});
+            });
+    }else {
+        $.post("/addItemFromList",
+            {
+                item: item
+            },
+            function (result) {
+            });
+    }
 }
 
-function addfromHome(item){
-    $.post("/addItemFromList",
-        {
-            item: item
-        },
-        function(result){
-            window.location.reload();
+function addfromHome(item) {
+    if (item.components) {
+        var selected = [];
+        $('.'+item._id+' :checked').each(function () {
+            selected.push($(this).val());
         });
+        $.post("/addItemFromList",
+            {
+                item: item,
+                selected:selected
+            },
+            function (result) {
+                window.location.reload();
+            });
+    }else {
+        $.post("/addItemFromList",
+            {
+                item: item
+            },
+            function (result) {
+                window.location.reload();
+            });
+    }
 }
 
 function clearList(){
@@ -37,12 +67,20 @@ function DeleteItem(item){
             window.location.reload();
         });
 }
+
+function showModel(item){
+    console.log("test")
+    $('.'+item._id).css({'display' : 'block'});
+}
+
+function closeModel(item){
+    $('.'+item._id).css({'display' : 'none'});
+}
+
 function DisplayIngredient(id){
     var html="<img onclick=\'CollapseIngredient(" +id+ ")\' id=\""+ id+ "\" class=\"fold\""+"src=\"public/images/icons24/up-chevron.png\" width=\"24\" height=\"24\"></li>";
     $("."+id).removeClass("collapse");
     $("#"+id).replaceWith(html);
-
-
 }
 
 function CollapseIngredient(id){
@@ -89,7 +127,6 @@ function addItemfromlist(item){
 }
 
 function getNextPage(itemList,place){
-    console.log(itemList)
     $("#pre").removeClass("disable_a_href");
     $("#next").removeClass("disable_a_href");
     var ItemOnOnePage = 12;
@@ -266,6 +303,70 @@ function formatResult(result){
             ">Add to basket</button>"+
             "</a></div>";
     }
+    // for (var i = 0; i< max; i++) {
+    //
+    //     items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
+    //         "<br>" + result[i].name +
+    //         "</p><button type=\"button\" id=\"" + result[i].id +
+    //         "\" onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'" +
+    //         ">Add to basket</button>"+
+    //         "</a></div>";
+    // }
+    // for (var i = 0; i< max; i++) {
+    //         items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
+    //             "<br>" + result[i].name +
+    //             "</p><button type=\"button\" id=\"" + result[i].id +
+    //             "\" onclick=\'showModel(" +JSON.stringify(result[i])+ ")\'" +
+    //             ">Add to basket</button>"+
+    //             "<div class=\"modal "+result[i]._id+"\">" +"<div class=\"modal-content\"><div class=\"modal-header\">"+
+    //             "<span onclick=\'closeModel(" +JSON.stringify(result[i])+ ")\' class=\"close\">&times;</span>"+
+    //             "<h2>"+result[i].name+"</h2>"+
+    //             "</div><div class=\"modal-body\">"
+    //     for(var j=0; j<result[j].components.length; j++){
+    //             items +="<div class=\"" +result[i]._id+ "\">"+
+    //                 "<div class=\"" + result[i]._id + "\">"+
+    //                 "<input value=\"" +result[i].components[j].component.id + "\" type=\"checkbox\" checked>"+
+    //                 result[i].components[j].component.name + "</div>"
+    //     }
+    //      items+="<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'"+">Add to basket</button></div></div></div></div>";
+
+        // items += "<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'>Add to basket</button>"+
+        //     "</div></div></div></div>"
+                // "</div>";
+    // <div class="modal <%=meals[i]._id%>">
+    //         <div class="modal-content">
+    //         <div class="modal-header">
+    //         <span onclick="closeModel(<%= JSON.stringify(meals[i])%>)" class="close">&times;</span>
+    //     <h2><%=meals[i].name%></h2>
+    //         </div>
+    //         <div class="modal-body">
+    //         <% for(var j=0; j<meals[j].components.length; j++){%>
+    //     <div class="<%=meals[i]._id%>" >
+    //             <input value="<%=meals[i].components[j].component.id%>" type="checkbox" checked>
+    //         <%=meals[i].components[j].component.name%></div>
+    //             <%}%>
+    // <button onclick="addItemfromlist(<%= JSON.stringify(meals[i])%>)" class="">Add to basket</button>
+    //     </div>
+    //     <!--<div class="modal-footer">-->
+    //     <!--<h3>Modal Footer</h3>-->
+    //     <!--</div>-->
+    //     </div>
+    //     </div>
+
+        // items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
+        //     "<br>" + result[i].name +
+        //     "</p><button type=\"button\" id=\"" + result[i].id +
+        //     "\" onclick=\'showModel(" +JSON.stringify(result[i])+ ")\'" +
+        //     ">Add to basket</button>"+
+        //     "<div class='modal "+ result[i]._id+"'><div class=\"modal-content\"><div class=\"modal-header\">"+
+        //     "<span onclick=\"closeModel("+JSON.stringify(result[i])+ ")\" class=\"close\">&times;</span>"+
+        //     "<h2>"+result[i].name+"</h2></div><div class=\"modal-body\">"
+        // for(var j=0; j<result[j].components.length; j++){
+        //     items += "<div class=\"" + result[i]._id +"\"><input value=\""+result[i].components[j].component.id+
+        //         "\" type=\"checkbox\" checked>"+result[i].components[j].component.name+"</div>"
+        // }
+        // items+="<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'"+">Add to basket</button></div></div></div></div>";
+    //}
     $('.items').html(items);
     pages += "<a href='#' id='pre' class=\"disable_a_href 0\" onclick=\'getNextPage(" +JSON.stringify(result)+ ",\"previous\")\'" +
         ">Previous</a>";

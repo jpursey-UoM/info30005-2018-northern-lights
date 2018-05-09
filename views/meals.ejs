@@ -48,9 +48,28 @@
             <img src="<%= meals[i].image%>" width="250" alt="<%= meals[i].name%>"><br>
                  <%= meals[i].name%>
             </p>
-            <button type="button" id="<%=meals[i].id%>" onclick="addItemfromlist(<%= JSON.stringify(meals[i])%>)">
+            <button type="button" id="<%=meals[i].id%>" onclick="showModel(<%= JSON.stringify(meals[i])%>)">
                 Add to basket
             </button>
+            <div class="modal <%=meals[i]._id%>">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span onclick="closeModel(<%= JSON.stringify(meals[i])%>)" class="close">&times;</span>
+                        <h2><%=meals[i].name%></h2>
+                    </div>
+                    <div class="modal-body">
+                        <% for(var j=0; j<meals[j].components.length; j++){%>
+                        <div class="<%=meals[i]._id%>" >
+                            <input value="<%=meals[i].components[j].component.id%>" type="checkbox" checked>
+                            <%=meals[i].components[j].component.name%></div>
+                        <%}%>
+                        <button onclick="addItemfromlist(<%= JSON.stringify(meals[i])%>)" class="">Add to basket</button>
+                    </div>
+                    <!--<div class="modal-footer">-->
+                    <!--<h3>Modal Footer</h3>-->
+                    <!--</div>-->
+                </div>
+            </div>
         </div>
         <%}%>
     </div>
