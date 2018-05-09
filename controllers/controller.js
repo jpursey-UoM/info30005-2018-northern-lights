@@ -468,7 +468,7 @@ module.exports.clearlist = function(req, res){
     //  res.send(true)
     // }else{
     //  res.redirect('/');
-    // }
+     }
 }
 
 //clear the basket
