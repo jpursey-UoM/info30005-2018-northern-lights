@@ -37,6 +37,19 @@ function DeleteItem(item){
             window.location.reload();
         });
 }
+function DisplayIngredient(id){
+    var html="<img onclick=\'CollapseIngredient(" +id+ ")\' id=\""+ id+ "\" class=\"fold\""+"src=\"public/images/icons24/up-chevron.png\" width=\"24\" height=\"24\"></li>";
+    $("."+id).removeClass("collapse");
+    $("#"+id).replaceWith(html);
+
+
+}
+
+function CollapseIngredient(id){
+    var html="<img onclick=\'DisplayIngredient(" +id+ ")\' id=\""+ id+ "\" class=\"expand\""+"src=\"public/images/icons24/expand-button.png\" width=\"24\" height=\"24\"></li>";
+    $("."+id).addClass("collapse");
+    $("#"+id).replaceWith(html);
+}
 
 function groupByMeal(checkbox,basket){
     var mealId=0;
@@ -46,18 +59,16 @@ function groupByMeal(checkbox,basket){
             if(basket[i].meal){
                 if(mealId != basket[i].meal._id){
                     mealId = basket[i].meal._id;
-                    items+="<li><div class=\"shopping_list_item\">"+basket[i].meal.name+"</div></li>";
-                    items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                    items+="<li><div class=\"meal\">"+basket[i].meal.name+"</div>";
+                    items+="<img onclick=\'DisplayIngredient(" +basket[i].meal.id+ ")\' id=\""+ basket[i].meal.id+ "\" class=\"expand\""+"src=\"public/images/icons24/expand-button.png\" width=\"24\" height=\"24\"></li>";
+                    items+="<li class='collapse "+ basket[i].meal.id +"'><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
                     items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
                 }else{
-                    items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                    items+="<li class='collapse "+ basket[i].meal.id +"'><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
                     items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
                 }
             }else{
-                if(i>0){
-                    items+="<br>";
-                }
-                items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove \" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
                 items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
             }
         }

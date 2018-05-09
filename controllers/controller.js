@@ -75,7 +75,6 @@ module.exports.finishShopping = function(req, res) {
         User.findOne({email: sess.email}, function (err, result) {
             if (!err) {
                 var selected = Object.keys(req.body);
-                console.log(selected)
                 var id;
                 var selectedId;
 
