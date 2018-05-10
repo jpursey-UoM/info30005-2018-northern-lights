@@ -138,12 +138,7 @@ module.exports.loadBasket = function(req, res) {
                 var query = getIngredient();
                 query.exec(function(err, ingredients) {
                     if (!err) {
-                        console.log("expiry: " + user.basket[0].expiryDate.getDate());
                         var today = new Date();
-                        console.log(typeof user.basket[0].expiryDate)
-                        // console.log("today is: "+ today.getDate());
-                        //
-                        // console.log("shelf life is: " + Math.floor(Math.abs(parseInt(user.basket[0].expiryDate.getDate()) - parseInt(today.getDate()))/7 * 100));
                         res.render('basket', {
                             ingredients: ingredients,
                             basket: user.basket
@@ -188,7 +183,7 @@ module.exports.deleteFromBasket = function(req, res) {
             if (!err) {
                 // delete the ingredient with deletId
                 for (var i = 0; i < user.basket.length; i++) {
-                    if (user.basket[i].ingredient.id == deleteId) {
+                    if (user.basket[i]._id.toString() == deleteId) {
                         user.basket.splice(i, 1);
                         break;
                     }
@@ -217,36 +212,50 @@ module.exports.addToBasket = function(req, res){
     if (sess) {
         User.findOne({email: sess.email}, function (err, user) {
             if (!err) {
-                const toAdd = req.body.ingredient;
+                const ingredientId = req.body.ingredientId;
+                ingredient.findOne({id: ingredientId}, function (err, toAdd) {
+                    if (!err) {
+                        // create ownedIngredient and add to basket
+                        var Ingredient = new ownedIngredient({
+                            "ingredient": toAdd,
+                            "quantity": 1,
+                            "expiryDate": getExpiryDate(toAdd.shelfLife)
+                        });
 
-                // create ownedIngredient and add to basket
-                var Ingredient = new ownedIngredient({
-                    "ingredient": toAdd,
-                    "quantity": 1,
-                    "expiryDate": getExpiryDate(toAdd.shelfLife)
-                });
+                        user.basket.push(Ingredient);
 
-                user.basket.push(Ingredient);
-
-                user.save(function (err) {
-                    if (err) {
-                        console.log("Error adding to basket.");
-                        res.sendStatus(404);
+                        user.save(function (err) {
+                            if (err) {
+                                console.log("error adding to basket.");
+                                res.sendStatus(404);
+                            } else {
+                                res.json(Ingredient)
+                            }
+                        });
                     } else {
-                        res.json(Ingredient)
+                        console.log("error adding to basket.");
+                        res.sendStatus(404);
                     }
                 });
             } else {
                 console.log("error finding the user.");
                 res.sendStatus(404);
             }
-        });
+        })
     } else {
         res.redirect('/login');
     }
 };
 
-
+// module.exports.reduceShelfLife = function(req, res){
+//     if (sess) {
+//         User.findOne({email: sess.email}, function (err, user) {
+//             if (!err) {
+//
+//             }
+//         }
+//     }
+// }
 
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
