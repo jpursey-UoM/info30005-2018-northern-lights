@@ -121,6 +121,10 @@ button:hover{
     border-color: black;
 }
 
+.warning{
+    background-color: rgba(218, 30, 36, 0.77);
+}
+
 .plan-day *{
     margin: auto;
 }

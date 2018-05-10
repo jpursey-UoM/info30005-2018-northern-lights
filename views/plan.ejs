@@ -10,6 +10,40 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="public/scripts/plan.js"> </script>
+    <%
+    // this function should probably live in an external file, need to ask how/where
+    // to do that
+    function getMeals(basket){
+        var mealsWithDates = [];
+        var prevMealName;
+        var ingredientsFound;
+        var needed;
+        var candidateMeal;
+        var earliestExpiry;
+        for (var i = 0; i < basket.length; i++){
+            var ingredient = basket[i];
+            if(ingredient.meal) {
+                if (prevMealName == null || ingredient.meal.name != prevMealName){
+                    prevMealName = ingredient.meal.name;
+                    candidateMeal = ingredient.meal;
+                    needed = candidateMeal.components.length;
+                    ingredientsFound = 1;
+                    earliestExpiry = ingredient.expiryDate;
+                }else{
+                    ingredientsFound ++;
+                    if (ingredient.expiryDate < earliestExpiry){
+                        earliestExpiry = ingredient.expiryDate;
+                    }
+                    if (ingredientsFound == needed){
+                        mealsWithDates.push({"meal":candidateMeal,
+                                    "expDate":earliestExpiry});
+                    }
+                }
+            }
+        }
+        return mealsWithDates;
+    }
+    %>
 </head>
 <body>
 
@@ -24,34 +58,16 @@
 <div id="plan">
     <h2>Plan</h2>
     <button onclick="removeAll()">Clear</button>
-    <div class="plan-day">
-        <h3>Monday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
-    <div class="plan-day">
-        <h3>Tuesday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
-    <div class="plan-day">
-        <h3>Wednesday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
-    <div class="plan-day">
-        <h3>Thursday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
-    <div class="plan-day">
-        <h3>Friday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
-    <div class="plan-day">
-        <h3>Saturday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
-    <div class="plan-day">
-        <h3>Sunday</h3>
-        <div class="img_wrap" onclick="removeFromPlan(this)"></div>
-    </div>
+    <%
+        const options = {weekday:'long', year:'numeric', month:'numeric', day:'numeric'};
+    for(i=0; i<8; i++){
+        var date = new Date(new Date().getTime()+i*24*60*60*1000);
+        %>
+        <div class="plan-day">
+            <h3><%=date.toLocaleDateString("en-AU", options)%></h3>
+            <div class="img_wrap" onclick="removeFromPlan(this)"></div>
+        </div>
+    <%}%>
 </div>
 
 
@@ -59,16 +75,19 @@
     <h2>Meals</h2>
     <ul id = "meals-list">
         <%  if(user.basket != null){
-                for (var ownedIngredient of user.basket){
-                if(typeof ownedIngredient !== 'undefined'){%>
+                var meals = getMeals(user.basket);
+                for (var i=0; i<meals.length;i++){
+                    var meal = meals[i].meal;
+                    var date = meals[i].expDate;
+                %>
                 <li class="img_wrap" onclick="add2plan(this)">
-                            <img src="<%=ownedIngredient.ingredient.image%>" width="200" alt="<%=ownedIngredient.ingredient.name%>"
+                            <img src="<%=meal.image%>" width="200" alt="<%=meal.name%>"
                                  title="Add to plan">
-                            <p><%=ownedIngredient.ingredient.name%></p>
+                    <p><%=meal.name%> (<span class="exp-date"><%=date.toLocaleDateString("en-AU")%></span>)</p>
                 </li>
             <%  }
-            }
-        };%>
+
+        }%>
 
     </ul>
     <button id="autofill-plan" onclick="addAll()"><< Autofill</button>

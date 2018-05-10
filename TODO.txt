@@ -1,0 +1,18 @@
+
+- Submit new meal to db option
+- Submit new ingredient to DB
+- Fix sessions to allow multiple simultaneous users
+- Update DB after adding meals to Plan
+- Add recipe info popup
+- Handle passwords securely
+- Basket usability:
+    - make clear what each feature means
+- Plan usability:
+    - add drag and drop
+    - more info for warnings
+- Overall usability:
+    - h1 headings for each page
+    - higher contrast nav
+
+- Info about site on signup page
+- Link from login -> signup

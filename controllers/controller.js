@@ -75,7 +75,6 @@ module.exports.finishShopping = function(req, res) {
         User.findOne({email: sess.email}, function (err, result) {
             if (!err) {
                 var selected = Object.keys(req.body);
-                console.log(selected)
                 var id;
                 var selectedId;
 
@@ -378,33 +377,40 @@ module.exports.addItemFromList = function(req,res){
     var query=req.body.item;
     //check if the item is added from meal list or ingredient list
     if(req.body.item.components){
-        createIngredientItem(query,true);
+        createIngredientItem(query,true,req.body.selected);
         res.send(true)
     }else {
-        createIngredientItem(query,false);
+        createIngredientItem(query,false,[]);
         res.send(true)
     }
 };
 
-function createIngredientItem(item,includeMeal){
+function createIngredientItem(item,includeMeal,selected){
     if(includeMeal){
         for(var i=0;i<item.components.length;i++) {
-            var Ingredient = new ownedIngredient({
-                "ingredient": item.components[i].component,
-                "quantity": item.components[i].quantity,
-                "expiryDate": getExpiryDate(item.components[i].component.shelfLife),
-                "meal":item
-            });
-            User.findOneAndUpdate(
-                { email: sess.email },
-                { $push: { shoppinglist: Ingredient} },
-                function (err, newItem) {
-                    if(!err){
-                        console.log("success")
-                    }else{
-                        console.log(err);
-                    }
-                });
+            console.log(item.components[i].component.id);
+            for(var j=0;j<selected.length;j++){
+                if(item.components[i].component.id==selected[j]){
+                    var Ingredient = new ownedIngredient({
+                        "ingredient": item.components[i].component,
+                        "quantity": item.components[i].quantity,
+                        "expiryDate": getExpiryDate(item.components[i].component.shelfLife),
+                        "meal":item
+                    });
+                    User.findOneAndUpdate(
+                        { email: sess.email },
+                        { $push: { shoppinglist: Ingredient} },
+                        function (err, newItem) {
+                            if(!err){
+                                console.log("success")
+                            }else{
+                                console.log(err);
+                            }
+                        });
+                    selected.splice(j, 1);
+                    break;
+                }
+            }
         }
     }else {
         var Ingredient = new ownedIngredient({
@@ -458,20 +464,20 @@ module.exports.clearlist = function(req, res){
                 console.log(err);
             }
         });
-    User.findOneAndUpdate(
-        { email: sess.email },
-        { $set: { basket: []} },
-        function (err, newItem) {
-            if(!err){
-                console.log("success")
-            }else{
-                console.log(err);
-            }
-        });
-     res.send(true)
-    }else{
-     res.redirect('/');
-    }
+    // User.findOneAndUpdate(
+    //     { email: sess.email },
+    //     { $set: { basket: []} },
+    //     function (err, newItem) {
+    //         if(!err){
+    //             console.log("success")
+    //         }else{
+    //             console.log(err);
+    //         }
+    //     });
+    //  res.send(true)
+    // }else{
+    //  res.redirect('/');
+     }
 }
 
 //clear the basket

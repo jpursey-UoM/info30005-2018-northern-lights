@@ -27,14 +27,37 @@
     <a href="/meals">View all</a>
     <% for(var i=0; i<4; i++){%>
     <div class="img_wrap">
-       <a href="#" onclick="addfromHome(<%= JSON.stringify(meals[i])%>)">
-           <p>
-            <img src="<%=meals[i].image%>" width="200" alt="<%=meals[i].name%>"
+       <!--<a href="#" onclick="addfromHome(<%= JSON.stringify(meals[i])%>)">-->
+           <!--<a href="#" onclick="showModel(<%= JSON.stringify(meals[i])%>)">-->
+
+           <p onclick="showModel(<%= JSON.stringify(meals[i])%>)">
+            <img  src="<%=meals[i].image%>" width="200" alt="<%=meals[i].name%>"
                  title="Add to my list">
 
            <%=meals[i].name%>
            </p>
-       </a>
+               <div class="modal <%=meals[i]._id%>">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <span onclick="closeModel(<%= JSON.stringify(meals[i])%>)" class="close">&times;</span>
+                           <h2><%=meals[i].name%></h2>
+                       </div>
+                       <div class="modal-body">
+                           <% for(var j=0; j<meals[j].components.length; j++){%>
+                           <div class="<%=meals[i]._id%>" >
+                           <input value="<%=meals[i].components[j].component.id%>" type="checkbox" checked>
+                               <%=meals[i].components[j].component.name%>
+                           </div>
+                           <%}%>
+                           <button onclick="addfromHome(<%= JSON.stringify(meals[i])%>)" class="">Add to basket</button>
+                       </div>
+                       <!--<div class="modal-footer">-->
+                           <!--<h3>Modal Footer</h3>-->
+                       <!--</div>-->
+                   </div>
+
+               </div>
+       <!--</a>-->
     </div>
     <%}%>
 </div>
