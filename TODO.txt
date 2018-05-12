@@ -12,7 +12,6 @@
     - more info for warnings
 - Overall usability:
     - h1 headings for each page
-    - higher contrast nav
 
 - Info about site on signup page
 - Link from login -> signup

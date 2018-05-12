@@ -19,6 +19,16 @@ body {
     height: 100%;
 }
 
+.logo{
+    font-family: 'Homemade Apple', cursive;
+    font-size: 1.5em;
+}
+
+.logo li{
+    padding: 5px;
+    padding-left: 10px;
+}
+
 .contact{
     font-family: 'Signika Negative', sans-serif;
 }
@@ -35,7 +45,7 @@ header h1{
 nav{
     grid-area: nav;
     background-color: rgba(226, 147, 91, 0.81); /* fix this colour*/
-    width: 10em;
+    width: 13em;
     font-family:'GlacialIndifferenceRegular', sans-serif;
     font-weight: 700;
 }
@@ -55,13 +65,13 @@ nav li{
 }
 
 nav li:hover{
-    background-color: rgba(255, 255, 255, 0.63);/* fix this colour*/
+    background-color: rgba(0, 0, 0, 0.2);
     /*color: #fff7e6d6;*/
 
 }
 
 nav .active{
-    background-color: rgba(255, 255, 255, 0.63);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 h1{
