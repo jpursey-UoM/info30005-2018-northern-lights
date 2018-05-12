@@ -33,14 +33,10 @@ body {
     font-family: 'Signika Negative', sans-serif;
 }
 
-header{
-    grid-area: header;
-    height: 15em;
-    min-height: 15em;
-}
 
-header h1{
+h1{
     font-family: 'Homemade Apple', cursive;
+    grid-area: header;
 }
 nav{
     grid-area: nav;

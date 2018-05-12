@@ -115,7 +115,22 @@ body{
     grid-column: 2;
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1300px){
+    .item_section {
+        grid-template-columns: repeat(3, auto);
+        grid-template-rows: 4em 18em;
+    }
+    .item_section h2{
+        grid-column: 1/span 2;
+    }
+
+    .item_section a{
+        grid-column: 3;
+    }
+
+}
+
+@media screen and (min-width: 1500px){
     .item_section {
         grid-template-columns: repeat(4, auto);
         grid-template-rows: 4em 18em;
