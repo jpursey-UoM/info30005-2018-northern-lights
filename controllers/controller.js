@@ -9,6 +9,7 @@ var User = mongoose.model('user');
 
 
 var sess;
+sess = {email:'wendy'};
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -158,11 +159,11 @@ module.exports.loadBasket = function(req, res) {
 };
 
 // page: basket, action: respond to ajax's GET request for the basket
-// without refreshing
 module.exports.getBasket =  function(req, res) {
     if (sess) {
         User.findOne({email: sess.email}, function(err, user) {
             if (!err){
+                console.log(user.basket[0].expiryDate.getDate());
                 res.json(user.basket);
             } else {
                 console.log("cannot find user.");
@@ -246,15 +247,48 @@ module.exports.addToBasket = function(req, res){
     }
 };
 
-// module.exports.reduceShelfLife = function(req, res){
-//     if (sess) {
-//         User.findOne({email: sess.email}, function (err, user) {
-//             if (!err) {
-//
-//             }
-//         }
-//     }
-// }
+module.exports.updateExpiry = function(req, res){
+    if (sess) {
+        User.findOne({email: sess.email}, function (err, user) {
+            if (!err) {
+                var id = req.body.id;
+                var action = req.body.action;
+
+                // get the ingredient from user's basket and update the expiry date
+                for (var i = 0; i < user.basket.length; i++) {
+                    if (user.basket[i]._id.toString() == id) {
+                        var current = user.basket[i].expiryDate;
+                        var newDate = new Date();
+                        if (action == '-1') {
+                            newDate.setDate(current.getDate() - 1);
+                            user.basket[i].expiryDate = newDate;
+                        } else if (action == '1'){
+                            newDate.setDate(current.getDate() + 1);
+                            user.basket[i].expiryDate = newDate;
+                        }
+                        break;
+                    }
+                }
+
+                user.save(function(err) {
+                    if (!err) {
+
+                        res.json(user.basket[0]);
+
+                    } else {
+                        console.log("error updating expiry date.");
+                        res.sendStatus(404);
+                    }
+                });
+            } else {
+                console.log("error finding user when updating expiry date.");
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+};
 
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
@@ -464,21 +498,8 @@ module.exports.clearlist = function(req, res){
                 console.log(err);
             }
         });
-    // User.findOneAndUpdate(
-    //     { email: sess.email },
-    //     { $set: { basket: []} },
-    //     function (err, newItem) {
-    //         if(!err){
-    //             console.log("success")
-    //         }else{
-    //             console.log(err);
-    //         }
-    //     });
-    //  res.send(true)
-    // }else{
-    //  res.redirect('/');
      }
-}
+};
 
 //clear the basket
 module.exports.clearBasket = function(req, res){
@@ -493,7 +514,7 @@ module.exports.clearBasket = function(req, res){
             }
         });
     res.send(true)
-}
+};
 
 
 module.exports.checkUser = function(req, res){

@@ -14,7 +14,7 @@ router.post('/finishShopping', controller.finishShopping);
 router.get('/basket', controller.loadBasket);
 router.get('/getBasket', controller.getBasket);
 router.post('/addToBasket', controller.addToBasket);
-// router.post('/reduceShelfLife', controller.reduceShelfLife);
+router.post('/updateExpiry', controller.updateExpiry);
 router.delete('/deleteFromBasket/:id', controller.deleteFromBasket);
 
 router.get('/profile', controller.loadProfile);
