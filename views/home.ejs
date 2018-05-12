@@ -9,7 +9,7 @@
     <script type="text/javascript" src="public/scripts/items.js"></script>
     <link rel="stylesheet" href="/public/styles/style.css" type="text/css">
     <link rel="stylesheet" href="/public/styles/home.css" type="text/css">
-
+    <script src="public/scripts/home.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -22,7 +22,13 @@
 <div id="meals" class="item_section">
     <h2>Meals</h2>
     <a href="/meals">View all</a>
-    <% for(var i=0; i<4; i++){%>
+    <div class="img_wrap">
+        <p onclick="showNewMeal()">
+            <img src="public/images/plus-icon.png" width="200" height="200" alt="add a new meal"/>
+        Add a new meal
+        </p>
+    </div>
+    <% for(var i=0; i<7; i++){%>
     <div class="img_wrap">
        <!--<a href="#" onclick="addfromHome(<%= JSON.stringify(meals[i])%>)">-->
            <!--<a href="#" onclick="showModel(<%= JSON.stringify(meals[i])%>)">-->
@@ -100,6 +106,22 @@
     <a href="/list" id="go-shopping">Go shopping! </a>
 
 </aside>
+<form class="popup-form" id="new-meal-form" name="newMeal">
+    <h2>New Meal</h2>
+    <label>Name</label>
+    <input type="text" id="meal-name" size=20 placeholder="Margherita Pizza">
+    <label>Image URL</label>
+    <input type="text" id="meal-url" size=50>
+    <label>Cuisine Type</label>
+    <input type="text" id="meal-type" placeholder="Italian">
+    <label>Ingredients</label>
+    <button type="button">+ Add Ingredient</button>
+    <label>Description</label>
+    <textarea id="description" placeholder="Inspired by the pizza at Bar Del Corso, this Pizza Margherita features tomato sauce, mozzarella, and basil, with just a hint of sea salt."></textarea>
+    <button type="submit">Create</button>
+    <button type="button" onclick="hideNewMeal()">X Cancel</button>
+
+</form>
 <footer>
     <%- include('./footer.ejs'); %>
 </footer>
