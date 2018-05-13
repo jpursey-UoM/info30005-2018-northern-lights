@@ -15,6 +15,14 @@ function hideNewMeal(){
 function showAddComponent(){
     document.getElementById("add-component-form").style.display="block";
     document.getElementById("ingredient-name-input").removeAttribute("readonly");
+    document.getElementById("ingredient-name-input").setAttribute("placeholder", "Start typing...");
+
+    // add ingredients until something gets typed
+    const div = document.getElementById("add-ingredient-dropdown");
+    const elems = div.getElementsByClassName("dropdown-item");
+    for (i = 0; i < elems.length; i++) {
+        elems[i].style.display = "none";
+    }
 }
 
 function cancelAddComponent(){

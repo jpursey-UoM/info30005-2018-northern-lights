@@ -117,7 +117,7 @@
     <label>Name</label>
     <input type="text" id="meal-name" size=20 placeholder="Margherita Pizza">
     <label>Image URL</label>
-    <input type="text" id="meal-url" size=50>
+    <input type="url" id="meal-url" size=50 placeholder="https://www.foodpics.com/pizza.png">
     <label>Cuisine Type</label>
     <input type="text" id="meal-type" placeholder="Italian">
     <label>Ingredients</label>
@@ -125,7 +125,7 @@
     </ul>
     <button type="button" onclick="showAddComponent()">+ Add Ingredient</button>
     <label>Description</label>
-    <textarea id="description" placeholder="Inspired by the pizza at Bar Del Corso, this Pizza Margherita features tomato sauce, mozzarella, and basil, with just a hint of sea salt."></textarea>
+    <textarea id="description" placeholder="Inspired by the pizza at Bar Del Corso, this Pizza Margherita features tomato sauce, mozzarella, and basil, with just a hint of sea salt. Find the recipe at https://www.taste.com.au/recipes/mushroom-cream-cheese-pizza-2/aZo2BRQm?r=recipes/pizzarecipes&c=eb74e6c3-e6b4-43ff-a2da-600b816d592d/Pizza%20recipes"></textarea>
     <button type="submit" onclick="createMeal()">+ Create</button>
     <button type="button" onclick="hideNewMeal()">X Cancel</button>
 
@@ -133,7 +133,6 @@
 
 <form method="post" id="add-component-form" class="popup-form">
     <h2>Add new meal ingredient</h2>
-    <button type="button" onclick="cancelAddComponent()">X Cancel</button>
     <label>Name</label>
     <div id="add-ingredient-dropdown">
         <input type="text" id="ingredient-name-input" onkeyup="filterIngredients()">
@@ -146,17 +145,20 @@
     <label>Qty</label>
     <input type="number" id="add-component-qty" value="1">
     <button type="button" onclick="addComponent()">+ Add</button>
+    <button type="button" onclick="cancelAddComponent()">X Cancel</button>
+
 </form>
 
 <form method="post" class="popup-form" id="add-ingredient-form">
+    <h2>New Ingredient</h2>
     <label>Name</label>
     <input type="text" placeholder="Celery" id="new-ingredient-name">
     <label>Image URL</label>
-    <input type="url" placeholder="https://www.foodpics.com/celery.jpg"  id="new-ingredient-image">
+    <input type="url" size=20 placeholder="https://www.foodpics.com/celery.jpg"  id="new-ingredient-image">
     <label>Type</label>
     <input type="text" placeholder="Vegetable"  id="new-ingredient-type">
     <label>Shelf life (days)</label>
-    <input type="number" placeholder="4" id="new-ingredient-shelf-life">
+    <input type="number" size=2 placeholder="4" id="new-ingredient-shelf-life">
     <button type="button" onclick="createIngredient()">+ Create</button>
     <button type="button" onclick="hideNewIngredient()">X Cancel</button>
 </form>

@@ -163,6 +163,7 @@ footer *{
 .popup-form{
     display: none;
     width: 50%;
+    min-width: fit-content;
     height: fit-content;
     margin: 15% 25% auto 25%;
     position: fixed;
@@ -189,9 +190,14 @@ form button{
     font-size: 1em;
     padding: 10px;
     border-width: 1px;
+    cursor: pointer;
 
 }
 
 form button:hover{
     background-color: rgb(183,206,164);
+}
+
+form input:focus{
+    outline: 3px solid rgba(124, 175, 122, 0.69);
 }
