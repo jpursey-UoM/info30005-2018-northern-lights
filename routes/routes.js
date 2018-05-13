@@ -27,7 +27,7 @@ router.get('/filtermeal',controller.FilterMeal);
 router.get('/ingredients', controller.loadIngredients);
 router.get('/ingredient', controller.SearchIngredient);
 router.get('/filteringredient',controller.FilterIngredient);
-
+router.get('/lookupIngredient', controller.getIngredientById);
 
 router.post('/addItemFromList', controller.addItemFromList);
 router.post('/deleteItem', controller.deleteItem);
@@ -38,5 +38,7 @@ router.get('/checkuser', controller.checkUser);
 router.post('/adduser', controller.addUser);
 router.post('/userlogin', controller.userLogin);
 router.get('/logout', controller.logout);
+
+router.post('/createMeal', controller.createMeal);
 
 module.exports = router;

@@ -3,7 +3,7 @@
 // Maybe we can have ingredientsController, basketController etc. - Wendy
 var mongoose = require('mongoose');
 var ingredient = mongoose.model('ingredients');
-var meal = mongoose.model('meals');
+var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 
@@ -316,7 +316,7 @@ function escapeRegex(text) {
 
 module.exports.SearchMeal = function(req,res){
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    meal.find({ "name": regex},function (err, doc){
+    Meal.find({ "name": regex},function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -332,7 +332,7 @@ module.exports.FilterMeal = function(req,res){
         type['type'] = req.query.category[i];
         types.push(type);
     }
-    meal.find({ $or: types },function (err, doc){
+    Meal.find({ $or: types },function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -341,9 +341,21 @@ module.exports.FilterMeal = function(req,res){
     });
 };
 
+module.exports.createMeal = function(req, res){
+    var meal = new Meal(req.body);
+    console.log(meal);
+    meal.save(function (err, meal) {
+        if(!err){
+            res.send(meal);
+        }else{
+            res.sendStatus(404);
+        }
+    })
+};
+
 
 module.exports.loadIngredients = function(req,res){
-    var query = getIngredient()
+    var query = getIngredient();
     if (sess) {
          query.exec(function(err,ingredients){
          if(!err){
@@ -374,6 +386,17 @@ module.exports.SearchIngredient = function(req,res){
     });
 };
 
+module.exports.getIngredientById = function(req, res){
+  const id = req.query.id;
+  ingredient.findOne({'id': id}, function(err, ing){
+      if(!err){
+          res.send(ing);
+      }else{
+          res.sendStatus(404);
+      }
+  })
+};
+
 
 module.exports.FilterIngredient = function(req,res){
     var types = [];
@@ -396,7 +419,7 @@ function getIngredient(){
     return query;
 }
 function getMeal(){
-    var query = meal.find();
+    var query = Meal.find();
     return query;
 }
 
@@ -421,7 +444,8 @@ module.exports.addItemFromList = function(req,res){
 
 function createIngredientItem(item,includeMeal,selected){
     if(includeMeal){
-        for(var i=0;i<item.components.length;i++) {
+        console.log(item.components); // no error...
+        for(var i=0;i<item.components.length;i++) { // cannot read property length of undefined??
             console.log(item.components[i].component.id);
             for(var j=0;j<selected.length;j++){
                 if(item.components[i].component.id==selected[j]){
@@ -483,7 +507,7 @@ module.exports.deleteItem = function(req, res){
             res.sendStatus(404);
         }
     });
-}
+};
 
 //clear the shopping list
 module.exports.clearlist = function(req, res){

@@ -115,12 +115,31 @@
     <label>Cuisine Type</label>
     <input type="text" id="meal-type" placeholder="Italian">
     <label>Ingredients</label>
-    <button type="button">+ Add Ingredient</button>
+    <ul id="components-list">
+    </ul>
+    <button type="button" onclick="showAddComponent()">+ Add Ingredient</button>
     <label>Description</label>
     <textarea id="description" placeholder="Inspired by the pizza at Bar Del Corso, this Pizza Margherita features tomato sauce, mozzarella, and basil, with just a hint of sea salt."></textarea>
-    <button type="submit">Create</button>
+    <button type="submit" onclick="createMeal()">Create</button>
     <button type="button" onclick="hideNewMeal()">X Cancel</button>
 
+</form>
+
+<form method="post" id="add-component-form" class="popup-form">
+    <h2>Add new meal ingredient</h2>
+    <button type="button" onclick="cancelAddComponent()">X Cancel</button>
+    <label>Name</label>
+    <div id="add-ingredient-dropdown">
+        <input type="text" id="ingredient-name-input" onkeyup="filterIngredients()">
+        <% for (var i=0; i<ingredients.length; i++){%>
+            <span class="dropdown-item" onclick="selectComponent(<%=ingredients[i].id%>)">
+                <%=ingredients[i].name%>
+            </span>
+        <%}%>
+    </div>
+    <label>Qty</label>
+    <input type="number" id="add-component-qty">
+    <button type="button" onclick="addComponent()">+ Add</button>
 </form>
 <footer>
     <%- include('./footer.ejs'); %>
