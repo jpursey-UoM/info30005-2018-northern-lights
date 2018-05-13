@@ -445,9 +445,19 @@ module.exports.deleteItem = function(req, res){
 //clear the shopping list
 module.exports.clearlist = function(req, res){
     if(sess){
-      User.findOneAndUpdate(
+      // User.findOneAndUpdate(
+      //   { email: sess.email },
+      //   { $set: { shoppinglist: []} },
+      //   function (err, newItem) {
+      //       if(!err){
+      //           console.log("success")
+      //       }else{
+      //           console.log(err);
+      //       }
+      //   });
+    User.findOneAndUpdate(
         { email: sess.email },
-        { $set: { shoppinglist: []} },
+        { $set: { basket: []} },
         function (err, newItem) {
             if(!err){
                 console.log("success")
@@ -455,19 +465,9 @@ module.exports.clearlist = function(req, res){
                 console.log(err);
             }
         });
-    // User.findOneAndUpdate(
-    //     { email: sess.email },
-    //     { $set: { basket: []} },
-    //     function (err, newItem) {
-    //         if(!err){
-    //             console.log("success")
-    //         }else{
-    //             console.log(err);
-    //         }
-    //     });
-    //  res.send(true)
-    // }else{
-    //  res.redirect('/');
+     res.send(true)
+    }else{
+     res.redirect('/');
      }
 }
 
