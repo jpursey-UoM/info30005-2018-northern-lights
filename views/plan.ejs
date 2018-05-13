@@ -60,7 +60,7 @@
     for(i=0; i<8; i++){
         var date = new Date(new Date().getTime()+i*24*60*60*1000);
         %>
-        <div class="plan-day">
+        <div class="plan-day" ondragover="allowDrop(event)" ondrop="drop(event)">
             <h3><%=date.toLocaleDateString("en-AU", options)%></h3>
             <div class="img_wrap" onclick="removeFromPlan(this)"></div>
         </div>
@@ -77,8 +77,8 @@
                     var meal = meals[i].meal;
                     var date = meals[i].expDate;
                 %>
-                <li class="img_wrap" onclick="add2plan(this)">
-                            <img src="<%=meal.image%>" width="200" alt="<%=meal.name%>"
+                <li id="<%=meal.id%>" class="img_wrap" onclick="add2plan(this)" >
+                            <img id="<%=meal.id%>" src="<%=meal.image%>"  draggable="true" ondragstart="drag(event)" width="200" alt="<%=meal.name%>"
                                  title="Add to plan">
                     <p><%=meal.name%> (<span class="exp-date"><%=date.toLocaleDateString("en-AU")%></span>)</p>
                 </li>
