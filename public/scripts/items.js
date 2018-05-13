@@ -69,7 +69,6 @@ function DeleteItem(item){
 }
 
 function showModel(item){
-    console.log("test")
     $('.'+item._id).css({'display' : 'block'});
 }
 
@@ -117,7 +116,6 @@ function groupByMeal(checkbox,basket){
         }
     }
     $('.list').html(items);
-
 }
 
 function addItemfromlist(item){
@@ -140,14 +138,41 @@ function getNextPage(itemList,place){
         nextPage = parseInt($("#pre").attr("class")) - 1;
         max=(nextPage+1)*ItemOnOnePage;
     }
-
-    for (var i = nextPage*ItemOnOnePage; i< max; i++) {
-        items += "<div class=\"item\"><p><img width='250' src='" + itemList[i].image + "'>" +
+    if(itemList[0].components) {
+        for (var i = nextPage * ItemOnOnePage; i < max; i++) {
+            items += "<div class=\"item\"><p><img width='250' src='" + itemList[i].image + "'>" +
             "<br>" + itemList[i].name +
             "</p><button type=\"button\" id=\"" + itemList[i].id +
-            "\" onclick=\'addItemfromlist(" +JSON.stringify(itemList[i])+ ")\'" +
-            ">Add to basket</button>"+
-            "</a></div>";
+            "\" onclick=\'showModel(" + JSON.stringify(itemList[i]) + ")\'" +
+            ">Add to basket</button>" +
+            "<div class=\"modal " + itemList[i]._id + "\">" +
+            "<div class=\"modal-content\">" +
+            "<div class=\"modal-header\">" +
+            "<span onclick=\"closeModel(" + JSON.stringify(itemList[i]) + ")\" class=\"close\">&times;</span>" +
+            "<h2>" + itemList[i].name + "</h2>" +
+            "</div>" +
+            "<div class=\"modal-body\">"
+        for (var j = 0; j < itemList[j].components.length; j++) {
+            items += "<div class=\"" + itemList[i]._id + "\" >" +
+                "<input value=\"" + itemList[i].components[j].component.id + "\" type=\"checkbox\" checked>" +
+                itemList[i].components[j].component.name + "</div>";
+        }
+        items += "<button onclick=\'addItemfromlist(" + JSON.stringify(itemList[i]) + ")\'" + ">Add to basket</button>" +
+            "</div>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+    }
+    }else{
+        for (var i = nextPage * ItemOnOnePage; i < max; i++) {
+
+            items += "<div class=\"item\"><p><img width='250' src='" + itemList[i].image + "'>" +
+                "<br>" + itemList[i].name +
+                "</p><button type=\"button\" id=\"" + itemList[i].id +
+                "\" onclick=\'addItemfromlist(" + JSON.stringify(itemList[i]) + ")\'" +
+                ">Add to basket</button>" +
+                "</a></div>";
+        }
     }
     $('.items').html(items);
     var preClass=parseInt($("#pre").attr("class"));
@@ -177,7 +202,7 @@ $(function(){
             url: "/ingredient",
             data: {search: filterText},
             success: function(result){
-                formatResult(result)
+                formatResult(result,"ingredient")
             }
 
         });
@@ -195,7 +220,7 @@ $(function(){
             url: "/meal",
             data: {search: filterText},
             success: function(result){
-                formatResult(result)
+                formatResult(result,"meal")
             }
 
         });
@@ -217,7 +242,7 @@ $(function(){
             url: "/filteringredient",
             data: {category:category},
             success: function(result){
-                formatResult(result)
+                formatResult(result,"ingredient")
             }
 
         });
@@ -238,7 +263,7 @@ $(function(){
             url: "/filteringredient",
             data: {category:category},
             success: function(result){
-                formatResult(result)
+                formatResult(result,"ingredient")
             }
         });
         $('.all').prop('checked', true);
@@ -259,7 +284,7 @@ $(function(){
             url: "/filtermeal",
             data: {category:category},
             success: function(result){
-                formatResult(result)
+                formatResult(result,"meal")
             }
 
         });
@@ -280,93 +305,58 @@ $(function(){
             url: "/filtermeal",
             data: {category:category},
             success: function(result){
-                formatResult(result)
+                formatResult(result,"meal")
             }
         });
         $('.all').prop('checked', true);
     });
 });
 
-function formatResult(result){
+//type determine form result for meal or ingredient
+function formatResult(result,type){
     var items="";
     var pages="";
     var max=result.length;
     if(max > 12){
         max=12
     }
+    if(type == "meal"){
     for (var i = 0; i< max; i++) {
 
         items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
             "<br>" + result[i].name +
             "</p><button type=\"button\" id=\"" + result[i].id +
-            "\" onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'" +
+            "\" onclick=\'showModel(" +JSON.stringify(result[i])+ ")\'" +
             ">Add to basket</button>"+
-            "</a></div>";
+            "<div class=\"modal " + result[i]._id + "\">" +
+            "<div class=\"modal-content\">" +
+            "<div class=\"modal-header\">" +
+            "<span onclick=\"closeModel("+JSON.stringify(result[i])+")\" class=\"close\">&times;</span>" +
+            "<h2>"+result[i].name+"</h2>" +
+            "</div>" +
+            "<div class=\"modal-body\">"
+        for(var j=0; j<result[j].components.length; j++){
+            items += "<div class=\"" + result[i]._id + "\" >" +
+                "<input value=\"" + result[i].components[j].component.id + "\" type=\"checkbox\" checked>" +
+                result[i].components[j].component.name + "</div>";
+        }
+        items += "<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'" + ">Add to basket</button>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
     }
-    // for (var i = 0; i< max; i++) {
-    //
-    //     items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
-    //         "<br>" + result[i].name +
-    //         "</p><button type=\"button\" id=\"" + result[i].id +
-    //         "\" onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'" +
-    //         ">Add to basket</button>"+
-    //         "</a></div>";
-    // }
-    // for (var i = 0; i< max; i++) {
-    //         items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
-    //             "<br>" + result[i].name +
-    //             "</p><button type=\"button\" id=\"" + result[i].id +
-    //             "\" onclick=\'showModel(" +JSON.stringify(result[i])+ ")\'" +
-    //             ">Add to basket</button>"+
-    //             "<div class=\"modal "+result[i]._id+"\">" +"<div class=\"modal-content\"><div class=\"modal-header\">"+
-    //             "<span onclick=\'closeModel(" +JSON.stringify(result[i])+ ")\' class=\"close\">&times;</span>"+
-    //             "<h2>"+result[i].name+"</h2>"+
-    //             "</div><div class=\"modal-body\">"
-    //     for(var j=0; j<result[j].components.length; j++){
-    //             items +="<div class=\"" +result[i]._id+ "\">"+
-    //                 "<div class=\"" + result[i]._id + "\">"+
-    //                 "<input value=\"" +result[i].components[j].component.id + "\" type=\"checkbox\" checked>"+
-    //                 result[i].components[j].component.name + "</div>"
-    //     }
-    //      items+="<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'"+">Add to basket</button></div></div></div></div>";
+    }else{
+        for (var i = 0; i< max; i++) {
 
-        // items += "<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'>Add to basket</button>"+
-        //     "</div></div></div></div>"
-                // "</div>";
-    // <div class="modal <%=meals[i]._id%>">
-    //         <div class="modal-content">
-    //         <div class="modal-header">
-    //         <span onclick="closeModel(<%= JSON.stringify(meals[i])%>)" class="close">&times;</span>
-    //     <h2><%=meals[i].name%></h2>
-    //         </div>
-    //         <div class="modal-body">
-    //         <% for(var j=0; j<meals[j].components.length; j++){%>
-    //     <div class="<%=meals[i]._id%>" >
-    //             <input value="<%=meals[i].components[j].component.id%>" type="checkbox" checked>
-    //         <%=meals[i].components[j].component.name%></div>
-    //             <%}%>
-    // <button onclick="addItemfromlist(<%= JSON.stringify(meals[i])%>)" class="">Add to basket</button>
-    //     </div>
-    //     <!--<div class="modal-footer">-->
-    //     <!--<h3>Modal Footer</h3>-->
-    //     <!--</div>-->
-    //     </div>
-    //     </div>
-
-        // items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
-        //     "<br>" + result[i].name +
-        //     "</p><button type=\"button\" id=\"" + result[i].id +
-        //     "\" onclick=\'showModel(" +JSON.stringify(result[i])+ ")\'" +
-        //     ">Add to basket</button>"+
-        //     "<div class='modal "+ result[i]._id+"'><div class=\"modal-content\"><div class=\"modal-header\">"+
-        //     "<span onclick=\"closeModel("+JSON.stringify(result[i])+ ")\" class=\"close\">&times;</span>"+
-        //     "<h2>"+result[i].name+"</h2></div><div class=\"modal-body\">"
-        // for(var j=0; j<result[j].components.length; j++){
-        //     items += "<div class=\"" + result[i]._id +"\"><input value=\""+result[i].components[j].component.id+
-        //         "\" type=\"checkbox\" checked>"+result[i].components[j].component.name+"</div>"
-        // }
-        // items+="<button onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'"+">Add to basket</button></div></div></div></div>";
-    //}
+            items += "<div class=\"item\"><p><img width='250' src='" + result[i].image + "'>" +
+                "<br>" + result[i].name +
+                "</p><button type=\"button\" id=\"" + result[i].id +
+                "\" onclick=\'addItemfromlist(" +JSON.stringify(result[i])+ ")\'" +
+                ">Add to basket</button>"+
+                "</a></div>";
+        }
+    }
     $('.items').html(items);
     pages += "<a href='#' id='pre' class=\"disable_a_href 0\" onclick=\'getNextPage(" +JSON.stringify(result)+ ",\"previous\")\'" +
         ">Previous</a>";

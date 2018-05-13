@@ -1,8 +1,9 @@
 
-- Submit new meal to db option
-- Submit new ingredient to DB
+- Fix components undefined bug when trying to add created meal to
+    basket
+- Submit new ingredient to DB -- MOSTLY WORKING, CAN CREATE, ADD TO LIST, BUT NOT TO BASKET. MAYBE NEEDS ID?
 - Fix sessions to allow multiple simultaneous users
-- Update DB after adding meals to Plan
+- Link plan to DB
 - Add recipe info popup
 - Handle passwords securely
 - Basket usability:
@@ -11,8 +12,6 @@
     - add drag and drop
     - more info for warnings
 - Overall usability:
-    - h1 headings for each page
-    - higher contrast nav
+    - consistent layout/style
 
 - Info about site on signup page
-- Link from login -> signup

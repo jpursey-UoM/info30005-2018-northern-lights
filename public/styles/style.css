@@ -19,23 +19,29 @@ body {
     height: 100%;
 }
 
+.logo{
+    font-family: 'Homemade Apple', cursive;
+    font-size: 1.5em;
+}
+
+.logo li{
+    padding: 5px;
+    padding-left: 10px;
+}
+
 .contact{
     font-family: 'Signika Negative', sans-serif;
 }
 
-header{
-    grid-area: header;
-    height: 15em;
-    min-height: 15em;
-}
 
-header h1{
+h1{
     font-family: 'Homemade Apple', cursive;
+    grid-area: header;
 }
 nav{
     grid-area: nav;
     background-color: rgba(226, 147, 91, 0.81); /* fix this colour*/
-    width: 10em;
+    width: 13em;
     font-family:'GlacialIndifferenceRegular', sans-serif;
     font-weight: 700;
 }
@@ -55,13 +61,13 @@ nav li{
 }
 
 nav li:hover{
-    background-color: rgba(255, 255, 255, 0.63);/* fix this colour*/
+    background-color: rgba(0, 0, 0, 0.2);
     /*color: #fff7e6d6;*/
 
 }
 
 nav .active{
-    background-color: rgba(255, 255, 255, 0.63);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 h1{
@@ -152,4 +158,40 @@ footer *{
     padding: 2px 16px;
     background-color: rgba(226, 147, 91, 0.81);
     color: white;
+}
+
+.popup-form{
+    display: none;
+    width: 50%;
+    height: fit-content;
+    margin: 15% 25% auto 25%;
+    position: fixed;
+    background-color: #fefefe;
+    padding: 10px;
+    border-radius: 25px;
+    border-style: solid;
+    line-height: 2em;
+}
+
+form *{
+    display: block;
+    margin-top: 1em;
+}
+
+form button{
+    border-radius: 5px;
+    display: inline-block;
+    color: rgb(118,144,76);
+    background-color: rgb(243,243,245);
+    text-decoration: none;
+    border: none;
+    text-align: center;
+    font-size: 1em;
+    padding: 10px;
+    border-width: 1px;
+
+}
+
+form button:hover{
+    background-color: rgb(183,206,164);
 }

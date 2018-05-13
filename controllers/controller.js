@@ -2,13 +2,14 @@
 // into 2 maybe? One for loading pages, one for API requests? - Jason
 // Maybe we can have ingredientsController, basketController etc. - Wendy
 var mongoose = require('mongoose');
-var ingredient = mongoose.model('ingredients');
-var meal = mongoose.model('meals');
+var Ingredient = mongoose.model('ingredients');
+var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 
 
 var sess;
+sess = {email:'admin'};
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -137,12 +138,7 @@ module.exports.loadBasket = function(req, res) {
                 var query = getIngredient();
                 query.exec(function(err, ingredients) {
                     if (!err) {
-                        console.log("expiry: " + user.basket[0].expiryDate.getDate());
                         var today = new Date();
-                        console.log(typeof user.basket[0].expiryDate)
-                        // console.log("today is: "+ today.getDate());
-                        //
-                        // console.log("shelf life is: " + Math.floor(Math.abs(parseInt(user.basket[0].expiryDate.getDate()) - parseInt(today.getDate()))/7 * 100));
                         res.render('basket', {
                             ingredients: ingredients,
                             basket: user.basket
@@ -163,11 +159,11 @@ module.exports.loadBasket = function(req, res) {
 };
 
 // page: basket, action: respond to ajax's GET request for the basket
-// without refreshing
 module.exports.getBasket =  function(req, res) {
     if (sess) {
         User.findOne({email: sess.email}, function(err, user) {
             if (!err){
+                console.log(user.basket[0].expiryDate.getDate());
                 res.json(user.basket);
             } else {
                 console.log("cannot find user.");
@@ -187,7 +183,7 @@ module.exports.deleteFromBasket = function(req, res) {
             if (!err) {
                 // delete the ingredient with deletId
                 for (var i = 0; i < user.basket.length; i++) {
-                    if (user.basket[i].ingredient.id == deleteId) {
+                    if (user.basket[i]._id.toString() == deleteId) {
                         user.basket.splice(i, 1);
                         break;
                     }
@@ -216,36 +212,83 @@ module.exports.addToBasket = function(req, res){
     if (sess) {
         User.findOne({email: sess.email}, function (err, user) {
             if (!err) {
-                const toAdd = req.body.ingredient;
+                const ingredientId = req.body.ingredientId;
+                Ingredient.findOne({id: ingredientId}, function (err, toAdd) {
+                    if (!err) {
+                        // create ownedIngredient and add to basket
+                        var Ingredient = new ownedIngredient({
+                            "ingredient": toAdd,
+                            "quantity": 1,
+                            "expiryDate": getExpiryDate(toAdd.shelfLife)
+                        });
 
-                // create ownedIngredient and add to basket
-                var Ingredient = new ownedIngredient({
-                    "ingredient": toAdd,
-                    "quantity": 1,
-                    "expiryDate": getExpiryDate(toAdd.shelfLife)
-                });
+                        user.basket.push(Ingredient);
 
-                user.basket.push(Ingredient);
-
-                user.save(function (err) {
-                    if (err) {
-                        console.log("Error adding to basket.");
-                        res.sendStatus(404);
+                        user.save(function (err) {
+                            if (err) {
+                                console.log("error adding to basket.");
+                                res.sendStatus(404);
+                            } else {
+                                res.json(Ingredient)
+                            }
+                        });
                     } else {
-                        res.json(Ingredient)
+                        console.log("error adding to basket.");
+                        res.sendStatus(404);
                     }
                 });
             } else {
                 console.log("error finding the user.");
                 res.sendStatus(404);
             }
-        });
+        })
     } else {
         res.redirect('/login');
     }
 };
 
+module.exports.updateExpiry = function(req, res){
+    if (sess) {
+        User.findOne({email: sess.email}, function (err, user) {
+            if (!err) {
+                var id = req.body.id;
+                var action = req.body.action;
 
+                // get the ingredient from user's basket and update the expiry date
+                for (var i = 0; i < user.basket.length; i++) {
+                    if (user.basket[i]._id.toString() == id) {
+                        var current = user.basket[i].expiryDate;
+                        var newDate = new Date();
+                        if (action == '-1') {
+                            newDate.setDate(current.getDate() - 1);
+                            user.basket[i].expiryDate = newDate;
+                        } else if (action == '1'){
+                            newDate.setDate(current.getDate() + 1);
+                            user.basket[i].expiryDate = newDate;
+                        }
+                        break;
+                    }
+                }
+
+                user.save(function(err) {
+                    if (!err) {
+
+                        res.json(user.basket[0]);
+
+                    } else {
+                        console.log("error updating expiry date.");
+                        res.sendStatus(404);
+                    }
+                });
+            } else {
+                console.log("error finding user when updating expiry date.");
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+};
 
 module.exports.loadContact = function(req, res){
     res.render('contact',{member: member});
@@ -273,7 +316,7 @@ function escapeRegex(text) {
 
 module.exports.SearchMeal = function(req,res){
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    meal.find({ "name": regex},function (err, doc){
+    Meal.find({ "name": regex},function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -289,7 +332,7 @@ module.exports.FilterMeal = function(req,res){
         type['type'] = req.query.category[i];
         types.push(type);
     }
-    meal.find({ $or: types },function (err, doc){
+    Meal.find({ $or: types },function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -298,9 +341,40 @@ module.exports.FilterMeal = function(req,res){
     });
 };
 
+module.exports.createMeal = function(req, res){
+    console.log(req.body)
+    var meal = new Meal(req.body);
+    Meal.count({}, function(err, count){
+        meal.id = count + 1;
+        meal.save(function (err, meal) {
+            if(!err){
+                res.send(meal);
+            }else{
+                res.sendStatus(404);
+            }
+        })
+    });
+};
+
+module.exports.createIngredient = function(req, res){
+
+    var ingredient = new Ingredient(req.body);
+    // work out what the next id should be
+    Ingredient.count({}, function(err, count){
+        ingredient.id = count + 1;
+        ingredient.save(function (err, ingredient) {
+            if(!err){
+                res.send(ingredient);
+            }else{
+                res.sendStatus(404);
+            }
+        })
+    });
+};
+
 
 module.exports.loadIngredients = function(req,res){
-    var query = getIngredient()
+    var query = getIngredient();
     if (sess) {
          query.exec(function(err,ingredients){
          if(!err){
@@ -322,13 +396,24 @@ module.exports.loadProfile = function(req, res){
 
 module.exports.SearchIngredient = function(req,res){
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    ingredient.find({ "name": regex},function (err, doc){
+    Ingredient.find({ "name": regex},function (err, doc){
         if(!err){
             res.json(doc);
         }else{
             res.sendStatus(404);
         }
     });
+};
+
+module.exports.getIngredientById = function(req, res){
+  const id = req.query.id;
+  Ingredient.findOne({'id': id}, function(err, ing){
+      if(!err){
+          res.send(ing);
+      }else{
+          res.sendStatus(404);
+      }
+  })
 };
 
 
@@ -339,7 +424,7 @@ module.exports.FilterIngredient = function(req,res){
         type['type'] = req.query.category[i];
         types.push(type);
     }
-    ingredient.find({ $or: types },function (err, doc){
+    Ingredient.find({ $or: types },function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -349,11 +434,11 @@ module.exports.FilterIngredient = function(req,res){
 };
 
 function getIngredient(){
-    var query = ingredient.find();
+    var query = Ingredient.find();
     return query;
 }
 function getMeal(){
-    var query = meal.find();
+    var query = Meal.find();
     return query;
 }
 
@@ -378,7 +463,8 @@ module.exports.addItemFromList = function(req,res){
 
 function createIngredientItem(item,includeMeal,selected){
     if(includeMeal){
-        for(var i=0;i<item.components.length;i++) {
+        console.log(item.components); // no error...
+        for(var i=0;i<item.components.length;i++) { // cannot read property length of undefined??
             console.log(item.components[i].component.id);
             for(var j=0;j<selected.length;j++){
                 if(item.components[i].component.id==selected[j]){
@@ -440,24 +526,14 @@ module.exports.deleteItem = function(req, res){
             res.sendStatus(404);
         }
     });
-}
+};
 
 //clear the shopping list
 module.exports.clearlist = function(req, res){
     if(sess){
-      // User.findOneAndUpdate(
-      //   { email: sess.email },
-      //   { $set: { shoppinglist: []} },
-      //   function (err, newItem) {
-      //       if(!err){
-      //           console.log("success")
-      //       }else{
-      //           console.log(err);
-      //       }
-      //   });
-    User.findOneAndUpdate(
+      User.findOneAndUpdate(
         { email: sess.email },
-        { $set: { basket: []} },
+        { $set: { shoppinglist: []} },
         function (err, newItem) {
             if(!err){
                 console.log("success")
@@ -465,11 +541,21 @@ module.exports.clearlist = function(req, res){
                 console.log(err);
             }
         });
+    // User.findOneAndUpdate(
+    //     { email: sess.email },
+    //     { $set: { basket: []} },
+    //     function (err, newItem) {
+    //         if(!err){
+    //             console.log("success")
+    //         }else{
+    //             console.log(err);
+    //         }
+    //     });
      res.send(true)
     }else{
      res.redirect('/');
      }
-}
+};
 
 //clear the basket
 module.exports.clearBasket = function(req, res){
@@ -484,7 +570,7 @@ module.exports.clearBasket = function(req, res){
             }
         });
     res.send(true)
-}
+};
 
 
 module.exports.checkUser = function(req, res){
