@@ -12,6 +12,7 @@ $(document).ready(function(){
                 var id = ingredient._id;
                 var expiryDate = convertToDate(ingredient.expiryDate);
 
+
                 var shelfLife = getShelfLife(expiryDate);
 
                 ingredientTable.append('<tr data-id=' + id + '>\n' +
@@ -67,6 +68,7 @@ $(document).ready(function(){
 
     // reduce the length of the life bar
     $("#ingredients").on("click", "tr > .len_handler > .button_left", function(event){
+
         var id = $(this).closest("tr").attr('data-id');
 
         $.ajax({
@@ -75,6 +77,7 @@ $(document).ready(function(){
             data: {id: id, action: -1},
             success: function (ingredient) {
                 var newDate = convertToDate(ingredient.expiryDate);
+                // alert("date after reduced: "+ newDate.getDate());
 
                 var shelfLife = getShelfLife(newDate);
                 // alert("changed successfully, new shelf life is "+ shelfLife);
@@ -90,6 +93,7 @@ $(document).ready(function(){
 
     // extend the length of the life bar
     $("#ingredients").on("click", "tr > .len_handler > .button_right", function(event){
+
         var id = $(this).closest("tr").attr('data-id');
 
         $.ajax({
@@ -128,6 +132,7 @@ $(document).ready(function(){
     // if the add button is clicked, add the ingredients to the ingredients table, and initialise the button size to be 5/7
     $(".search_result").on("click", ".plus_button", function(event) {
 
+
         // get the button index
         var button_id = $(this).attr("id");
         var ingredientId = parseInt(button_id.slice(7));
@@ -139,8 +144,9 @@ $(document).ready(function(){
                 var name = addedItem.ingredient.name;
                 var id = addedItem._id;
                 var today = new Date();
+                // alert("shelflife is: "+addedItem.expiryDate);
                 var expiry = new Date(Date.parse(addedItem.expiryDate));
-                var shelfLife = Math.floor(Math.abs(parseInt(expiry.getDate()) - parseInt(today.getDate()))/7 * 100);
+                var shelfLife = getShelfLife(expiry);
                 var html =
                     "<tr data-id=" + id + "><td class=\"ingredient_name\"><input type='button' class=\"delete_button\" value='-'  />" + " " + name +
                     "</td><td class=\"life_bar_track\">" +

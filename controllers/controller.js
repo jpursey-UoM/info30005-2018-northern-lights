@@ -163,7 +163,7 @@ module.exports.getBasket =  function(req, res) {
     if (sess) {
         User.findOne({email: sess.email}, function(err, user) {
             if (!err){
-                console.log(user.basket[0].expiryDate.getDate());
+                // console.log(user.basket[0].expiryDate.getDate());
                 res.json(user.basket);
             } else {
                 console.log("cannot find user.");
@@ -257,11 +257,15 @@ module.exports.updateExpiry = function(req, res){
                 // get the ingredient from user's basket and update the expiry date
                 for (var i = 0; i < user.basket.length; i++) {
                     if (user.basket[i]._id.toString() == id) {
+
                         var current = user.basket[i].expiryDate;
+                        // console.log("current is: " + current);
                         var newDate = new Date();
                         if (action == '-1') {
                             newDate.setDate(current.getDate() - 1);
+
                             user.basket[i].expiryDate = newDate;
+
                         } else if (action == '1'){
                             newDate.setDate(current.getDate() + 1);
                             user.basket[i].expiryDate = newDate;
@@ -273,11 +277,11 @@ module.exports.updateExpiry = function(req, res){
                 user.save(function(err) {
                     if (!err) {
 
-                        res.json(user.basket[0]);
+                        res.json(user.basket[i]);
 
                     } else {
-                        console.log("error updating expiry date.");
-                        res.sendStatus(404);
+                        // console.log("error updating expiry date.");
+                        // res.sendStatus(404);
                     }
                 });
             } else {
