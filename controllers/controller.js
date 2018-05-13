@@ -343,25 +343,32 @@ module.exports.FilterMeal = function(req,res){
 
 module.exports.createMeal = function(req, res){
     var meal = new Meal(req.body);
-    console.log(meal);
-    meal.save(function (err, meal) {
-        if(!err){
-            res.send(meal);
-        }else{
-            res.sendStatus(404);
-        }
-    })
+    Meal.count({}, function(err, count){
+        meal.id = count + 1;
+        meal.save(function (err, meal) {
+            if(!err){
+                res.send(meal);
+            }else{
+                res.sendStatus(404);
+            }
+        })
+    });
 };
 
 module.exports.createIngredient = function(req, res){
+
     var ingredient = new Ingredient(req.body);
-    ingredient.save(function (err, ingredient) {
-        if(!err){
-            res.send(ingredient);
-        }else{
-            res.sendStatus(404);
-        }
-    })
+    // work out what the next id should be
+    Ingredient.count({}, function(err, count){
+        ingredient.id = count + 1;
+        ingredient.save(function (err, ingredient) {
+            if(!err){
+                res.send(ingredient);
+            }else{
+                res.sendStatus(404);
+            }
+        })
+    });
 };
 
 
