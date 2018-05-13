@@ -114,3 +114,43 @@ function createMeal(){
         }
     });
 }
+
+function showNewIngredient(){
+    console.log("showing new ingredient form");
+    document.getElementById("add-ingredient-form").style.display = "block";
+}
+
+function hideNewIngredient(){
+
+    document.getElementById("add-ingredient-form").style.display = "none";
+    document.getElementById("add-ingredient-form").reset();
+}
+function createIngredient(){
+    // get values from form
+    const name = document.getElementById("new-ingredient-name").value;
+    const imageURL = document.getElementById("new-ingredient-image").value;
+    const type = document.getElementById("new-ingredient-type").value;
+    const shelfLife = document.getElementById("new-ingredient-shelf-life").value;
+    // make object
+
+    const ingredient = {
+        "name":name,
+        "image":imageURL,
+        "type":type,
+        "shelflife": shelfLife}
+
+    // send to db
+    $.ajax({
+        url: "/createIngredient",
+        type: "POST",
+        data: ingredient
+
+    }).done(function(data) {
+        if (!data) {
+        }else{
+            alert(data.name + " successfully added to db");
+            console.log(data);
+            hideNewIngredient();
+        }
+    });
+}

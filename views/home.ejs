@@ -24,7 +24,7 @@
     <a href="/meals">View all</a>
     <div class="img_wrap">
         <p onclick="showNewMeal()">
-            <img src="public/images/plus-icon.png" width="200" height="200" alt="add a new meal"/>
+            <img src="public/images/plus-icon.png" width="200" height="200" alt="create a new meal"/>
         Add a new meal
         </p>
     </div>
@@ -70,7 +70,13 @@
     <h2>Ingredients</h2>
     <a href="/ingredients">View all</a>
 
-    <% for(var i=0; i<4; i++){%>
+    <div class="img_wrap">
+        <p onclick="showNewIngredient()">
+            <img src="public/images/plus-icon.png" width="200" height="200" alt="create a new ingredient"/>
+            Add a new ingredient
+        </p>
+    </div>
+    <% for(var i=0; i<7; i++){%>
         <div class="img_wrap" >
             <a href="#" onclick="addfromHome(<%= JSON.stringify(ingredients[i])%>)">
                 <p>
@@ -120,7 +126,7 @@
     <button type="button" onclick="showAddComponent()">+ Add Ingredient</button>
     <label>Description</label>
     <textarea id="description" placeholder="Inspired by the pizza at Bar Del Corso, this Pizza Margherita features tomato sauce, mozzarella, and basil, with just a hint of sea salt."></textarea>
-    <button type="submit" onclick="createMeal()">Create</button>
+    <button type="submit" onclick="createMeal()">+ Create</button>
     <button type="button" onclick="hideNewMeal()">X Cancel</button>
 
 </form>
@@ -138,9 +144,23 @@
         <%}%>
     </div>
     <label>Qty</label>
-    <input type="number" id="add-component-qty">
+    <input type="number" id="add-component-qty" value="1">
     <button type="button" onclick="addComponent()">+ Add</button>
 </form>
+
+<form method="post" class="popup-form" id="add-ingredient-form">
+    <label>Name</label>
+    <input type="text" placeholder="Celery" id="new-ingredient-name">
+    <label>Image URL</label>
+    <input type="url" placeholder="https://www.foodpics.com/celery.jpg"  id="new-ingredient-image">
+    <label>Type</label>
+    <input type="text" placeholder="Vegetable"  id="new-ingredient-type">
+    <label>Shelf life (days)</label>
+    <input type="number" placeholder="4" id="new-ingredient-shelf-life">
+    <button type="button" onclick="createIngredient()">+ Create</button>
+    <button type="button" onclick="hideNewIngredient()">X Cancel</button>
+</form>
+
 <footer>
     <%- include('./footer.ejs'); %>
 </footer>

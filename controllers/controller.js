@@ -2,7 +2,7 @@
 // into 2 maybe? One for loading pages, one for API requests? - Jason
 // Maybe we can have ingredientsController, basketController etc. - Wendy
 var mongoose = require('mongoose');
-var ingredient = mongoose.model('ingredients');
+var Ingredient = mongoose.model('ingredients');
 var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
@@ -213,7 +213,7 @@ module.exports.addToBasket = function(req, res){
         User.findOne({email: sess.email}, function (err, user) {
             if (!err) {
                 const ingredientId = req.body.ingredientId;
-                ingredient.findOne({id: ingredientId}, function (err, toAdd) {
+                Ingredient.findOne({id: ingredientId}, function (err, toAdd) {
                     if (!err) {
                         // create ownedIngredient and add to basket
                         var Ingredient = new ownedIngredient({
@@ -353,6 +353,17 @@ module.exports.createMeal = function(req, res){
     })
 };
 
+module.exports.createIngredient = function(req, res){
+    var ingredient = new Ingredient(req.body);
+    ingredient.save(function (err, ingredient) {
+        if(!err){
+            res.send(ingredient);
+        }else{
+            res.sendStatus(404);
+        }
+    })
+};
+
 
 module.exports.loadIngredients = function(req,res){
     var query = getIngredient();
@@ -377,7 +388,7 @@ module.exports.loadProfile = function(req, res){
 
 module.exports.SearchIngredient = function(req,res){
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    ingredient.find({ "name": regex},function (err, doc){
+    Ingredient.find({ "name": regex},function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -388,7 +399,7 @@ module.exports.SearchIngredient = function(req,res){
 
 module.exports.getIngredientById = function(req, res){
   const id = req.query.id;
-  ingredient.findOne({'id': id}, function(err, ing){
+  Ingredient.findOne({'id': id}, function(err, ing){
       if(!err){
           res.send(ing);
       }else{
@@ -405,7 +416,7 @@ module.exports.FilterIngredient = function(req,res){
         type['type'] = req.query.category[i];
         types.push(type);
     }
-    ingredient.find({ $or: types },function (err, doc){
+    Ingredient.find({ $or: types },function (err, doc){
         if(!err){
             res.json(doc);
         }else{
@@ -415,7 +426,7 @@ module.exports.FilterIngredient = function(req,res){
 };
 
 function getIngredient(){
-    var query = ingredient.find();
+    var query = Ingredient.find();
     return query;
 }
 function getMeal(){

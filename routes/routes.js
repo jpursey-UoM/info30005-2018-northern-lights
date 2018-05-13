@@ -40,5 +40,6 @@ router.post('/userlogin', controller.userLogin);
 router.get('/logout', controller.logout);
 
 router.post('/createMeal', controller.createMeal);
+router.post('/createIngredient', controller.createIngredient);
 
 module.exports = router;

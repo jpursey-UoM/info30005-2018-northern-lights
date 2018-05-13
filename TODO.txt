@@ -1,6 +1,7 @@
 
-- Submit new meal to db option
-- Submit new ingredient to DB
+- Fix components undefined bug when trying to add created meal to
+    basket
+- Submit new ingredient to DB -- MOSTLY WORKING, CAN CREATE, ADD TO LIST, BUT NOT TO BASKET. MAYBE NEEDS ID?
 - Fix sessions to allow multiple simultaneous users
 - Link plan to DB
 - Add recipe info popup
