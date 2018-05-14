@@ -10,42 +10,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="public/scripts/plan.js"> </script>
-    <%
-    // this function should probably live in an external file, need to ask how/where
-    // to do that
-    function getMeals(basket){
-        var mealsWithDates = [];
-        var prevMealName;
-        var ingredientsFound;
-        var needed;
-        var candidateMeal;
-        var earliestExpiry;
-        for (var i = 0; i < basket.length; i++){
-            var ingredient = basket[i];
-            if(ingredient.meal) {
-                if (prevMealName == null || ingredient.meal.name != prevMealName){
-                    prevMealName = ingredient.meal.name;
-                    candidateMeal = ingredient.meal;
-                    needed = candidateMeal.components.length;
-                    ingredientsFound = 1;
-                    earliestExpiry = ingredient.expiryDate;
-                }else{
-                    ingredientsFound ++;
-                    if (ingredient.expiryDate < earliestExpiry){
-                        earliestExpiry = ingredient.expiryDate;
-                    }
-                    if (ingredientsFound == needed){
-                        mealsWithDates.push({"meal":candidateMeal,
-                                    "expDate":earliestExpiry});
-                    }
-                }
-            }
-        }
-        return mealsWithDates;
-    }
-    %>
 </head>
-<body>
+<body onload="loadPlan()" onunload="updateBasketDb()">
 
 <nav>
     <%- include('./navbar.ejs', {active: "Plan"}); %>
@@ -62,7 +28,6 @@
         %>
         <div class="plan-day" ondragover="allowDrop(event)" ondrop="drop(event)">
             <h3><%=date.toLocaleDateString("en-AU", options)%></h3>
-            <div class="img_wrap" onclick="removeFromPlan(this)"></div>
         </div>
     <%}%>
 </div>
@@ -71,20 +36,6 @@
 <aside id="meals">
     <h2>Meals</h2>
     <ul id = "meals-list">
-        <%  if(user.basket != null){
-                var meals = getMeals(user.basket);
-                for (var i=0; i<meals.length;i++){
-                    var meal = meals[i].meal;
-                    var date = meals[i].expDate;
-                %>
-                <li id="<%=meal.id%>" class="img_wrap" onclick="add2plan(this)" >
-                            <img id="<%=meal.id%>" src="<%=meal.image%>"  draggable="true" ondragstart="drag(event)" width="200" alt="<%=meal.name%>"
-                                 title="Add to plan">
-                    <p><%=meal.name%> (<span class="exp-date"><%=date.toLocaleDateString("en-AU")%></span>)</p>
-                </li>
-            <%  }
-
-        }%>
 
     </ul>
     <button id="autofill-plan" onclick="addAll()"><< Autofill</button>

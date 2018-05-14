@@ -247,6 +247,19 @@ module.exports.addToBasket = function(req, res){
     }
 };
 
+module.exports.updateBasket = function(req,res){
+    console.log(req.body.basket);
+    if(sess){
+        User.findOne({email: sess.email}, function (err, user) {
+            if (!err) {
+                user.basket = req.body.basket;
+                console.log(user.basket);
+            }
+        });
+
+    }
+};
+
 module.exports.updateExpiry = function(req, res){
     if (sess) {
         User.findOne({email: sess.email}, function (err, user) {

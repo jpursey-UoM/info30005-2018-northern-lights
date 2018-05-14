@@ -16,6 +16,8 @@ router.get('/getBasket', controller.getBasket);
 router.post('/addToBasket', controller.addToBasket);
 router.post('/updateExpiry', controller.updateExpiry);
 router.delete('/deleteFromBasket/:id', controller.deleteFromBasket);
+router.post('/updateBasket', controller.updateBasket);
+
 
 router.get('/profile', controller.loadProfile);
 router.get('/contact', controller.loadContact);
