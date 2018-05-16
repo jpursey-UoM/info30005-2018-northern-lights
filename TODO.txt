@@ -8,7 +8,9 @@
 - Basket usability:
     - make clear what each feature means: shelf life
     - remove add
-    - short description
+    - short description on the top
+    - different color for ingredients that are going to expire soon.
+    - group ingredients by meal?
 - Plan usability:
     - add drag and drop
     - more info for warnings
