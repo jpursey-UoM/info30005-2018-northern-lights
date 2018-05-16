@@ -1,6 +1,7 @@
 
 - Fix components undefined bug when trying to add created meal to
     basket
+- style warning popup on Plan pageg
 - Fix sessions to allow multiple simultaneous users
 - Link plan to DB
 - Add recipe info popup
@@ -9,8 +10,6 @@
     - make clear what each feature means: shelf life
     - remove add
     - short description
-- Plan usability:
-    - more info for warnings
 - Overall usability:
     - consistent layout/style
 
