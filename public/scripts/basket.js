@@ -1,7 +1,8 @@
 $(document).ready(function(){
-    // var moment = require('moment');
-
     // load ingredients
+
+
+
     var ingredientTable = $('#ingredients');
     $.ajax({
         type: 'GET',
@@ -16,12 +17,12 @@ $(document).ready(function(){
                 var shelfLife = getShelfLife(expiryDate);
 
                 ingredientTable.append('<tr data-id=' + id + '>\n' +
-                    '                <td class="ingredient_name"><input type=\'button\' class="delete_button" value=\'-\'/>' +  name + '</td>\n' +
+                    '                <td class="ingredient_name"><button data-balloon="Remove" data-balloon-pos="left" class="delete_button"> - </button>' +  name + '</td>\n' +
                     '                <td class="life_bar_track">\n' +
                     '                    <input type="range" class="w3-green w3-round-large life_bar" style="width:'+ shelfLife + "%\"></td>" +
                     '                <td class="len_handler">\n' +
-                    '                    <input type="button" class="button_left" value="<">\n' +
-                    '                    <input type="button" class="button_right" value=">">\n' +
+                    '                    <button class="button_left" data-balloon="Reduce shelf life" data-balloon-pos="left"> < </button> \n' +
+                    '                    <button class="button_right" data-balloon="Extend shelf life" data-balloon-pos="right"> > </button>\n' +
                     '                </td>\n' +
                     '            </tr>');
             });
@@ -32,6 +33,7 @@ $(document).ready(function(){
     });
 
 
+    // dynamically show dates
     var calendar = '#calendar tr:last';
     var numOfDays = 7;
 
@@ -40,7 +42,6 @@ $(document).ready(function(){
         var row = "<td>"+ moment().add(i, 'd').format('ddd')+ "<br>" + moment().add(i, 'd').format("MMM D") +  "</td>";
         $(row).appendTo(calendar);
     }
-
 
 
 
@@ -115,16 +116,6 @@ $(document).ready(function(){
             }
         });
 
-        // var life_bar = $(event.target.parentElement.previousElementSibling).find(".life_bar");
-        //
-        // var width = 100 * (parseFloat($(life_bar).css('width')) / parseFloat($(life_bar).parent().css('width')));
-        //
-        // var new_width = width + 1/7*100;
-        //
-        // if (new_width >= 98) {
-        //     new_width = 98;
-        // }
-        // $(life_bar).css("width", new_width + "%");
 
     });
 

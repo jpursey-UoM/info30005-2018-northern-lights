@@ -20,36 +20,36 @@ body{
                     "nav ingredients search";
 }
 
-nav {
-    grid-area: nav;
-    background-color: rgba(226, 147, 91, 0.81); /* fix this colour*/
-    width: 10em;
-    font-family:'GlacialIndifferenceRegular', sans-serif;
-    font-weight: 700;
-    display: block;
-}
+/*nav {*/
+    /*grid-area: nav;*/
+    /*background-color: rgba(226, 147, 91, 0.81); !* fix this colour*!*/
+    /*width: 10em;*/
+    /*font-family:'GlacialIndifferenceRegular', sans-serif;*/
+    /*font-weight: 700;*/
+    /*display: block;*/
+/*}*/
 
-nav a{
-    text-decoration: none;
-    color: white;
-}
+/*nav a{*/
+    /*text-decoration: none;*/
+    /*color: white;*/
+/*}*/
 
-nav ul{
-    padding: 0;
-    margin: 0;
-}
-nav li{
-    padding: 1em;
-    list-style-type: none;
-}
+/*nav ul{*/
+    /*padding: 0;*/
+    /*margin: 0;*/
+/*}*/
+/*nav li{*/
+    /*padding: 1em;*/
+    /*list-style-type: none;*/
+/*}*/
 
-nav li:hover{
-    background-color: rgba(255, 255, 255, 0.63);/* fix this colour*/
-}
+/*nav li:hover{*/
+    /*background-color: rgba(255, 255, 255, 0.63);!* fix this colour*!*/
+/*}*/
 
-nav .active{
-    background-color: rgba(255, 255, 255, 0.63);
-}
+/*nav .active{*/
+    /*background-color: rgba(255, 255, 255, 0.63);*/
+/*}*/
 
 
 #ingredients {
@@ -163,7 +163,7 @@ nav .active{
 
 
 /* button */
-input[type=button] {
+button {
     border-radius: 17px;
     font-family: Courier New;
     color: #ffffff;
@@ -174,7 +174,7 @@ input[type=button] {
     font-weight: bold;
 }
 
-input[type=button]:hover {
+button:hover {
     background: #4f8952;
     background-image: -webkit-linear-gradient(top, #9bc495, #7ab073);
     background-image: -moz-linear-gradient(top, #9bc495, #7ab073);

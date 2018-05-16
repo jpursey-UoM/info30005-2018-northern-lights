@@ -272,7 +272,7 @@ module.exports.updateExpiry = function(req, res){
                     if (user.basket[i]._id.toString() == id) {
 
                         var current = user.basket[i].expiryDate;
-                        // console.log("current is: " + current);
+                        console.log("current is: " + current);
                         var newDate = new Date();
                         if (action == '-1') {
                             newDate.setDate(current.getDate() - 1);
