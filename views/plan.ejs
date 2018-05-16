@@ -26,7 +26,7 @@
     for(i=0; i<8; i++){
         var date = new Date(new Date().getTime()+i*24*60*60*1000);
         %>
-        <div class="plan-day" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <div class="plan-day" ondragover="allowDrop(event)" ondrop="dropPlan(event)">
             <h3><%=date.toLocaleDateString("en-AU", options)%></h3>
         </div>
     <%}%>
@@ -35,7 +35,7 @@
 
 <aside id="meals">
     <h2>Meals</h2>
-    <ul id = "meals-list">
+    <ul id = "meals-list" ondragover="allowDrop(event)" ondrop="dropList(event)">
 
     </ul>
     <button id="autofill-plan" onclick="addAll()"><< Autofill</button>
