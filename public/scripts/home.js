@@ -145,7 +145,7 @@ function createIngredient(){
         "name":name,
         "image":imageURL,
         "type":type,
-        "shelflife": shelfLife}
+        "shelfLife": shelfLife};
 
     // send to db
     $.ajax({
