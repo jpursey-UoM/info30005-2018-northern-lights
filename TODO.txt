@@ -12,7 +12,6 @@
     - different color for ingredients that are going to expire soon.
     - group ingredients by meal?
 - Plan usability:
-    - add drag and drop
     - more info for warnings
 - Overall usability:
     - consistent layout/style
@@ -21,3 +20,8 @@
 
 I found that the recently added ingredient such as Mozzarella, Turmeric, Chicken have undefined as their current expiry date.
 Shall we change them in mlab? -- Wendy
+
+shelfLife wasn't being set properly, I've fixed that and
+update the existing ingredients. They look fine in mlab.
+But now ownedIngredients don't get created properly, no
+idea why.. --Jason
