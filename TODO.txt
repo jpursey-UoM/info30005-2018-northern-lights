@@ -1,6 +1,7 @@
 
 - Fix components undefined bug when trying to add created meal to
     basket
+- style warning popup on Plan pageg
 - Fix sessions to allow multiple simultaneous users
 - Link plan to DB
     - I discussed with Martin and he said what we currently do is fine (i.e. having planDate as an attribute in ownedIngredient).
@@ -8,12 +9,17 @@
 - Handle passwords securely
 - Basket usability:
     - make clear what each feature means: shelf life
+<<<<<<< HEAD
     - remove add - done
     - short description on the top
     - different color for ingredients that are going to expire soon.  - done
     - group ingredients by meal?
 - Plan usability:
     - more info for warnings
+=======
+    - remove add
+    - short description
+>>>>>>> b1944873210ed65e56af2190ad919b237893d2e3
 - Overall usability:
     - consistent layout/style
 

@@ -113,7 +113,8 @@ button:hover{
 
 .plan-day{
     text-align: center;
-    height: 280px;
+    height: fit-content;
+    min-height: 280px;
     width: 210px;
     border-style: solid;
     border-width: 2px;
@@ -150,5 +151,17 @@ button:hover{
 .img_wrap p{
     margin: 0;
     line-height: 2em;
+}
+
+.warning-info-button{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0,0,0,0);
+    border-width: 3px;
+    border-color: white;
+    font-weight: bold;
+    color: white;
+    text-align: center;
 }
 

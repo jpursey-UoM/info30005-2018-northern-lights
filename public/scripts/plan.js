@@ -4,6 +4,8 @@ var mealsWithDates = [];
 // 1. Update ingredient plandates properly
 // 2. allow meals to be removed from plan
 
+var nextPopupId = 0;
+
 function updateBasketDb(){
   // update the basket in the db
     const ingredients = [];
@@ -170,27 +172,101 @@ function allowDrop(event) {
 
 function drag(event) {
     event.dataTransfer.setData("mealIndex", event.target.id);
+    clear(event.target.parentElement);
 }
 
-function drop(event) {
+function clear(planDay){
+
+    planDay.classList.remove("warning");
+    // remove button and warning from plan day
+    var children = planDay.children;
+    for (var i=0; i < children.length; i++){
+        var child = children[i];
+        console.log(child);
+        if (child.classList.contains("warning-popup") || child.classList.contains("warning-info-button")){
+            planDay.removeChild(child);
+        }
+    }
+}
+
+function dropPlan(event) {
+    // called when moving a meal to a particular day
     event.preventDefault();
     var index = event.dataTransfer.getData("mealIndex");
 
     // get the new plan date
     const planDateStr = event.target.getElementsByTagName("h3")[0].innerHTML;
     const newPlanDate = makeDate(planDateStr.split(" ")[1]);
-
     // add the new plan date to each ingredient
     addPlanDate(mealsWithDates[index], newPlanDate);
 
     // NEED TO CHECK IF EXPIRY DATE NEEDS A WARNING
-    console.log(mealsWithDates);
+    const expiryDate = new Date(mealsWithDates[index].expDate);
+    if (expiryDate < newPlanDate){
+        event.target.classList.add("warning");
+        // create button
+        var warningInfoButton = document.createElement("button");
+        warningInfoButton.classList.add("warning-info-button");
+        warningInfoButton.innerHTML = "i";
+        // create popup
+
+        var msg = findExpiredIngredients(mealsWithDates[index], newPlanDate);
+        var popup = makeWarningPopup(msg);
+
+        // link button -> popup
+        const id = popup.id;
+        warningInfoButton.onclick = function(){
+            showPopup(id);
+        };
+        // add button to day
+        event.target.appendChild(warningInfoButton);
+        event.target.appendChild(popup);
+    }
     event.target.appendChild(document.getElementById(index));
 }
 
+function dropList(event){
+    // called when moving a meal back to the list of available meals
+    event.preventDefault();
+    var index = event.dataTransfer.getData("mealIndex");
+    event.target.appendChild(document.getElementById(index));
+}
 function addPlanDate(mealWithDates, date){
     mealWithDates.planDate = date;
     for (var i=0; i<mealWithDates.meal.components.length; i++){
         mealWithDates.meal.components[i].planDate = date;
     }
+}
+
+function findExpiredIngredients(meal, date){
+    // return a string containing info about which ingredients will expire by the given date
+    var badIngredients = [];
+
+    console.log("TODO: finish findExpiredIngredients()");
+    // THESE HARDCODED FOR NOW
+    badIngredients.push({ "name":"Tomato", "expDateStr":"May 21st"});
+    var output = "The following items may expire before " +date.toLocaleDateString("en-AU") + ": ";
+    for (var i=0; i<badIngredients.length; i++){
+        output = output + badIngredients[i].name + " (" + badIngredients[i].expDateStr + ")";
+        if (i != badIngredients.length){
+            output += ", ";
+        }
+    }
+    return (output)
+}
+
+function makeWarningPopup(msg){
+    var popup = document.createElement('div');
+    popup.classList.add('warning-popup');
+    var content = document.createElement('p');
+    content.innerHTML = msg;
+    popup.appendChild(content);
+    popup.style.display = "none";
+    popup.id = "popup" + nextPopupId++;
+    return popup;
+}
+
+function showPopup(id){
+  const popup = document.getElementById(id);
+  popup.style.display = "block";
 }
