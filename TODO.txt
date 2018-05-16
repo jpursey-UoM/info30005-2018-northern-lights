@@ -3,13 +3,14 @@
     basket
 - Fix sessions to allow multiple simultaneous users
 - Link plan to DB
+    - I discussed with Martin and he said what we currently do is fine (i.e. having planDate as an attribute in ownedIngredient).
 - Add recipe info popup
 - Handle passwords securely
 - Basket usability:
     - make clear what each feature means: shelf life
-    - remove add
+    - remove add - done
     - short description on the top
-    - different color for ingredients that are going to expire soon.
+    - different color for ingredients that are going to expire soon.  - done
     - group ingredients by meal?
 - Plan usability:
     - more info for warnings
@@ -25,3 +26,5 @@ shelfLife wasn't being set properly, I've fixed that and
 update the existing ingredients. They look fine in mlab.
 But now ownedIngredients don't get created properly, no
 idea why.. --Jason
+
+

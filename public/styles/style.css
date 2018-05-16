@@ -83,6 +83,7 @@ a{
 }
 
 footer{
+    grid-area: footer;
     height: 200px;
     line-height: 200px;
 }
