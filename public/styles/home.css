@@ -117,11 +117,9 @@ body{
         grid-template-columns: repeat(3, auto);
         grid-template-rows: 4em 18em;
     }
-    .item_section h2{
+    .item_section h2 {
         grid-column: 1/span 2;
     }
-
-
 }
 
 @media screen and (min-width: 1500px){
@@ -132,9 +130,8 @@ body{
     .item_section h2{
         grid-column: 1/span 3;
     }
-
-
 }
+
 img:hover {
     opacity: 0.6;
 }
