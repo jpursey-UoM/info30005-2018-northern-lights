@@ -11,7 +11,7 @@
     - make clear what each feature means: shelf life
 <<<<<<< HEAD
     - remove add - done
-    - short description on the top
+    - short description on the top - done
     - different color for ingredients that are going to expire soon.  - done
     - group ingredients by meal?
 - Plan usability:

@@ -110,6 +110,11 @@ body{
     width:10%;
 }
 
+
+#ingredients tr:first-child{
+    text-align: center;
+}
+
 /*.search {*/
     /*grid-area: search;*/
     /*display:grid;*/
@@ -197,15 +202,3 @@ button:hover {
 h1 {
     grid-area: header;
 }
-/*.search_result td {*/
-    /*height: 3em;*/
-/*}*/
-
-
-/*header h1{*/
-    /*grid-area: header;*/
-    /*height: 15em;*/
-    /*font-family: 'Homemade Apple', cursive;*/
-    /*min-height: 15em;*/
-    /*margin: 67px;*/
-/*}*/

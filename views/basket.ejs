@@ -36,7 +36,7 @@
     <h1>My Basket</h1>
 
     <div id="calendar_area">
-        <div class="week">Ingredients
+        <div class="week">Week
         </div>
         <table id="calendar">
             <tr>
@@ -46,38 +46,11 @@
 
     <div id="ingredients_area">
         <table id="ingredients">
+            <tr><td>Ingredients</td><td>Time before expiry</td><td></td></tr>
             <tr></tr>
         </table>
     </div>
 
-
-
-
-    <!--<div class="search" ng-app="search_ingredients">-->
-        <!--<div class="search_bar">-->
-            <!--<label>Add ingredients to your basket:</label>-->
-            <!--<input type="text" class = "search" placeholder="Type in the ingredient.." name="search" ng-model="searchBox">-->
-        <!--</div>-->
-
-        <!--<div class="search_result">-->
-            <!--<table>-->
-                <!--<tr ng-repeat="ingredient in ingredients | filter: searchBox" ng-if="$index < 10">-->
-                    <!--<td><button id="button_{{ingredient.id}}" class="plus_button" data-balloon="Add to basket" data-balloon-pos="left" > + </button></td>-->
-                    <!--<td>{{ingredient.name}}</td>-->
-                    <!--<td><img src="{{ingredient.img}}" alt="{{ingredient.name}}"></td>-->
-                <!--</tr>-->
-            <!--</table>-->
-        <!--</div>-->
-    <!--</div>-->
-
-    <!--<script>-->
-        <!--var ingredients = <%- JSON.stringify(ingredients) %>;-->
-        <!--angular.module("search_ingredients", [])-->
-            <!--.run(function($rootScope){-->
-                <!--$rootScope.ingredients = ingredients;-->
-            <!--});-->
-
-    <!--</script>-->
 
     <footer>
         <%- include('./footer.ejs'); %>
