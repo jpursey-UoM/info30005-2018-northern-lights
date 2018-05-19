@@ -1,7 +1,7 @@
 
 - Fix components undefined bug when trying to add created meal to
     basket
-- style warning popup on Plan pageg
+- style warning popup on Plan page
 - Fix sessions to allow multiple simultaneous users
 - Link plan to DB
     - I discussed with Martin and he said what we currently do is fine (i.e. having planDate as an attribute in ownedIngredient).

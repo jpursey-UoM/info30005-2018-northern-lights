@@ -38,6 +38,7 @@ h1{
     font-family: 'Homemade Apple', cursive;
     grid-area: header;
 }
+
 nav{
     grid-area: nav;
     background-color: rgba(226, 147, 91, 0.81); /* fix this colour*/
