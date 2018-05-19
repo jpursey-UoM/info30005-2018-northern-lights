@@ -485,7 +485,7 @@ function createIngredientItem(item,includeMeal,selected){
             console.log(item.components[i].component.id);
             for(var j=0;j<selected.length;j++){
                 if(item.components[i].component.id==selected[j]){
-                    var Ingredient = new ownedIngredient({
+                    var ingredient = new ownedIngredient({
                         "ingredient": item.components[i].component,
                         "quantity": item.components[i].quantity,
                         "expiryDate": getExpiryDate(item.components[i].component.shelfLife),
@@ -493,7 +493,7 @@ function createIngredientItem(item,includeMeal,selected){
                     });
                     User.findOneAndUpdate(
                         { email: sess.email },
-                        { $push: { shoppinglist: Ingredient} },
+                        { $push: { shoppinglist: ingredient} },
                         function (err, newItem) {
                             if(!err){
                                 console.log("success")
@@ -507,14 +507,14 @@ function createIngredientItem(item,includeMeal,selected){
             }
         }
     }else {
-        var Ingredient = new ownedIngredient({
+        var ingredient = new ownedIngredient({
             "ingredient": item,
             "quantity": 1,
             "expiryDate": getExpiryDate(item.shelfLife)
         });
         User.findOneAndUpdate(
             { email: sess.email },
-            { $push: { shoppinglist: Ingredient} },
+            { $push: { shoppinglist: ingredient} },
             function (err, newItem) {
                 if(!err){
                     console.log("success")
