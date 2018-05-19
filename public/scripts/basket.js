@@ -23,8 +23,8 @@ $(document).ready(function(){
                     '<td class="life_bar_track">\n' +
                     '<button class="w3-' + barColor + ' w3-round-large life_bar" style='+ barWidth + shelfLifeMsg +' data-balloon-pos="up"' + '></button></td>' +
                     '<td class="len_handler">\n' +
-                    '<button class="button_left" data-balloon="Reduce shelf life" data-balloon-pos="left"> < </button> \n' +
-                    '<button class="button_right" data-balloon="Extend shelf life" data-balloon-pos="right"> > </button>\n' +
+                    '<button class="button_left" data-balloon="Reduce" data-balloon-pos="left"> < </button> \n' +
+                    '<button class="button_right" data-balloon="Extend" data-balloon-pos="right"> > </button>\n' +
                     '</td>\n' +
                     '</tr>');
             });
