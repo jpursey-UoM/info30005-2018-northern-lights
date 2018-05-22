@@ -1,36 +1,18 @@
-
-- Fix components undefined bug when trying to add created meal to
-    basket -- turns out the days were not calculated properly, now using moment.js library to manipulate dates
 - style warning popup on Plan page
 - Fix sessions to allow multiple simultaneous users
-- Link plan to DB
-    - I discussed with Martin and he said what we currently do is fine (i.e. having planDate as an attribute in ownedIngredient).
+- Link plan to DB - Jason: working on this now
 - Add recipe info popup
 - Handle passwords securely
 - Basket usability:
     - make clear what each feature means: shelf life
-<<<<<<< HEAD
     - remove add - done
     - short description on the top - done
     - different color for ingredients that are going to expire soon.  - done
     - group ingredients by meal?
-- Plan usability:
-    - more info for warnings
-=======
-    - remove add
-    - short description
->>>>>>> b1944873210ed65e56af2190ad919b237893d2e3
 - Overall usability:
     - consistent layout/style
 
 - Info about site on signup page
 
-I found that the recently added ingredient such as Mozzarella, Turmeric, Chicken have undefined as their current expiry date.
-Shall we change them in mlab? -- Wendy
-
-shelfLife wasn't being set properly, I've fixed that and
-update the existing ingredients. They look fine in mlab.
-But now ownedIngredients don't get created properly, no
-idea why.. --Jason
 
 
