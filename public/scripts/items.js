@@ -96,7 +96,7 @@ function groupByMeal(checkbox,basket){
             if(basket[i].meal){
                 if(mealId != basket[i].meal._id){
                     mealId = basket[i].meal._id;
-                    items+="<li><div class=\"meal\">"+basket[i].meal.name+"</div>";
+                    items+="<li><span class=\"meal\">"+basket[i].meal.name+"</span>";
                     items+="<img onclick=\'DisplayIngredient(" +basket[i].meal.id+ ")\' id=\""+ basket[i].meal.id+ "\" class=\"expand\""+"src=\"public/images/icons24/expand-button.png\" width=\"24\" height=\"24\"></li>";
                     items+="<li class='collapse "+ basket[i].meal.id +"'><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
                     items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
