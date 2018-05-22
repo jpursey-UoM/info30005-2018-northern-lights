@@ -23,8 +23,8 @@ $(document).ready(function(){
                     '<td class="life_bar_track">\n' +
                     '<button class="w3-' + barColor + ' w3-round-large life_bar" style='+ barWidth + shelfLifeMsg +' data-balloon-pos="up"' + '></button></td>' +
                     '<td class="len_handler">\n' +
-                    '<button class="button_left" data-balloon="Reduce shelf life" data-balloon-pos="left"> < </button> \n' +
-                    '<button class="button_right" data-balloon="Extend shelf life" data-balloon-pos="right"> > </button>\n' +
+                    '<button class="button_left" data-balloon="Reduce" data-balloon-pos="left"> < </button> \n' +
+                    '<button class="button_right" data-balloon="Extend" data-balloon-pos="right"> > </button>\n' +
                     '</td>\n' +
                     '</tr>');
             });
@@ -44,7 +44,6 @@ $(document).ready(function(){
         var row = "<td>"+ moment().add(i, 'd').format('ddd')+ "<br>" + moment().add(i, 'd').format("MMM D") +  "</td>";
         $(row).appendTo(calendar);
     }
-
 
 
 
@@ -158,8 +157,8 @@ $(document).ready(function(){
     }
 
     function getShelfLife(date){
-        var today = new Date();
-        var shelfLife = parseInt(date.getDate()) - parseInt(today.getDate());
+        var today = moment().startOf('day');
+        var shelfLife = moment(date).diff(today, 'days');
         return shelfLife
 
     }
@@ -168,8 +167,8 @@ $(document).ready(function(){
         var len = Math.floor(shelfLife/7 * 100);
         if (len < 0){
             len = 0;
-        } else if(len >= 98){
-            len = 98;
+        } else if(len >= 100){
+            len = 100;
         }
         return len;
     }

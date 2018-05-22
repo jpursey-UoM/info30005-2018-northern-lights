@@ -2,10 +2,10 @@
 body{
     display: grid;
     grid-template-areas:
-    "nav header      header      header"
-    "nav meals       meals       list"
-    "nav ingredients ingredients list"
-    "nav footer     footer  footer";
+            "nav header      header      header"
+            "nav meals       meals       list"
+            "nav ingredients ingredients list"
+            "nav footer     footer  footer";
 }
 
 
@@ -27,6 +27,22 @@ body{
 #ingredients {
     grid-area: ingredients;
 }
+
+.item_section{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: 4em 18em 18em;
+    line-height: 4em;
+    padding: 0;
+}
+
+
+.item_section h2{
+    grid-row: 1;
+    grid-column: 1;
+    margin: 0;
+}
+
 
 #shoppingList{
     grid-area: list;
@@ -95,20 +111,6 @@ body{
     background-color: rgb(183,206,164);
 }
 
-.item_section{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-template-rows: 4em 18em 18em;
-    line-height: 4em;
-    padding: 0;
-}
-
-
-.item_section h2{
-    grid-row: 1;
-    grid-column: 1;
-    margin: 0;
-}
 
 
 

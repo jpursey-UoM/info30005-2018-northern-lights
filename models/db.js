@@ -9,4 +9,4 @@ mongoose.connect(mongoDB,function(err){
         console.log("Failed to connect to mongo");
     }
 });
-require('./schema')
+require('./schema');
