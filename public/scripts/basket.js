@@ -48,7 +48,6 @@ $(document).ready(function(){
 
 
 
-
     // remove ingredients from basket table
     $('#ingredients').on('click', 'tr > .ingredient_name > .delete_button', function () {
 
@@ -158,8 +157,8 @@ $(document).ready(function(){
     }
 
     function getShelfLife(date){
-        var today = new Date();
-        var shelfLife = parseInt(date.getDate()) - parseInt(today.getDate());
+        var today = moment().startOf('day');
+        var shelfLife = moment(date).diff(today, 'days');
         return shelfLife
 
     }
@@ -168,8 +167,8 @@ $(document).ready(function(){
         var len = Math.floor(shelfLife/7 * 100);
         if (len < 0){
             len = 0;
-        } else if(len >= 98){
-            len = 98;
+        } else if(len >= 100){
+            len = 100;
         }
         return len;
     }

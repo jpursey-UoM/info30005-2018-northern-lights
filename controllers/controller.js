@@ -6,6 +6,7 @@ var Ingredient = mongoose.model('ingredients');
 var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
+var moment = require('moment');
 
 
 var sess;
@@ -272,15 +273,16 @@ module.exports.updateExpiry = function(req, res){
                     if (user.basket[i]._id.toString() == id) {
 
                         var current = user.basket[i].expiryDate;
-                        console.log("current is: " + current);
-                        var newDate = new Date();
-                        if (action == '-1') {
-                            newDate.setDate(current.getDate() - 1);
+                        console.log("before: " + current);
+                        var newDate = moment(current);
 
+
+                        if (action == '-1') {
+                            newDate.subtract(1, 'days');
                             user.basket[i].expiryDate = newDate;
 
                         } else if (action == '1'){
-                            newDate.setDate(current.getDate() + 1);
+                            newDate.add(1, 'days');
                             user.basket[i].expiryDate = newDate;
                         }
                         break;

@@ -1,6 +1,6 @@
 
 - Fix components undefined bug when trying to add created meal to
-    basket
+    basket -- turns out the days were not calculated properly, now using moment.js library to manipulate dates
 - style warning popup on Plan page
 - Fix sessions to allow multiple simultaneous users
 - Link plan to DB
