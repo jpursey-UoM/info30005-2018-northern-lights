@@ -27,27 +27,41 @@ function verifyUserInfo(){
         // hash passwords as they're read
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
-        if(!(email && password1 && password2)){
-            alert("Please fill out all fields");
-            return -1;
-        }
-        if (!checkPassMatch()){
-           return -1
-        }
+
+        $.ajax({
+            url: "/adduser",
+            type: "POST",
+            data: {
+                "email":email,
+                "password1":password1,
+                "password2":password2}
+        });
+
+
+
+        // if(!(email && password1 && password2)){
+        //     alert("Please fill out all fields");
+        //     return -1;
+        // }
+        // if (!checkPassMatch()){
+        //    return -1
+        // }
         // check if email already exists
-        checkEmail(email, good, bad);
+        // checkEmail(email, good, bad);
         // add new user to db (maybe)
 
-        function good(){
-            addUser(email, password1);
-            alert("Woohoo! New user added successfully");
-            window.location = "/login";
-            // how 2 set the email value after redirecting? below not working
-            document.getElementById("email").value = email;
-        }
-        function bad(){
-            alert("User already exists!")
-        }
+        // addUser(email, password1);
+
+        // function good(){
+        //     addUser(email, password1);
+        //     alert("Woohoo! New user added successfully");
+        //     window.location = "/login";
+        //     // how 2 set the email value after redirecting? below not working
+        //     document.getElementById("email").value = email;
+        // }
+        // function bad(){
+        //     alert("User already exists!")
+        // }
     }catch(e){
         return -1
     }

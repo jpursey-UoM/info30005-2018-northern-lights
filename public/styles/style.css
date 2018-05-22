@@ -90,6 +90,7 @@ footer{
     grid-area: footer;
     height: 200px;
     line-height: 200px;
+    margin-top: 40px;
 }
 footer *{
     display: inline-block;

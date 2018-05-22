@@ -7,8 +7,8 @@ var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 var moment = require('moment');
-
-
+var passport = require('passport');
+var expressValidator = require('express-validator');
 var sess;
 sess = {email:'admin'};
 
@@ -609,21 +609,68 @@ module.exports.checkUser = function(req, res){
 };
 
 
-module.exports.addUser = function(req, res){
+module.exports.addUser = function(req, res) {
     // add a new user to the database
     // body: email, password
-    var user = new User({
-        "email":req.body.email,
-        "password":req.body.password
-    });
-    user.save(function(err, user){
-        if(!err){
-            res.send(user)
-        }else{
-            res.sendStatus(400);
-        }
-    })
+    console.log(req.body);
+    req.checkBody('email', 'Email is required').notEmpty();
+    req.checkBody('email', 'Email is not valid').isEmail();
+    req.checkBody('password1', 'Password is required').notEmpty();
+    req.checkBody('password2', 'Passwords do not match').equals(req.body.password1);
+
+    var errors = req.validationErrors();
+    if (errors) {
+        console.log("Error in adding user");
+        res.render('signup', {errors: errors});
+        // res.sendStatus(404);
+    }
+    else {
+        var user = new User({
+            "email": req.body.email,
+            "password": req.body.password1
+        });
+        user.save(function (err, user) {
+            if (!err) {
+                res.send(user);
+            } else {
+                res.sendStatus(400);
+            }
+        })
+    }
 };
+    //     console.log("passesd");
+    //     // checking for email and username are already taken
+    //     User.findOne({ username: {
+    //             "$regex": "^" + username + "\\b", "$options": "i"
+    //         }}, function (err, user) {
+    //         User.findOne({ email: {
+    //                 "$regex": "^" + email + "\\b", "$options": "i"
+    //             }}, function (err, mail) {
+    //             if (user || mail) {
+    //                 res.render('register', {
+    //                     user: user,
+    //                     mail: mail
+    //                 });
+    //             }
+    //             else {
+    //                 var newUser = new User({
+    //                     name: name,
+    //                     email: email,
+    //                     username: username,
+    //                     password: password
+    //                 });
+    //                 User.createUser(newUser, function (err, user) {
+    //                     if (err) throw err;
+    //                     console.log(user);
+    //                 });
+    //                 req.flash('success_msg', 'You are registered and can now login');
+    //                 res.redirect('/users/login');
+    //             }
+    //         });
+    //     });
+    // }
+
+
 
 module.exports.thing = function (req, res) {
     res.redirect('/home');

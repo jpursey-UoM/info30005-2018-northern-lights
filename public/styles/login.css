@@ -53,6 +53,23 @@ button, .button{
 
 }
 
+input[type = submit], .button{
+    border-radius: 5px;
+    display: inline-block;
+    color: rgb(118,144,76);
+    background-color: rgb(243,243,245);
+    text-decoration: none;
+    border: solid;
+    text-align: center;
+    height: 4em;
+    margin-left: auto;
+    margin-right: auto;
+    border-width: 1px;
+    width: 198px;
+
+}
+
+
 .button:hover, button:hover{
     background-color: rgb(183,206,164);
 }
