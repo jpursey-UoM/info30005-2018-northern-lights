@@ -8,7 +8,7 @@ var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 var moment = require('moment');
 
-
+// suggestions for how to split controller?...
 var sess;
 sess = {email:'admin'};
 
@@ -248,8 +248,13 @@ module.exports.addToBasket = function(req, res){
     }
 };
 
+
+// update the basket after adding meals to your plan
 module.exports.updateBasket = function(req,res){
-    console.log(req.body.basket);
+    const basket = req.body.basket;
+    for (var i=0; i < basket.length ; i++){
+        console.log("Name: " + basket[i].ingredient.name + ", planDate: " + basket[i].planDate);
+    }
     if(sess){
         User.findOne({email: sess.email}, function (err, user) {
             if (!err) {

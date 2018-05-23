@@ -5,9 +5,6 @@
 - Handle passwords securely
 - Basket usability:
     - make clear what each feature means: shelf life
-    - remove add - done
-    - short description on the top - done
-    - different color for ingredients that are going to expire soon.  - done
     - group ingredients by meal?
 - Overall usability:
     - consistent layout/style

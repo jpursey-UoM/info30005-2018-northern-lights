@@ -1,4 +1,5 @@
-var mealsWithDates = [];
+var mealsWithDates = []; // wrappers for meal objects with {meal, ownedIngredients, expDate, planDate}
+var orphans = []; // ingredients in basket with no associated meal
 
 /// NOT WORKING YET
 // 1. Update ingredient plandates properly
@@ -6,23 +7,32 @@ var mealsWithDates = [];
 
 var nextPopupId = 0;
 
+
+// SAVE ON PAGE UNLOAD
 function updateBasketDb(){
   // update the basket in the db
-    const ingredients = [];
+
+    // get all the ingredients from meals
+    var newBasket = [];
     for (var i=0; i<mealsWithDates.length; i++){
-        for (var j=0; j<mealsWithDates[i].meal.components.length; j++){
-            ingredients.push(mealsWithDates[i].meal.components[j]);
-            console.log(mealsWithDates[i].meal.components[j]);
+        for (var j=0; j<mealsWithDates[i].ingredients.length; j++){
+            newBasket.push(mealsWithDates[i].ingredients[j]);
         }
     }
+
+    // don't forget the orphans!
+    newBasket = newBasket.concat(orphans);
+    // now send to mongo
     console.log("making request to update basket");
     $.ajax({
         url: "/updateBasket",
         type: "POST",
-        data: {"basket":ingredients}
+        data: {"basket":newBasket}
     }).done = function () {
     };
 }
+
+// LOADING FUNCTIONS
 
 function loadPlan(){
     // get basket from server
@@ -32,11 +42,12 @@ function loadPlan(){
     }).done(function(basket) {
         if (!basket) {
         }else{
+            console.log(basket);
             mealsWithDates = getMeals(basket);
             // loop over meals:
             for (var i=0; i < mealsWithDates.length; i++) {
                 var meal = mealsWithDates[i];
-                console.log(meal);
+                //console.log(meal);
                 if (meal.planDate) {
                     //  if have plan date -> put on right day
                     add2Plan(meal, i);
@@ -54,6 +65,7 @@ function loadPlan(){
 function add2Plan(meal, i){
     const planDate = meal.planDate;
     const planDay = findPlanDay(planDate);
+    console.log("Adding " + meal.meal.name + " to " + planDate);
     if (planDay) {
         const div = createMealDiv(meal, i);
         planDay.appendChild(div);
@@ -67,6 +79,53 @@ function add2MealsList(meal, i) {
     li.appendChild(div);
     mealsList.appendChild(li);
 }
+
+function getMeals(basket){
+    var mealsWithDates = [];
+    var prevMealName;
+    var ingredientsFound;
+    var needed;
+    var candidateMeal;
+    var earliestExpiry;
+    var ownedIngredients;
+    for (var i = 0; i < basket.length; i++){
+        var ingredient = basket[i];
+        if(ingredient.meal) {
+            if (prevMealName == null || ingredient.meal.name != prevMealName){
+                prevMealName = ingredient.meal.name;
+                candidateMeal = ingredient.meal;
+                needed = candidateMeal.components.length;
+                ingredientsFound = 1;
+                earliestExpiry = ingredient.expiryDate;
+                ownedIngredients = [ingredient];
+            }else{
+                ownedIngredients.push(ingredient);
+                ingredientsFound ++;
+                if (ingredient.expiryDate < earliestExpiry){
+                    earliestExpiry = ingredient.expiryDate;
+                }
+                if (ingredientsFound == needed){
+                    if (ingredient.planDate){
+                        mealsWithDates.push({"meal":candidateMeal,
+                            "ingredients":ownedIngredients,
+                            "expDate":earliestExpiry,
+                            "planDate":ingredient.planDate});
+                    }else{
+                        mealsWithDates.push({"meal":candidateMeal,
+                            "ingredients":ownedIngredients,
+                            "expDate":earliestExpiry});
+                    }
+                }
+            }
+        }else{
+            orphans.push(ingredient);
+        }
+
+    }
+    return mealsWithDates;
+}
+
+// MODIFYING DATES
 
 function findPlanDay(date){
     // return the plan-day div that matches date
@@ -110,49 +169,11 @@ function createMealDiv(meal, i){
 }
 
 
-function getMeals(basket){
-    var mealsWithDates = [];
-    var prevMealName;
-    var ingredientsFound;
-    var needed;
-    var candidateMeal;
-    var earliestExpiry;
-    for (var i = 0; i < basket.length; i++){
-        var ingredient = basket[i];
-        if(ingredient.meal) {
-            console.log(ingredient);
-            if (prevMealName == null || ingredient.meal.name != prevMealName){
-                prevMealName = ingredient.meal.name;
-                candidateMeal = ingredient.meal;
-                needed = candidateMeal.components.length;
-                ingredientsFound = 1;
-                earliestExpiry = ingredient.expiryDate;
-            }else{
-                ingredientsFound ++;
-                if (ingredient.expiryDate < earliestExpiry){
-                    earliestExpiry = ingredient.expiryDate;
-                }
-                if (ingredientsFound == needed){
-                    if (ingredient.planDate){
-                        mealsWithDates.push({"meal":candidateMeal,
-                            "expDate":earliestExpiry,
-                            "planDate":ingredient.planDate});
-                    }else{
-                        mealsWithDates.push({"meal":candidateMeal,
-                            "expDate":earliestExpiry});
-                    }
-                }
-            }
-        }
-    }
-    return mealsWithDates;
-}
 
 function makeDate(dateStr) {
     // make date objects from strings in aus format
     // (dodgy, I know)
     // eg "10/5/2018"
-    console.log(typeof(dateStr));
     const parts = dateStr.split("/");
     const date = new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
     return date;
@@ -165,6 +186,19 @@ function makeMealDate(item){
 };
 
 
+function addPlanDate(mealWithDates, date){
+    // add to meal wrapper
+    mealWithDates.planDate = date;
+
+    // add to each component ingredient
+    for (var i=0; i<mealWithDates.ingredients.length; i++){
+        mealWithDates.ingredients[i].planDate = date;
+        console.log(mealWithDates.ingredients[i]);
+    }
+}
+
+
+// DRAG + DROP FUNCTIONS
 
 function allowDrop(event) {
     event.preventDefault();
@@ -231,12 +265,8 @@ function dropList(event){
     var index = event.dataTransfer.getData("mealIndex");
     event.target.appendChild(document.getElementById(index));
 }
-function addPlanDate(mealWithDates, date){
-    mealWithDates.planDate = date;
-    for (var i=0; i<mealWithDates.meal.components.length; i++){
-        mealWithDates.meal.components[i].planDate = date;
-    }
-}
+
+// WARNING FUNCTIONS
 
 function findExpiredIngredients(meal, date){
     // return a string containing info about which ingredients will expire by the given date
