@@ -10,7 +10,7 @@ var moment = require('moment');
 
 // suggestions for how to split controller?...
 var sess;
-sess = {email:'admin'};
+sess = {email:'admin@gmail.com'};
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
