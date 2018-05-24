@@ -16,7 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 // initialise session stuff
-app.use(session({secret:"secreeeet"}));
+app.use(session({
+    secret: 'secreeeet'
+    // resave: false,
+    // saveUninitialized: false
+    // cookie: { secure: true }
+}));
+
 
 // initialise passport
 app.use(passport.initialize());
@@ -41,18 +47,12 @@ app.use(expressValidator({
     }
 }));
 
-// Connect Flash
-app.use(flash());
-
-// Global Vars
+// Express Messages Middleware
+app.use(require('connect-flash')());
 app.use(function (req, res, next) {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    res.locals.user = req.user || null;
+    res.locals.messages = require('express-messages')(req, res);
     next();
 });
-
 
 
 app.use("/styles", express.static(__dirname + '/public/styles'));

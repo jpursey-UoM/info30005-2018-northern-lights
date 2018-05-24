@@ -14,15 +14,13 @@
 <form method="post" action="/signup">
     <h1>MealMaster</h1>
 
-    <% if (locals.mail) {%>
-    <div class="alert alert-danger">Email has taken already</div>
-    <%}%>
+    <%- messages('message', locals) %>
 
 
     <% if (locals.errors) {%>
-    <% for(var i=0; i<errors.length; i++) {%>
-        <div class="alert alert-danger"><%=errors[i].msg%></div>
-    <%}%>
+        <% for(var i=0; i<errors.length; i++) {%>
+            <div class="alert alert-danger"><%=errors[i].msg%></div>
+        <%}%>
     <%}%>
 
 

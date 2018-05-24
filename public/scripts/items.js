@@ -89,33 +89,90 @@ function CollapseIngredient(id){
 }
 
 function groupByMeal(checkbox,basket){
-    var mealId=0;
     var items="";
-    if(checkbox.checked == true){
-        for(var i=0;i<basket.length; i++){
-            if(basket[i].meal){
-                if(mealId != basket[i].meal._id){
-                    mealId = basket[i].meal._id;
-                    items+="<li><div class=\"meal\">"+basket[i].meal.name+"</div>";
-                    items+="<img onclick=\'DisplayIngredient(" +basket[i].meal.id+ ")\' id=\""+ basket[i].meal.id+ "\" class=\"expand\""+"src=\"public/images/icons24/expand-button.png\" width=\"24\" height=\"24\"></li>";
-                    items+="<li class='collapse "+ basket[i].meal.id +"'><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
-                    items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
-                }else{
-                    items+="<li class='collapse "+ basket[i].meal.id +"'><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
-                    items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
+    var meals={};
+    if(checkbox.checked == true) {
+        for (var i = 0; i < basket.length; i++) {
+            var ingredientName = basket[i].ingredient.name;
+            //individual ingredient
+            if (!basket[i].meal) {
+                //console.log(ingredientName)
+                if (!("ingredients" in meals)) {
+                    meals.ingredients = {};
+                    if (!(ingredientName in meals.ingredients)) {
+                        meals.ingredients[ingredientName] = {};
+                        meals.ingredients[ingredientName].object = basket[i].ingredient;
+                        meals.ingredients[ingredientName].quantity = 1;
+                        meals.ingredients[ingredientName].name = basket[i].ingredient.name;
+                    } else {
+                        meals.ingredients[ingredientName].quantity = meals.ingredients[ingredientName].quantity + 1;
+                    }
+                } else {
+                    if (!(ingredientName in meals.ingredients)) {
+                        meals.ingredients[ingredientName] = {};
+                        meals.ingredients[ingredientName].object = basket[i].ingredient;
+                        meals.ingredients[ingredientName].quantity = 1;
+                        meals.ingredients[ingredientName].name = basket[i].ingredient.name;
+                    } else {
+                        meals.ingredients[ingredientName].quantity = meals.ingredients[ingredientName].quantity + 1;
+                    }
                 }
-            }else{
-                items+="<li><img onclick=\'DeleteItem(" +JSON.stringify(basket[i].ingredient)+ ")\' class=\"remove \" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
-                items+="<div class=\"shopping_list_item\">"+basket[i].ingredient.name+"</div></li>";
+                //ingredient compose meal
+            } else {
+                var mealID = basket[i].meal.id;
+                if (!(mealID in meals)) {
+                    meals[mealID] = {};
+                    meals[mealID].mealName = basket[i].meal.name;
+                    if (!(ingredientName in meals[mealID])) {
+                        meals[mealID][ingredientName] = {};
+                        meals[mealID][ingredientName].object = basket[i].ingredient;
+                        meals[mealID][ingredientName].quantity = 1;
+                        meals[mealID][ingredientName].name = basket[i].ingredient.name;
+                    } else {
+                        meals[mealID][ingredientName].quantity = meals[mealID][ingredientName].quantity + 1;
+                    }
+                } else {
+                    if (!(ingredientName in meals[mealID])) {
+                        meals[mealID][ingredientName] = {};
+                        meals[mealID][ingredientName].object = basket[i].ingredient;
+                        meals[mealID][ingredientName].quantity = 1;
+                        meals[mealID][ingredientName].name = basket[i].ingredient.name;
+                    } else {
+                        meals[mealID][ingredientName].quantity = meals[mealID][ingredientName].quantity + 1;
+                    }
+                }
             }
         }
-    }else{
-        for(var i=0;i<basket.length; i++) {
-            items += "<li><img onclick=\'DeleteItem(" + JSON.stringify(basket[i].ingredient) + ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
-            items += "<div class=\"shopping_list_item\">" + basket[i].ingredient.name + "</div></li>";
+        for (var key in meals) {
+            //display meal
+            if (key != "ingredients") {
+                items += "<li><span class=\"meal\">" + meals[key].mealName + "</span>";
+                items += "<img onclick=\'DisplayIngredient(" + key + ")\' id=\"" + key + "\" class=\"expand\"" + "src=\"public/images/icons24/expand-button.png\" width=\"24\" height=\"24\"></li>";
+                for (var mealkey in meals[key]) {
+                    if (mealkey != "mealName") {
+                        for (var i = 0; i < meals[key][mealkey].quantity; i++) {
+                            items += "<li class='collapse " + key + "'><img onclick=\'DeleteItem(" + JSON.stringify(meals[key][mealkey].object) + ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                            items += "<div class=\"shopping_list_item\">" + meals[key][mealkey].name + "</div></li>";
+                        }
+                    }
+                }
+                //display ingredient
+            } else {
+                for (var ingrekey in meals[key]) {
+                    console.log(ingrekey)
+                    items += "<li class='" + key + "'><img onclick=\'DeleteItem(" + JSON.stringify(meals[key][ingrekey].object) + ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                    items += "<div class=\"shopping_list_item\">" + ingrekey + "</div></li>";
+                }
+            }
+
         }
-    }
-    $('.list').html(items);
+        }else{
+            for(var i=0;i<basket.length; i++) {
+                items += "<li><img onclick=\'DeleteItem(" + JSON.stringify(basket[i].ingredient) + ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">";
+                items += "<div class=\"shopping_list_item\">" + basket[i].ingredient.name + "</div></li>";
+            }
+        }
+        $('.list').html(items);
 }
 
 function addItemfromlist(item){

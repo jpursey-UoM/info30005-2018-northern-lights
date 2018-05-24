@@ -11,6 +11,9 @@ var passport = require('passport');
 var expressValidator = require('express-validator');
 var bcrypt = require('bcryptjs');
 
+
+
+// suggestions for how to split controller?...
 var sess;
 // sess = {email:'admin'};
 
@@ -248,8 +251,13 @@ module.exports.addToBasket = function(req, res){
     }
 };
 
+
+// update the basket after adding meals to your plan
 module.exports.updateBasket = function(req,res){
-    console.log(req.body.basket);
+    const basket = req.body.basket;
+    for (var i=0; i < basket.length ; i++){
+        console.log("Name: " + basket[i].ingredient.name + ", planDate: " + basket[i].planDate);
+    }
     if(sess){
         User.findOne({email: sess.email}, function (err, user) {
             if (!err) {
@@ -486,7 +494,7 @@ function createIngredientItem(item,includeMeal,selected){
             console.log(item.components[i].component.id);
             for(var j=0;j<selected.length;j++){
                 if(item.components[i].component.id==selected[j]){
-                    var Ingredient = new ownedIngredient({
+                    var ingredient = new ownedIngredient({
                         "ingredient": item.components[i].component,
                         "quantity": item.components[i].quantity,
                         "expiryDate": getExpiryDate(item.components[i].component.shelfLife),
@@ -494,7 +502,7 @@ function createIngredientItem(item,includeMeal,selected){
                     });
                     User.findOneAndUpdate(
                         { email: sess.email },
-                        { $push: { shoppinglist: Ingredient} },
+                        { $push: { shoppinglist: ingredient} },
                         function (err, newItem) {
                             if(!err){
                                 console.log("success")
@@ -508,14 +516,14 @@ function createIngredientItem(item,includeMeal,selected){
             }
         }
     }else {
-        var Ingredient = new ownedIngredient({
+        var ingredient = new ownedIngredient({
             "ingredient": item,
             "quantity": 1,
             "expiryDate": getExpiryDate(item.shelfLife)
         });
         User.findOneAndUpdate(
             { email: sess.email },
-            { $push: { shoppinglist: Ingredient} },
+            { $push: { shoppinglist: ingredient} },
             function (err, newItem) {
                 if(!err){
                     console.log("success")
@@ -610,7 +618,6 @@ module.exports.checkUser = function(req, res){
 
 module.exports.addUser = function(req, res) {
     // add a new user to the database
-    // body: email, password
     console.log(req.body);
     req.checkBody('email', 'Email is required').notEmpty();
     req.checkBody('email', 'Email is not valid').isEmail();
@@ -621,6 +628,7 @@ module.exports.addUser = function(req, res) {
     if (errors) {
         console.log("Error in adding user");
         res.render('signup', {errors: errors});
+
     }
     else {
 
@@ -630,16 +638,15 @@ module.exports.addUser = function(req, res) {
             }
         }, function (err, mail) {
             if (mail) {
-                res.render('signup', {
-                    mail: mail
-                });
+                req.flash("danger", "Email has been taken already");
+                res.redirect('/signup');
             }
             else {
                 var newUser = new User({
                     email: req.body.email,
                     password: req.body.password1
                 });
-                // store the hash of the password
+                // hash the password
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(req.body.password1, salt, function(err, hash) {
                         newUser.password = hash;
@@ -650,9 +657,10 @@ module.exports.addUser = function(req, res) {
                                 console.log("signup fails, user: "+ user);
                                 res.sendStatus(400);
                             } else {
-                                sess = req.session;
-                                sess.email = req.body.email;
-                                console.log("Logged in: " + sess.email);
+                                // sess = req.session;
+                                // sess.email = req.body.email;
+                                console.log("Signup success ");
+                                req.flash("success", "Sign up successfully.");
                                 res.redirect('/login');
                             }
                         });
@@ -705,31 +713,6 @@ module.exports.userLogin = function (req, res){
     });
 };
 
-// module.exports.comparePassword = function(candidatePassword, hash, callback){
-//     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
-//         if(err) throw err;
-//         callback(null, isMatch);
-//     });
-// }
-
-// passport.use(new LocalStrategy(
-//     function (username, password, done) {
-//         User.getUserByUsername(username, function (err, user) {
-//             if (err) throw err;
-//             if (!user) {
-//                 return done(null, false, { message: 'Unknown User' });
-//             }
-//
-//             User.comparePassword(password, user.password, function (err, isMatch) {
-//                 if (err) throw err;
-//                 if (isMatch) {
-//                     return done(null, user);
-//                 } else {
-//                     return done(null, false, { message: 'Invalid password' });
-//                 }
-//             });
-//         });
-//     }));
 
 
 module.exports.logout = function(req, res){
