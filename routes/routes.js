@@ -8,6 +8,8 @@ router.get('/signup', controller.loadSignup);
 router.post('/signup', controller.addUser);
 
 router.get('/login', controller.loadLogin);
+
+
 router.get('/home', controller.loadHome);
 router.get('/', controller.loadHome);
 router.get('/plan', controller.loadPlan);

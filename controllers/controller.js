@@ -9,8 +9,10 @@ var User = mongoose.model('user');
 var moment = require('moment');
 var passport = require('passport');
 var expressValidator = require('express-validator');
+var bcrypt = require('bcryptjs');
+
 var sess;
-sess = {email:'admin'};
+// sess = {email:'admin'};
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
@@ -102,10 +104,8 @@ module.exports.finishShopping = function(req, res) {
                         return;
                     }
                 });
-
                 res.redirect('/plan');
                 return;
-
             } else {
                 res.sendStatus(404);
             }
@@ -275,7 +275,6 @@ module.exports.updateExpiry = function(req, res){
                         var current = user.basket[i].expiryDate;
                         console.log("before: " + current);
                         var newDate = moment(current);
-
 
                         if (action == '-1') {
                             newDate.subtract(1, 'days');
@@ -622,53 +621,48 @@ module.exports.addUser = function(req, res) {
     if (errors) {
         console.log("Error in adding user");
         res.render('signup', {errors: errors});
-        // res.sendStatus(404);
     }
     else {
-        var user = new User({
-            "email": req.body.email,
-            "password": req.body.password1
-        });
-        user.save(function (err, user) {
-            if (!err) {
-                res.send(user);
-            } else {
-                res.sendStatus(400);
+
+        User.findOne({
+            email: {
+                "$regex": "^" + req.body.email + "\\b", "$options": "i"
             }
-        })
+        }, function (err, mail) {
+            if (mail) {
+                res.render('signup', {
+                    mail: mail
+                });
+            }
+            else {
+                var newUser = new User({
+                    email: req.body.email,
+                    password: req.body.password1
+                });
+                // store the hash of the password
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(req.body.password1, salt, function(err, hash) {
+                        newUser.password = hash;
+                        console.log("newUser.password: " + newUser.password);
+
+                        newUser.save(function (err, user) {
+                            if (err) {
+                                console.log("signup fails, user: "+ user);
+                                res.sendStatus(400);
+                            } else {
+                                sess = req.session;
+                                sess.email = req.body.email;
+                                console.log("Logged in: " + sess.email);
+                                res.redirect('/login');
+                            }
+                        });
+                    });
+                });
+
+            }
+        });
     }
 };
-    //     console.log("passesd");
-    //     // checking for email and username are already taken
-    //     User.findOne({ username: {
-    //             "$regex": "^" + username + "\\b", "$options": "i"
-    //         }}, function (err, user) {
-    //         User.findOne({ email: {
-    //                 "$regex": "^" + email + "\\b", "$options": "i"
-    //             }}, function (err, mail) {
-    //             if (user || mail) {
-    //                 res.render('register', {
-    //                     user: user,
-    //                     mail: mail
-    //                 });
-    //             }
-    //             else {
-    //                 var newUser = new User({
-    //                     name: name,
-    //                     email: email,
-    //                     username: username,
-    //                     password: password
-    //                 });
-    //                 User.createUser(newUser, function (err, user) {
-    //                     if (err) throw err;
-    //                     console.log(user);
-    //                 });
-    //                 req.flash('success_msg', 'You are registered and can now login');
-    //                 res.redirect('/users/login');
-    //             }
-    //         });
-    //     });
-    // }
 
 
 
@@ -683,24 +677,60 @@ module.exports.userLogin = function (req, res){
     User.findOne({"email":req.body.email},function(err,user){
         if(err){
             return(400);
-        }else{
-            if (user != null){
-                if (user.password === req.body.password){
-                    // not sure if this works for multiple users...
-                    // need to test when online
-                    sess = req.session;
-                    sess.email = req.body.email;
-                    console.log("Logged in: " + sess.email);
-                    res.send(true);
-                }else{
-                    res.send(false);
-                }
-            }else{
+        }else {
+            if (!user) {
+                // no such user
                 res.send(false);
+            } else {
+                // if (user.password === req.body.password){
+                // not sure if this works for multiple users...
+                // need to test when online
+                bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
+                    if (err) {
+                        res.sendStatus(404);
+                    } else {
+                        if (isMatch) {
+                            sess = req.session;
+                            sess.email = req.body.email;
+                            console.log("Logged in: " + sess.email);
+                            res.send(true);
+                        } else {
+                            // invalid password
+                            res.send(false);
+                        }
+                    }
+                });
             }
         }
     });
 };
+
+// module.exports.comparePassword = function(candidatePassword, hash, callback){
+//     bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+//         if(err) throw err;
+//         callback(null, isMatch);
+//     });
+// }
+
+// passport.use(new LocalStrategy(
+//     function (username, password, done) {
+//         User.getUserByUsername(username, function (err, user) {
+//             if (err) throw err;
+//             if (!user) {
+//                 return done(null, false, { message: 'Unknown User' });
+//             }
+//
+//             User.comparePassword(password, user.password, function (err, isMatch) {
+//                 if (err) throw err;
+//                 if (isMatch) {
+//                     return done(null, user);
+//                 } else {
+//                     return done(null, false, { message: 'Invalid password' });
+//                 }
+//             });
+//         });
+//     }));
+
 
 module.exports.logout = function(req, res){
     sess = null;

@@ -13,7 +13,11 @@ function login() {
 
     }).done(function(data) {
         if (!data) {
-            alert("Incorrect login details")
+            alert("Incorrect login details");
+            // show alert
+            $(".message").empty();
+            $(".message").append("<div class=\"alert alert-danger\">Incorrect login details, <br>please try again</div>");
+
         }else{
             window.location = "/home";
         }
@@ -37,31 +41,29 @@ function verifyUserInfo(){
                 "password2":password2}
         });
 
-
-
-        // if(!(email && password1 && password2)){
-        //     alert("Please fill out all fields");
-        //     return -1;
-        // }
-        // if (!checkPassMatch()){
-        //    return -1
-        // }
+        if(!(email && password1 && password2)){
+            alert("Please fill out all fields");
+            return -1;
+        }
+        if (!checkPassMatch()){
+           return -1
+        }
         // check if email already exists
-        // checkEmail(email, good, bad);
+        checkEmail(email, good, bad);
         // add new user to db (maybe)
 
-        // addUser(email, password1);
+        addUser(email, password1);
 
-        // function good(){
-        //     addUser(email, password1);
-        //     alert("Woohoo! New user added successfully");
-        //     window.location = "/login";
-        //     // how 2 set the email value after redirecting? below not working
-        //     document.getElementById("email").value = email;
-        // }
-        // function bad(){
-        //     alert("User already exists!")
-        // }
+        function good(){
+            addUser(email, password1);
+            alert("Woohoo! New user added successfully");
+            window.location = "/login";
+            // how 2 set the email value after redirecting? below not working
+            document.getElementById("email").value = email;
+        }
+        function bad(){
+            alert("User already exists!")
+        }
     }catch(e){
         return -1
     }
