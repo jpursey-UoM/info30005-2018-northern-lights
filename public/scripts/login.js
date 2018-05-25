@@ -13,10 +13,10 @@ function login() {
 
     }).done(function(data) {
         if (!data) {
-            alert("Incorrect login details");
-            // show alert
-            $(".message").empty();
-            $(".message").append("<div class=\"alert alert-danger\">Incorrect login details, <br>please try again</div>");
+            // alert("Incorrect login details");
+            // // show alert
+            $(".messages").empty();
+            $(".messages").append("<div class=\"alert alert-danger\">Incorrect login details, <br>please try again</div>");
 
         }else{
             window.location = "/home";
