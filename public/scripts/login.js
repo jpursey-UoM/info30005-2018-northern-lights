@@ -13,7 +13,11 @@ function login() {
 
     }).done(function(data) {
         if (!data) {
-            alert("Incorrect login details")
+            // alert("Incorrect login details");
+            // // show alert
+            $(".messages").empty();
+            $(".messages").append("<div class=\"alert alert-danger\">Incorrect login details, <br>please try again</div>");
+
         }else{
             window.location = "/home";
         }
@@ -27,16 +31,19 @@ function verifyUserInfo(){
         // hash passwords as they're read
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
+
         if(!(email && password1 && password2)){
             alert("Please fill out all fields");
             return -1;
         }
         if (!checkPassMatch()){
-           return -1
+           return -1;
         }
         // check if email already exists
         checkEmail(email, good, bad);
         // add new user to db (maybe)
+
+        addUser(email, password1);
 
         function good(){
             addUser(email, password1);

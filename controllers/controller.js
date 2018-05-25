@@ -7,6 +7,11 @@ var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 var moment = require('moment');
+var passport = require('passport');
+var expressValidator = require('express-validator');
+var bcrypt = require('bcryptjs');
+
+
 
 // suggestions for how to split controller?...
 var sess;
@@ -102,10 +107,8 @@ module.exports.finishShopping = function(req, res) {
                         return;
                     }
                 });
-
                 res.redirect('/plan');
                 return;
-
             } else {
                 res.sendStatus(404);
             }
@@ -614,20 +617,60 @@ module.exports.checkUser = function(req, res){
 };
 
 
-module.exports.addUser = function(req, res){
+module.exports.addUser = function(req, res) {
     // add a new user to the database
-    // body: email, password
-    var user = new User({
-        "email":req.body.email,
-        "password":req.body.password
-    });
-    user.save(function(err, user){
-        if(!err){
-            res.send(user)
-        }else{
-            res.sendStatus(400);
-        }
-    })
+    console.log(req.body);
+    req.checkBody('email', 'Email is required').notEmpty();
+    req.checkBody('email', 'Email is not valid').isEmail();
+    req.checkBody('password1', 'Password is required').notEmpty();
+    req.checkBody('password2', 'Passwords do not match').equals(req.body.password1);
+
+    var errors = req.validationErrors();
+    if (errors) {
+        console.log("Error in adding user");
+        res.render('signup', {errors: errors});
+
+    }
+    else {
+
+        User.findOne({
+            email: {
+                "$regex": "^" + req.body.email + "\\b", "$options": "i"
+            }
+        }, function (err, mail) {
+            if (mail) {
+                req.flash("danger", "Email has been taken already");
+                res.redirect('/signup');
+            }
+            else {
+                var newUser = new User({
+                    email: req.body.email,
+                    password: req.body.password1
+                });
+                // hash the password
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(req.body.password1, salt, function(err, hash) {
+                        newUser.password = hash;
+                        console.log("newUser.password: " + newUser.password);
+
+                        newUser.save(function (err, user) {
+                            if (err) {
+                                console.log("signup fails, user: "+ user);
+                                res.sendStatus(400);
+                            } else {
+                                // sess = req.session;
+                                // sess.email = req.body.email;
+                                console.log("Signup success ");
+                                req.flash("success", "Sign up successfully.");
+                                res.redirect('/login');
+                            }
+                        });
+                    });
+                });
+
+            }
+        });
+    }
 };
 
 module.exports.thing = function (req, res) {
@@ -641,20 +684,29 @@ module.exports.userLogin = function (req, res){
     User.findOne({"email":req.body.email},function(err,user){
         if(err){
             return(400);
-        }else{
-            if (user != null){
-                if (user.password === req.body.password){
-                    // not sure if this works for multiple users...
-                    // need to test when online
-                    sess = req.session;
-                    sess.email = req.body.email;
-                    console.log("Logged in: " + sess.email);
-                    res.send(true);
-                }else{
-                    res.send(false);
-                }
-            }else{
+        }else {
+            if (!user) {
+                // no such user
                 res.send(false);
+            } else {
+                // if (user.password === req.body.password){
+                // not sure if this works for multiple users...
+                // need to test when online
+                bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
+                    if (err) {
+                        res.sendStatus(404);
+                    } else {
+                        if (isMatch) {
+                            sess = req.session;
+                            sess.email = req.body.email;
+                            console.log("Logged in: " + sess.email);
+                            res.send(true);
+                        } else {
+                            // invalid password
+                            res.send(false);
+                        }
+                    }
+                });
             }
         }
     });
