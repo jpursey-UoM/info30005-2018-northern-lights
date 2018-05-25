@@ -15,7 +15,7 @@ var bcrypt = require('bcryptjs');
 
 // suggestions for how to split controller?...
 var sess;
-sess = {email:'admin@gmail.com'};
+// sess = {email:'admin@gmail.com'};
 
 module.exports.loadSignup = function(req, res){
     res.render('signup');
