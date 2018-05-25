@@ -17,16 +17,17 @@ app.set('view engine', 'ejs');
 
 // initialise session stuff
 app.use(session({
-    secret: 'secreeeet'
+    secret: 'secreeeet',
+    // resave: true;
     // resave: false,
     // saveUninitialized: false
-    // cookie: { secure: true }
+    cookie: { secure: false }
 }));
 
 
 // initialise passport
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 // Express Validator

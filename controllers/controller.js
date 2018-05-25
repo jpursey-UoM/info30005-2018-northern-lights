@@ -7,14 +7,14 @@ var Meal = mongoose.model('meals');
 var ownedIngredient = mongoose.model('ownedIngredient');
 var User = mongoose.model('user');
 var moment = require('moment');
-var passport = require('passport');
+// var passport = require('passport');
 var expressValidator = require('express-validator');
 var bcrypt = require('bcryptjs');
 
 
 
 // suggestions for how to split controller?...
-var sess;
+// var sess;
 // sess = {email:'admin@gmail.com'};
 
 module.exports.loadSignup = function(req, res){
@@ -22,7 +22,10 @@ module.exports.loadSignup = function(req, res){
 };
 
 module.exports.loadLogin = function(req, res){
-    if(!sess) {
+    // if (req.session.email){
+        // res.redi
+    // }
+    if(!req.session.email) {
         // only show login page if not already logged in
         res.render('login');
     }else{
@@ -32,9 +35,11 @@ module.exports.loadLogin = function(req, res){
 };
 
 module.exports.loadHome = function(req, res){
-    if (sess) {
-        console.log("user: " + sess.email);
-        User.findOne({email: sess.email},function(err,result){
+    console.log("loadHome: req.session.email: " + req.session.email);
+    if (req.session.email) {
+    // if (sess) {
+        console.log("user: " + req.session.email);
+        User.findOne({email: req.session.email},function(err,result){
             if(!err){
                 var query = getIngredient();
                 query.exec(function(err,ingredients){
@@ -58,13 +63,14 @@ module.exports.loadHome = function(req, res){
             }
         });
     }else{
+        console.log("controller loadHome, req.session.email not found");
         res.redirect('/');
     }
 };
 
 module.exports.loadList = function(req, res){
     if (sess) {
-        User.findOne({email: sess.email},function(err,result){
+        User.findOne({email: req.session.email},function(err,result){
             if(!err){
                 res.render('shoppinglist', {list:result.shoppinglist});
             }else{
@@ -79,7 +85,7 @@ module.exports.loadList = function(req, res){
 // page: shopping list page, action: when "finish" is clicked
 module.exports.finishShopping = function(req, res) {
     if (sess) {
-        User.findOne({email: sess.email}, function (err, result) {
+        User.findOne({email: req.session.email}, function (err, result) {
             if (!err) {
                 var selected = Object.keys(req.body);
                 var id;
@@ -121,7 +127,7 @@ module.exports.finishShopping = function(req, res) {
 // page: plan
 module.exports.loadPlan = function(req, res){
     if(sess) {
-        User.findOne({"email": sess.email}, function (err, result) {
+        User.findOne({"email": req.session.email}, function (err, result) {
             if (!err) {
                 res.render('plan', {user: result});
             } else {
@@ -137,7 +143,7 @@ module.exports.loadPlan = function(req, res){
 module.exports.loadBasket = function(req, res) {
     // get user
     if (sess) {
-        User.findOne({email: sess.email}, function(err, user) {
+        User.findOne({email: req.session.email}, function(err, user) {
             if (!err) {
                 var query = getIngredient();
                 query.exec(function(err, ingredients) {
@@ -164,8 +170,8 @@ module.exports.loadBasket = function(req, res) {
 
 // page: basket, action: respond to ajax's GET request for the basket
 module.exports.getBasket =  function(req, res) {
-    if (sess) {
-        User.findOne({email: sess.email}, function(err, user) {
+    if (req.session.email) {
+        User.findOne({email: req.session.email.email}, function(err, user) {
             if (!err){
                 // console.log(user.basket[0].expiryDate.getDate());
                 res.json(user.basket);
@@ -181,9 +187,9 @@ module.exports.getBasket =  function(req, res) {
 
 // page: basket, action: when the "-" button beside an ingredient in the basket is clicked
 module.exports.deleteFromBasket = function(req, res) {
-    if (sess){
+    if (req.session.email){
         const deleteId = req.params.id;
-        User.findOne({email: sess.email}, function(err, user) {
+        User.findOne({email: req.session.email}, function(err, user) {
             if (!err) {
                 // delete the ingredient with deletId
                 for (var i = 0; i < user.basket.length; i++) {
@@ -213,8 +219,8 @@ module.exports.deleteFromBasket = function(req, res) {
 
 // page: basket, action: when + button besides an ingredient is clicked
 module.exports.addToBasket = function(req, res){
-    if (sess) {
-        User.findOne({email: sess.email}, function (err, user) {
+    if (req.session.email) {
+        User.findOne({email: req.session.email}, function (err, user) {
             if (!err) {
                 const ingredientId = req.body.ingredientId;
                 Ingredient.findOne({id: ingredientId}, function (err, toAdd) {
@@ -258,8 +264,8 @@ module.exports.updateBasket = function(req,res){
     for (var i=0; i < basket.length ; i++){
         console.log("Name: " + basket[i].ingredient.name + ", planDate: " + basket[i].planDate);
     }
-    if(sess){
-        User.findOne({email: sess.email}, function (err, user) {
+    if(req.session.email){
+        User.findOne({email: req.session.email}, function (err, user) {
             if (!err) {
                 user.basket = req.body.basket;
                 console.log(user.basket);
@@ -270,8 +276,8 @@ module.exports.updateBasket = function(req,res){
 };
 
 module.exports.updateExpiry = function(req, res){
-    if (sess) {
-        User.findOne({email: sess.email}, function (err, user) {
+    if (req.session.email) {
+        User.findOne({email: req.session.email}, function (err, user) {
             if (!err) {
                 var id = req.body.id;
                 var action = req.body.action;
@@ -323,7 +329,7 @@ module.exports.loadContact = function(req, res){
 
 module.exports.loadMeals = function(req,res){
     var query = getMeal();
-    if (sess) {
+    if (req.session.email) {
     query.exec(function(err,meals){
         if(!err){
             res.render('meals',{meals: meals});
@@ -402,7 +408,7 @@ module.exports.createIngredient = function(req, res){
 
 module.exports.loadIngredients = function(req,res){
     var query = getIngredient();
-    if (sess) {
+    if (req.session.email) {
          query.exec(function(err,ingredients){
          if(!err){
             res.render('ingredients',{ingredients: ingredients});
@@ -502,7 +508,7 @@ function createIngredientItem(item,includeMeal,selected){
                         "meal":item
                     });
                     User.findOneAndUpdate(
-                        { email: sess.email },
+                        { email: req.session.email },
                         { $push: { shoppinglist: ingredient} },
                         function (err, newItem) {
                             if(!err){
@@ -523,7 +529,7 @@ function createIngredientItem(item,includeMeal,selected){
             "expiryDate": getExpiryDate(item.shelfLife)
         });
         User.findOneAndUpdate(
-            { email: sess.email },
+            { email: req.session.email },
             { $push: { shoppinglist: ingredient} },
             function (err, newItem) {
                 if(!err){
@@ -535,7 +541,7 @@ function createIngredientItem(item,includeMeal,selected){
     }
 }
 module.exports.deleteItem = function(req, res){
-    User.findOne({email: sess.email},function(err,result){
+    User.findOne({email: req.session.email},function(err,result){
         if(!err){
             for(var i=0;i<result.shoppinglist.length;i++){
                 if(result.shoppinglist[i].ingredient._id == req.body.id){
@@ -557,9 +563,9 @@ module.exports.deleteItem = function(req, res){
 
 //clear the shopping list
 module.exports.clearlist = function(req, res){
-    if(sess){
+    if(req.session.email){
       User.findOneAndUpdate(
-        { email: sess.email },
+        { email: req.session.email },
         { $set: { shoppinglist: []} },
         function (err, newItem) {
             if(!err){
@@ -569,7 +575,7 @@ module.exports.clearlist = function(req, res){
             }
         });
     // User.findOneAndUpdate(
-    //     { email: sess.email },
+    //     { email: req.session.email },
     //     { $set: { basket: []} },
     //     function (err, newItem) {
     //         if(!err){
@@ -587,7 +593,7 @@ module.exports.clearlist = function(req, res){
 //clear the basket
 module.exports.clearBasket = function(req, res){
     User.findOneAndUpdate(
-        { email: sess.email },
+        { email: req.session.email },
         { $set: { basket: []} },
         function (err, newItem) {
             if(!err){
@@ -659,7 +665,7 @@ module.exports.addUser = function(req, res) {
                                 res.sendStatus(400);
                             } else {
                                 // sess = req.session;
-                                // sess.email = req.body.email;
+                                // req.session.email = req.body.email;
                                 console.log("Signup success ");
                                 req.flash("success", "Sign up successfully.");
                                 res.redirect('/login');
@@ -697,9 +703,9 @@ module.exports.userLogin = function (req, res){
                         res.sendStatus(404);
                     } else {
                         if (isMatch) {
-                            sess = req.session;
-                            sess.email = req.body.email;
-                            console.log("Logged in: " + sess.email);
+                            req.session.email = req.body.email;
+                            req.session.password = req.body.password;
+                            console.log("Logged in: " + req.session.email);
                             res.send(true);
                         } else {
                             // invalid password
