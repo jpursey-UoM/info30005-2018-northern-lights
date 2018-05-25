@@ -69,7 +69,7 @@ module.exports.loadHome = function(req, res){
 };
 
 module.exports.loadList = function(req, res){
-    if (sess) {
+    if (req.session.email) {
         User.findOne({email: req.session.email},function(err,result){
             if(!err){
                 res.render('shoppinglist', {list:result.shoppinglist});
@@ -84,7 +84,7 @@ module.exports.loadList = function(req, res){
 
 // page: shopping list page, action: when "finish" is clicked
 module.exports.finishShopping = function(req, res) {
-    if (sess) {
+    if (req.session.email) {
         User.findOne({email: req.session.email}, function (err, result) {
             if (!err) {
                 var selected = Object.keys(req.body);
@@ -126,7 +126,7 @@ module.exports.finishShopping = function(req, res) {
 
 // page: plan
 module.exports.loadPlan = function(req, res){
-    if(sess) {
+    if(req.session.email) {
         User.findOne({"email": req.session.email}, function (err, result) {
             if (!err) {
                 res.render('plan', {user: result});
@@ -142,7 +142,7 @@ module.exports.loadPlan = function(req, res){
 // page: basket
 module.exports.loadBasket = function(req, res) {
     // get user
-    if (sess) {
+    if (req.session.email) {
         User.findOne({email: req.session.email}, function(err, user) {
             if (!err) {
                 var query = getIngredient();
@@ -171,7 +171,7 @@ module.exports.loadBasket = function(req, res) {
 // page: basket, action: respond to ajax's GET request for the basket
 module.exports.getBasket =  function(req, res) {
     if (req.session.email) {
-        User.findOne({email: req.session.email.email}, function(err, user) {
+        User.findOne({email: req.session.email}, function(err, user) {
             if (!err){
                 // console.log(user.basket[0].expiryDate.getDate());
                 res.json(user.basket);
