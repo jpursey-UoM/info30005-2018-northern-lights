@@ -328,15 +328,22 @@ module.exports.loadContact = function(req, res){
 };
 
 module.exports.loadMeals = function(req,res){
-    var query = getMeal();
     if (req.session.email) {
-    query.exec(function(err,meals){
-        if(!err){
-            res.render('meals',{meals: meals});
-        }else{
-            res.sendStatus(404);
-        }
-    });
+        User.findOne({email: req.session.email},function(err,result){
+            if(!err){
+                var query = getMeal();
+                query.exec(function(err,meals){
+                    if(!err){
+                        res.render('meals', {meals: meals,
+                            basket: result.shoppinglist});
+                    }else{
+                        res.sendStatus(404);
+                    }
+                    });
+            }else{
+                res.sendStatus(404);
+            }
+        });
     } else {
       res.redirect('/');
     }
@@ -345,6 +352,21 @@ module.exports.loadMeals = function(req,res){
 //reference from stackoverflow
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
+
+
+module.exports.updateBasket = function(req,res){
+    if (req.session.email) {
+        User.findOne({email: req.session.email},function(err,result){
+            if(!err){
+                res.json(result.shoppinglist);
+            }else{
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
 };
 
 module.exports.SearchMeal = function(req,res){
@@ -407,18 +429,25 @@ module.exports.createIngredient = function(req, res){
 
 
 module.exports.loadIngredients = function(req,res){
-    var query = getIngredient();
     if (req.session.email) {
-         query.exec(function(err,ingredients){
-         if(!err){
-            res.render('ingredients',{ingredients: ingredients});
-        }else{
-            res.sendStatus(404);
-        }
-    });
-    }else {
+        User.findOne({email: req.session.email},function(err,result){
+            if(!err){
+                var query = getIngredient();
+                query.exec(function(err,ingredients){
+                    if(!err){
+                        res.render('ingredients', {ingredients:ingredients,
+                            basket: result.shoppinglist});
+                    }else{
+                        res.sendStatus(404);
+                    }
+                });
+            }else{
+                res.sendStatus(404);
+            }
+        });
+    } else {
         res.redirect('/');
-}
+    }
 };
 
 

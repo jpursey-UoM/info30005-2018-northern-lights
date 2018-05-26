@@ -20,6 +20,39 @@
         <a href="/basket">Basket</a>
         <a href="/profile">Profile</a>
     </div>
+    <div class="shoppinglist">
+        <div class="sidebar bar-block card animate-right" style="display:none;right:0;" id="rightMenu">
+            <button onclick="closeRightMenu()" class="bar-item button large">Close &times;</button>
+            <aside id="shoppingList">
+                <h2>Shopping list</h2>
+                <a href="#" onclick="clearList()">Clear</a>
+                <div id="group-meals">
+                    <label>Group by meal: </label>
+                    <input type="checkbox" onchange="groupByMeal(this,<%= JSON.stringify(basket)%>)"  id="groupMeals">
+                </div>
+                <ul class="list">
+
+                    <% for (var i=0;i<basket.length; i++){
+                    {%>
+                    <li>
+                        <img onclick="DeleteItem(<%= JSON.stringify(basket[i].ingredient)%>)" class="remove" src="public/images/icons24/clear-button.png" width="24" height="24">
+                        <div ><%=basket[i].ingredient.name%></div>
+                    </li>
+                    <%}
+                    };%>
+                </ul>
+                <a href="/list" id="go-shopping">Go shopping! </a>
+
+            </aside>
+        </div>
+
+        <div class="cart">
+            <button class="button cart xlarge right" onclick="openRightMenu()">
+                <img src="public/images/shoppingcart.png" width="32" height="32">
+            </button>
+        </div>
+
+    </div>
     <div class="filter">
         <form action="" method="GET" class="ingredient">
             <input type="text" class="search" name="search" placeholder="Search ingredients">

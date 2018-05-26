@@ -1,3 +1,19 @@
+function openRightMenu() {
+    document.getElementById("rightMenu").style.display = "block";
+}
+function closeRightMenu() {
+    document.getElementById("rightMenu").style.display = "none";
+}
+function updateBasket(){
+    $.ajax({
+        url: '/updateBasket',
+        type: 'GET',
+        success: function(result) {
+            //window.location.reload();
+        }
+    });
+}
+
 function addToBasket(item){
     if (item.components) {
         var selected = [];
@@ -179,6 +195,7 @@ function addItemfromlist(item){
     document.getElementById(item.id).innerHTML="Added";
     document.getElementById(item.id).disabled = true;
     addToBasket(item);
+    updateBasket();
 }
 
 function getNextPage(itemList,place){

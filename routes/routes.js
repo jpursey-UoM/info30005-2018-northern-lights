@@ -38,6 +38,8 @@ router.get('/lookupIngredient', controller.getIngredientById);
 
 router.post('/addItemFromList', controller.addItemFromList);
 router.post('/deleteItem', controller.deleteItem);
+router.get('/updateBasket', controller.updateBasket);
+
 
 router.delete('/clearlist', controller.clearlist);
 
