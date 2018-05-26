@@ -515,15 +515,15 @@ module.exports.addItemFromList = function(req,res){
     var query=req.body.item;
     //check if the item is added from meal list or ingredient list
     if(req.body.item.components){
-        createIngredientItem(query,true,req.body.selected);
+        createIngredientItem(query,true,req.body.selected,req);
         res.send(true)
     }else {
-        createIngredientItem(query,false,[]);
+        createIngredientItem(query,false,[],req);
         res.send(true)
     }
 };
 
-function createIngredientItem(item,includeMeal,selected){
+function createIngredientItem(item,includeMeal,selected,req){
     if(includeMeal){
         console.log(item.components); // no error...
         for(var i=0;i<item.components.length;i++) { // cannot read property length of undefined??

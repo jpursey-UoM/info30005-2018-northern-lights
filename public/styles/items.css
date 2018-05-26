@@ -261,6 +261,13 @@ p{
     background-color: rgb(183,206,164);
 }
 
+.collapse {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
 .footer {
     grid-area: footer;
 }
