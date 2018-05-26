@@ -88,7 +88,14 @@ function DeleteItem(item){
             id: item._id
         },
         function(result){
-            window.location.reload();
+            var items="";
+            for (var i=0;i<result.length; i++){
+                items+="<li>"
+                items+="<img onclick=\'DeleteItem(" + JSON.stringify(result[i].ingredient) + ")\' class=\"remove\" src=\"public/images/icons24/clear-button.png\" width=\"24\" height=\"24\">"
+                items+="<div>"+ result[i].ingredient.name+ "</div>"
+                items+="</li>";
+            }
+            $('.list').html(items);
         });
 }
 

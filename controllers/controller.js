@@ -583,7 +583,7 @@ module.exports.deleteItem = function(req, res){
                     res.sendStatus(404);
                 }
             });
-            res.send(true)
+            res.json(result.shoppinglist)
         }else{
             res.sendStatus(404);
         }
