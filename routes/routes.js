@@ -1,54 +1,54 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/controller');
-
-
-router.get('/', controller.loadSignup);
+const userController = require('../controllers/userController');
+const foodController = require('../controllers/foodController');
+// loading pages using main controller
 router.get('/signup', controller.loadSignup);
-router.post('/signup', controller.addUser);
-
 router.get('/login', controller.loadLogin);
-
-
 router.get('/home', controller.loadHome);
 router.get('/', controller.loadHome);
 router.get('/plan', controller.loadPlan);
 router.get('/list', controller.loadList);
-router.post('/finishShopping', controller.finishShopping);
-
 router.get('/basket', controller.loadBasket);
-router.get('/getBasket', controller.getBasket);
-router.post('/addToBasket', controller.addToBasket);
-router.post('/updateExpiry', controller.updateExpiry);
-router.delete('/deleteFromBasket/:id', controller.deleteFromBasket);
-router.post('/updateBasket', controller.updateBasket);
-
-
-router.get('/profile', controller.loadProfile);
 router.get('/contact', controller.loadContact);
-
-router.get('/meals', controller.loadMeals);
-router.get('/meal', controller.SearchMeal);
-router.get('/filtermeal',controller.FilterMeal);
-
 router.get('/ingredients', controller.loadIngredients);
-router.get('/ingredient', controller.SearchIngredient);
-router.get('/filteringredient',controller.FilterIngredient);
-router.get('/lookupIngredient', controller.getIngredientById);
-
-router.post('/addItemFromList', controller.addItemFromList);
-router.post('/deleteItem', controller.deleteItem);
-router.get('/updateBasket', controller.updateBasket);
+router.get('/meals', controller.loadMeals);
 
 
-router.delete('/clearlist', controller.clearlist);
+// routes related to users
+router.get('/checkuser', userController.checkUser);
+router.post('/adduser', userController.addUser);
+router.post('/userlogin', userController.userLogin);
+router.get('/logout', userController.logout);
+router.post('/signup', userController.addUser);
 
-router.get('/checkuser', controller.checkUser);
-router.post('/adduser', controller.addUser);
-router.post('/userlogin', controller.userLogin);
-router.get('/logout', controller.logout);
+// routes dealing with manipulating meals, ingredients and collections of
 
-router.post('/createMeal', controller.createMeal);
-router.post('/createIngredient', controller.createIngredient);
+router.post('/finishShopping', foodController.finishShopping);
+
+router.get('/getBasket', foodController.getBasket);
+router.post('/addToBasket', foodController.addToBasket);
+router.post('/updateExpiry', foodController.updateExpiry);
+router.delete('/deleteFromBasket/:id', foodController.deleteFromBasket);
+router.post('/updateBasket', foodController.updateBasket);
+
+router.get('/meal', foodController.SearchMeal);
+router.get('/filtermeal',foodController.FilterMeal);
+
+router.get('/ingredient', foodController.SearchIngredient);
+router.get('/filteringredient',foodController.FilterIngredient);
+router.get('/lookupIngredient', foodController.getIngredientById);
+
+router.post('/addItemFromList', foodController.addItemFromList);
+router.post('/deleteItem', foodController.deleteItem);
+router.get('/updateBasket', foodController.updateBasket);
+
+
+router.delete('/clearlist', foodController.clearlist);
+
+
+router.post('/createMeal', foodController.createMeal);
+router.post('/createIngredient', foodController.createIngredient);
 
 module.exports = router;
