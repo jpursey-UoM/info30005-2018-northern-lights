@@ -42,7 +42,7 @@ body{
 #ingredients_area {
     grid-area: ingredients;
     margin-right: 10%;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 #titles {
@@ -60,16 +60,21 @@ th, td {
     width: 11.8%;
 }
 
+th div {
+    position: absolute;
+    height: inherit;
+    width: inherit;
+    background-color: rgb(227,233,221);
 
-
+}
 
 .life_bar_track {
     background-color: transparent;
     padding-top: 10px;
 }
 
-#calendar {
-    background: rgb(227,233,221);
+tr:first-child{
+    height: 3em;
 }
 
 
@@ -158,12 +163,3 @@ button:hover {
 }
 
 
-/*.fixed_header tbody{*/
-    /*display:block;*/
-    /*overflow:auto;*/
-    /*height:200px;*/
-    /*width:100%;*/
-/*}*/
-/*.fixed_header thead tr{*/
-    /*display:block;*/
-/*}*/

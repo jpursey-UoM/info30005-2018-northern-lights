@@ -1,7 +1,18 @@
 $(document).ready(function(){
+
+    // dynamically show dates
+    var calendar = '#calendar';
+    var numOfDays = 7;
+
+    for (var i=0; i<numOfDays; i++){
+
+        var row = "<th><div><br>"+ moment().add(i, 'd').format('ddd')+ "<br>" + moment().add(i, 'd').format("MMM D") +  "<br></div></th>";
+        $(calendar).append(row);
+    }
+    $(calendar).append("<th>    </th>");
+
+
     // load ingredients
-
-
     var ingredientTable = $('#ingredients');
     $.ajax({
         type: 'GET',
@@ -33,22 +44,6 @@ $(document).ready(function(){
             alert('error loading ingredients');
         }
     });
-
-
-    // dynamically show dates
-    var calendar = '#calendar';
-    var numOfDays = 7;
-
-    for (var i=0; i<numOfDays; i++){
-
-        var row = "<th>"+ moment().add(i, 'd').format('ddd')+ "<br>" + moment().add(i, 'd').format("MMM D") +  "</th>";
-        $(calendar).append(row);
-    }
-    $(calendar).append("<th></th>");
-
-
-
-
 
     // remove ingredients from basket table
     $('#ingredients').on('click', 'tr > .ingredient_name > .delete_button', function () {
