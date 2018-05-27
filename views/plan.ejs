@@ -20,7 +20,9 @@
 <h1>My Plan</h1>
 <div id="plan">
     <h2>Plan</h2>
+    <!--
     <button onclick="removeAll()">Clear</button>
+    -->
     <%
         const options = {weekday:'long', year:'numeric', month:'numeric', day:'numeric'};
     for(i=0; i<8; i++){
@@ -38,7 +40,9 @@
     <ul id = "meals-list" ondragover="allowDrop(event)" ondrop="dropList(event)">
 
     </ul>
+    <!--
     <button id="autofill-plan" onclick="addAll()"><< Autofill</button>
+    -->
 </aside>
 <footer>
     <%- include('./footer.ejs'); %>
