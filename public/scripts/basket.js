@@ -30,7 +30,7 @@ $(document).ready(function(){
                 var shelfLifeMsg = ' data-balloon= "' + name+' will expire in '+shelfLife + ' days"';
 
                 ingredientTable.append('<tr data-id=' + id + '>\n' +
-                    '<td class="ingredient_name"><button data-balloon="Remove" data-balloon-pos="left" class="delete_button"> - </button> ' +  name + '</td>\n' +
+                    '<td class="ingredient_name"><button data-balloon="Remove" data-balloon-pos="up" class="delete_button"> - </button> ' +  name + '</td>\n' +
                     '<td class="life_bar_track" colspan="7">\n' +
                     '<button class="w3-' + barColor + ' w3-round-large life_bar" style='+ barWidth + shelfLifeMsg +' data-balloon-pos="up"' + '></button></td>' +
                     '<td class="len_handler">\n' +
