@@ -1,0 +1,9 @@
+- Planned meals are not stored:
+    - after leaving page, plan is reset
+    - Jason: can't get this to work. Try to update masket with new list of ownedIngredients with planDate, but not
+        being saved...
+
+- No info about site on signup/login page
+
+
+
