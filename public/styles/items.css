@@ -26,6 +26,7 @@ img:hover {
     background-color: rgba(226, 147, 91, 0.81);
     align-self: center;
     font-family:'GlacialIndifferenceRegular', sans-serif;
+    font-weight: 700;
     width: 100vw;
 }
 
@@ -45,7 +46,7 @@ img:hover {
 }
 
 .active {
-    background-color: rgba(255, 255, 255, 0.63);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .items {

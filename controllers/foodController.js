@@ -178,6 +178,7 @@ module.exports.addToBasket = function(req, res){
 
 // update the basket after adding meals to your plan
 module.exports.updateBasket = function(req,res){
+    console.log("update")
     const basket = req.body.basket;
     for (var i=0; i < basket.length ; i++){
         console.log("Name: " + basket[i].ingredient.name + ", planDate: " + basket[i].planDate);
@@ -187,6 +188,13 @@ module.exports.updateBasket = function(req,res){
             if (!err) {
                 user.basket = req.body.basket;
                 console.log(user.basket);
+                user.save(function (err) {
+                    if (err) {
+                        console.log("error updating basket.");
+                        res.sendStatus(404);
+                    } else {
+                    }
+                });
             }
         });
 

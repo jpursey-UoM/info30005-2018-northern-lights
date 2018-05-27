@@ -11,7 +11,6 @@ var nextPopupId = 0;
 // SAVE ON PAGE UNLOAD
 function updateBasketDb(){
   // update the basket in the db
-
     // get all the ingredients from meals
     var newBasket = [];
     for (var i=0; i<mealsWithDates.length; i++){
@@ -137,6 +136,7 @@ function findPlanDay(date){
     }
     return null;
 }
+
 function createMealDiv(meal, i){
     const options = {weekday:'', year:'numeric', month:'numeric', day:'numeric'};
 
@@ -174,6 +174,7 @@ function makeDate(dateStr) {
     // eg "10/5/2018"
     const parts = dateStr.split("/");
     const date = new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
+   // const date = new Date(parts[0],parts[1], parts[2]);
     return date;
 }
 
@@ -255,6 +256,7 @@ function dropPlan(event) {
         event.target.appendChild(popup);
     }
     event.target.appendChild(document.getElementById(index));
+    updateBasketDb();
 }
 
 function dropList(event){
