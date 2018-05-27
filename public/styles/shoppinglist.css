@@ -106,3 +106,19 @@ li{
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
 }
+
+/* style the finish button */
+form input{
+    border-radius: 5px;
+    display: inline-block;
+    color: rgb(118,144,76);
+    background-color: rgb(243,243,245);
+    text-decoration: none;
+    border: none;
+    text-align: center;
+    font-size: 1em;
+    padding: 10px;
+    border-width: 1px;
+    cursor: pointer;
+
+}
