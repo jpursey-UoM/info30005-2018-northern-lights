@@ -188,7 +188,7 @@ form *{
     margin-top: 1em;
 }
 
-form button{
+form button, input{
     border-radius: 5px;
     display: inline-block;
     color: rgb(118,144,76);

@@ -20,9 +20,6 @@ module.exports.loadSignup = function(req, res){
 };
 
 module.exports.loadLogin = function(req, res){
-    // if (req.session.email){
-        // res.redi
-    // }
     if(!req.session.email) {
         // only show login page if not already logged in
         res.render('login');

@@ -10,6 +10,7 @@ section{
     font-size: larger;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 10%;
     line-height: 2em;
 
 }
@@ -35,6 +36,8 @@ ul{
     text-align: center;
     width: 48%;
     height: 2em;
+    font-family: "Josefin Sans";
+    padding: inherit;
 }
 
 .button:hover{
