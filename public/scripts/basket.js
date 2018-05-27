@@ -20,7 +20,7 @@ $(document).ready(function(){
 
                 ingredientTable.append('<tr data-id=' + id + '>\n' +
                     '<td class="ingredient_name"><button data-balloon="Remove" data-balloon-pos="left" class="delete_button"> - </button> ' +  name + '</td>\n' +
-                    '<td class="life_bar_track">\n' +
+                    '<td class="life_bar_track" colspan="7">\n' +
                     '<button class="w3-' + barColor + ' w3-round-large life_bar" style='+ barWidth + shelfLifeMsg +' data-balloon-pos="up"' + '></button></td>' +
                     '<td class="len_handler">\n' +
                     '<button class="button_left" data-balloon="Reduce" data-balloon-pos="left"> < </button> \n' +
@@ -36,14 +36,16 @@ $(document).ready(function(){
 
 
     // dynamically show dates
-    var calendar = '#calendar tr:last';
+    var calendar = '#calendar';
     var numOfDays = 7;
 
     for (var i=0; i<numOfDays; i++){
 
-        var row = "<td>"+ moment().add(i, 'd').format('ddd')+ "<br>" + moment().add(i, 'd').format("MMM D") +  "</td>";
-        $(row).appendTo(calendar);
+        var row = "<th>"+ moment().add(i, 'd').format('ddd')+ "<br>" + moment().add(i, 'd').format("MMM D") +  "</th>";
+        $(calendar).append(row);
     }
+    $(calendar).append("<th></th>");
+
 
 
 
@@ -57,14 +59,14 @@ $(document).ready(function(){
             type: 'DELETE',
             url: '/deleteFromBasket/' + $tr.attr('data-id'),
             success: function(){
-                // $tr.remove();
+                $tr.remove();
             },
             error: function() {
                 alert("Error removing ingredient to basket, please refresh and try again");
             }
         });
-        // make it seems faster than it actually is..
-        $tr.remove();
+
+
     });
 
 
@@ -167,8 +169,8 @@ $(document).ready(function(){
         var len = Math.floor(shelfLife/7 * 100);
         if (len < 0){
             len = 0;
-        } else if(len >= 100){
-            len = 100;
+        } else if(len >= 98){
+            len = 98;
         }
         return len;
     }

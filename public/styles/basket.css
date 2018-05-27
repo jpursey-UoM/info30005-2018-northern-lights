@@ -2,20 +2,20 @@ body{
     display: grid;
     grid-template-areas:
                     "nav header header header"
-                    "nav calendar calendar auto"
-                    "nav ingredients ingredients auto"
+                    "nav ingredients ingredients ingredients"
                     "nav footer footer footer";
+    grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr;
+    grid-template-rows: 30% 70% auto;
+
 }
 
 @media screen and (min-width: 550px){
     body{
         grid-template-areas:
                 "nav header      header      header"
-                "nav calendar    calendar    auto"
-                "nav ingredients ingredients auto"
+                "nav ingredients ingredients ingredients"
                 "nav footer     footer  footer";
-    };
-
+    }
 }
 
 @media screen and (min-width: 1300px){
@@ -41,21 +41,26 @@ body{
 
 #ingredients_area {
     grid-area: ingredients;
-    margin-bottom: 10%;
+    margin-right: 10%;
+    overflow: auto;
 }
+
+#titles {
+    text-align: center;
+}
+
 
 #ingredients {
     width: 100%;
-    padding-top: 2em
+    border-collapse: collapse;
 }
 
-#ingredients td {
+th, td {
     height: 4em;
+    width: 11.8%;
 }
 
-.ingredient_name {
-    width: 20%;
-}
+
 
 
 .life_bar_track {
@@ -63,28 +68,8 @@ body{
     padding-top: 10px;
 }
 
-#calendar_area {
-    grid-area: calendar;
-    display: grid;
-    grid-template-columns: 20% auto 10%;
-    grid-template-areas: "left mid right";
+#calendar {
     background: rgb(227,233,221);
-}
-
-#calendar{
-    grid-area: mid;
-    text-align: center;
-    margin-top: 10px;
-}
-
-#calendar_area .week {
-    grid-area: left;
-    text-align: center;
-    margin-top: 25px;
-}
-
-#space{
-    width: 20%;
 }
 
 
@@ -171,3 +156,14 @@ button:hover {
 *, *:before, *:after {
     box-sizing: inherit;
 }
+
+
+/*.fixed_header tbody{*/
+    /*display:block;*/
+    /*overflow:auto;*/
+    /*height:200px;*/
+    /*width:100%;*/
+/*}*/
+/*.fixed_header thead tr{*/
+    /*display:block;*/
+/*}*/
