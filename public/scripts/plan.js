@@ -128,7 +128,7 @@ function findPlanDay(date){
     // return the plan-day div that matches date
     const days = document.getElementsByClassName("plan-day");
     for (var i=0; i<days.length; i++){
-        var dateStr = days[i].getElementsByTagName("h3")[0].innerhtml.split(" ")[1];
+        var dateStr = days[i].getElementsByTagName("h3")[0].innerHTML.split(" ")[1];
         var possibleDate = makeDate(dateStr);
         if (possibleDate == date){
             return days[i];
@@ -173,7 +173,7 @@ function makeDate(dateStr) {
     // (dodgy, I know)
     // eg "10/5/2018"
     const parts = dateStr.split("/");
-    const date = new Date(parts[2] + "-" + parts[1] + "-" + parts[0]);
+    const date = new Date(parts[2] + "-" + parts[0] + "-" + parts[1]);
    // const date = new Date(parts[0],parts[1], parts[2]);
     return date;
 }
