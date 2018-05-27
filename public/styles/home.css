@@ -221,6 +221,7 @@ form .comp-qty,.comp-name{
     width: 40%;
     min-width: fit-content;
     margin: 30% 30% auto 30%;
+    height: 40%;
 }
 
 #add-component-qty, #new-ingredient-shelf-life{

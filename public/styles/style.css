@@ -1,3 +1,5 @@
+/* Master style used on most pages covering fonts, headings and common features such as buttons and nav */
+
 @import url('https://fonts.googleapis.com/css?family=Caveat');
 @import url('https://fonts.googleapis.com/css?family=Arimo:400,700|Homemade+Apple');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
@@ -170,14 +172,15 @@ footer *{
     display: none;
     width: 50%;
     min-width: fit-content;
-    height: fit-content;
-    margin: 15% 25% auto 25%;
+    height: 80%;
+    margin: 10% 25% 10% 25%;
     position: fixed;
     background-color: #fefefe;
     padding: 10px;
     border-radius: 25px;
     border-style: solid;
     line-height: 2em;
+    overflow: auto;
 }
 
 form *{
