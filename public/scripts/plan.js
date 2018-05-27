@@ -42,12 +42,10 @@ function loadPlan(){
     }).done(function(basket) {
         if (!basket) {
         }else{
-            console.log(basket);
             mealsWithDates = getMeals(basket);
             // loop over meals:
             for (var i=0; i < mealsWithDates.length; i++) {
                 var meal = mealsWithDates[i];
-                //console.log(meal);
                 if (meal.planDate) {
                     //  if have plan date -> put on right day
                     add2Plan(meal, i);

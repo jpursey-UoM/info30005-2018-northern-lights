@@ -6,6 +6,7 @@ body{
             "nav meals       meals       list"
             "nav ingredients ingredients list"
             "nav footer     footer  footer";
+    grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr;
 }
 
 
@@ -16,6 +17,7 @@ body{
                 "nav meals       meals       list"
                 "nav ingredients ingredients list"
                 "nav footer     footer  footer";
+        grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr;
     }
 }
 
