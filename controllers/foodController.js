@@ -10,7 +10,7 @@ var moment = require('moment');
 var expressValidator = require('express-validator');
 var bcrypt = require('bcryptjs');
 
-module.exports.updateBasket = function(req,res){
+module.exports.updateShoppingList = function(req,res){
     if (req.session.email) {
         User.findOne({email: req.session.email},function(err,result){
             if(!err){
@@ -435,16 +435,6 @@ module.exports.clearlist = function(req, res){
                     console.log(err);
                 }
             });
-        // User.findOneAndUpdate(
-        //     { email: req.session.email },
-        //     { $set: { basket: []} },
-        //     function (err, newItem) {
-        //         if(!err){
-        //             console.log("success")
-        //         }else{
-        //             console.log(err);
-        //         }
-        //     });
         res.send(true)
     }else{
         res.redirect('/');

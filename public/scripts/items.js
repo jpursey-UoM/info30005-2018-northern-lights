@@ -4,9 +4,10 @@ function openRightMenu() {
 function closeRightMenu() {
     document.getElementById("rightMenu").style.display = "none";
 }
+
 function updateBasket(){
     $.ajax({
-        url: '/updateBasket',
+        url: '/updateShoppingList',
         type: 'GET',
         success: function(result) {
             console.log(result.length)
@@ -58,7 +59,8 @@ function addfromHome(item) {
                 selected:selected
             },
             function (result) {
-                window.location.reload();
+                $('.'+item._id).css({'display' : 'none'});
+                updateBasket();
             });
     }else {
         $.post("/addItemFromList",
@@ -66,7 +68,7 @@ function addfromHome(item) {
                 item: item
             },
             function (result) {
-                window.location.reload();
+                updateBasket();
             });
     }
 }
@@ -76,7 +78,7 @@ function clearList(){
         url: '/clearlist',
         type: 'DELETE',
         success: function(result) {
-            window.location.reload();
+            updateBasket();
         }
     });
 }

@@ -42,7 +42,7 @@ router.get('/lookupIngredient', foodController.getIngredientById);
 
 router.post('/addItemFromList', foodController.addItemFromList);
 router.post('/deleteItem', foodController.deleteItem);
-router.get('/updateBasket', foodController.updateBasket);
+router.get('/updateShoppingList', foodController.updateShoppingList);
 
 
 router.delete('/clearlist', foodController.clearlist);
