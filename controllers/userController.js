@@ -1,3 +1,4 @@
+// functions related to adding users and logging in
 var mongoose = require('mongoose');
 var Ingredient = mongoose.model('ingredients');
 var Meal = mongoose.model('meals');

@@ -1,3 +1,5 @@
+// functions related to adding, modifying and accessing meals and ingredients
+
 var mongoose = require('mongoose');
 var Ingredient = mongoose.model('ingredients');
 var Meal = mongoose.model('meals');
